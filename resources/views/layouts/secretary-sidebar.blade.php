@@ -39,7 +39,7 @@
                 <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary">
                     <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                         <a href="/" class="d-flex align-items-center pb-4 mb-md-0 me-md-auto text-white text-decoration-none">
-                            <span class="fs-5 d-none d-sm-inline">Centralized Barangay Information System</span>
+                            <span class="fs-5 d-none d-sm-inline">Barangay {{$filter->barangayName}}</span>
                         </a>
                         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                             <li class="nav-item">
@@ -48,18 +48,23 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('resident')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="secretary">
-                                    <i class="bi-bank2" id="secretaryIcon"></i>  <span class="ms-1 d-none d-sm-inline">Residents</span>
+                                <a href="{{route('barangay.officials')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="officials">
+                                    <i class="bi-people-fill" id="officialsIcon"></i> <span class="ms-1 d-none d-sm-inline">Barangay Officials</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="acct">
-                                    <i class="bi-person-circle" id="acctIcon"></i>  <span class="ms-1 d-none d-sm-inline">Blotters Record</span>
+                                <a href="{{route('resident')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="residents">
+                                    <i class="bi-person-lines-fill" id="residents"></i>  <span class="ms-1 d-none d-sm-inline">Residents</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3">
-                                    <i class="bi-people-fill"></i>  <span class="ms-1 d-none d-sm-inline">Certificates</span>
+                                <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="blotterss">
+                                    <i class="bi-record-btn-fill" id="blottersIcon"></i>  <span class="ms-1 d-none d-sm-inline">Blotters</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="files">
+                                    <i class="bi-files" id="filesIcon"></i>  <span class="ms-1 d-none d-sm-inline">Certificates</span>
                                 </a>
                             </li>
                         </ul>
@@ -68,7 +73,7 @@
                             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="https://github.com/mdo.png" alt="hugenerd" width="40" height="40" class="rounded-circle">
                                 <span class="d-none d-sm-inline mx-2">
-                                  Secretary
+                                    {{$filter->email}}
                                 </span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">

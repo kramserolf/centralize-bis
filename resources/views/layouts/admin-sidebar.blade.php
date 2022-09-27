@@ -33,9 +33,8 @@
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
 
-
-
 </head>
+
 <body>
 
 
@@ -58,13 +57,23 @@
                                     <i class="bi-bank2" id="brgyIcon"></i>  <span class="ms-1 d-none d-sm-inline">Barangay</span>
                                 </a>
                             </li>
+                            {{-- <div class="dropdown">
+                                <button class="btn btn-primary align-middle mb-1 px-3 fs-5" type="button" id="barangay" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi-bank2" id="brgyIcon"></i>  <span class="ms-1 d-none d-sm-inline">Barangay</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="barangay">
+                                  <li><a class="dropdown-item" href="{{route('barangay')}}">Barangays</a></li>
+                                  <li><a class="dropdown-item" href="#">Accounts </a></li>
+                                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div> --}}
                             <li class="nav-item">
                                 <a href="{{route('account')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="acct">
                                     <i class="bi-person-circle" id="acctIcon"></i>  <span class="ms-1 d-none d-sm-inline">Accounts</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3">
+                                <a href="{{route('admin.resident')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3">
                                     <i class="bi-people-fill"></i>  <span class="ms-1 d-none d-sm-inline">Residents</span>
                                 </a>
                             </li>

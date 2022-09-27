@@ -18,7 +18,7 @@
                             <div class="mb-1">
                                 <i class="bi-people fs-3 text-success"></i>
                             </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">127,586</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{$total_population }}</div>
                         </div>
                     </div>
                 </div>

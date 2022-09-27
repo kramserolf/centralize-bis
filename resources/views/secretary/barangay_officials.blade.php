@@ -5,19 +5,20 @@
     }
 </style>
 @section('content')
-    <span class="badge bg-primary fs-4 mb-3">Lists of Residents</span>
+    <span class="badge bg-primary fs-4 mb-3">Barangay Officials</span>
     <!-- Button trigger modal -->
     <div class="d-flex flex-row-reverse bd-highlight">
         <!-- Button trigger modal -->
-        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addAccount"><i class="bi-plus-square ">  </i> Add Resident</a>
+        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addAccount"><i class="bi-plus-square ">  </i> Add Official</a>
     </div>
     <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>
+                <td class="text-center">Position</td>
                 <td class="text-center">Name</td>
-                <td class="text-center">Mobile No.</td>
-                <td class="text-center">Barangay</td>
+                <td class="text-center">Zone</td>
+                <td class="text-center">Service Tenure</td>
                 <td class="text-center">Action</td>
             </tr>
         </thead>
@@ -79,23 +80,24 @@
             serverSide: true,
             responsive: true,
             select: true,
-            ajax: "{{ route('resident') }}",
+            ajax: "{{ route('barangay.officials') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'lastName', name: 'lastName'},
-                {data: 'mobileNumber', name: 'mobileNumber'},
-                {data: 'barangay', name: 'barangay'},
+                {data: 'position', name: 'position'},
+                {data: 'name', name: 'name'},
+                {data: 'official_committee', name: 'official_committee'},
+                {data: 'year_of_service', name: 'year_of_service'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-            columnDefs: [ 
-          {
-            'targets': 1,
-            'render': function(data, type, row){
-              return data +', '+row.firstName;
-            },
-            'targets': 1
-        }
-      ]
+    //         columnDefs: [ 
+    //       {
+    //         'targets': 1,
+    //         'render': function(data, type, row){
+    //           return data +', '+row.firstName+' ' +row.middleName;
+    //         },
+    //         'targets': 1
+    //     }
+    //   ]
         });
 
         //show modal

@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('barangay_officials', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('account_id');
             $table->smallInteger('barangay_id');
-            $table->string('contact_number');
+            $table->string('position');
+            $table->string('name');
+            $table->string('official_committee');
+            $table->string('year_of_service');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('barangay_officials');
     }
 };

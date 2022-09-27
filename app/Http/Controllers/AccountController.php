@@ -24,9 +24,11 @@ class AccountController extends Controller
         $barangays = Barangay::all();
         $account = [];
         if($request->ajax()) {
-            $account = DB::table('users')
-                            ->where('is_admin', '1')
-                            ->select('users.*')
+            $account = DB::table('users as u')
+                            ->leftJoin('accounts as a', 'u.id', 'a.account_id')
+                            ->leftJoin('barangays as b', 'a.barangay_id', 'b.id')
+                            ->select('u.*', 'b.barangayName as barangay')
+                            ->where('u.is_admin', '1')
                             ->get();
             return DataTables::of($account)
                 ->addIndexColumn()
@@ -61,23 +63,28 @@ class AccountController extends Controller
     {
         // validate
         $request->validate([
-            'account_id' => 'required',
             'barangay_id' => 'required',
             'name' => 'required',
             'email' => 'required|string|unique:users',
             'password' => 'required|string|min:8',
-            'contactNumber' => 'required|min:11',
+            'contact_number' => 'required|min:10',
         ]);
-        // insert
-        $account = Account::updateOrCreate([
-            'id' => $request->id
-        ],[
-            'barangayId' => $request->barangayName,
-            'barangaySecretary' => $request->barangaySecretary,
+        // insert into users
+        $user = User::updateOrCreate([
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'contactNumber' => $request->contactNumber,
+            'is_admin' => 1,
         ]);
+        // get inserted ID
+        $lastInsertId = $user->id;
+        // insert into accounts
+        $account = Account::updateOrCreate([
+            'barangay_id' => $request->barangay_id,
+            'account_id' => $lastInsertId,
+            'contact_number' => $request->contact_number
+        ]);
+        
         return response()->json(['success'=>'Barangay saved successfully.']);
     }
 

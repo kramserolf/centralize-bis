@@ -15,6 +15,7 @@
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>
+                <td class="text-center">Barangay</td>
                 <td class="text-center">Name</td>
                 <td class="text-center">Email</td>
                 <td class="text-center">Action</td>
@@ -37,8 +38,8 @@
                     {{-- hidden id --}}
                     <input type="hidden" name="id" id="id">
                 <div class="mb-3">
-                      <label for="barangayName" class="form-label">Barangay</label>
-                      <select class="form-select" aria-label="Default select example" name="barangayName" id="barangayName">
+                      <label for="barangay_id" class="form-label">Barangay</label>
+                      <select class="form-select" aria-label="Default select example" name="barangay_id" id="barangay_id">
                         <option selected>Select Barangay</option>
                         @foreach ($barangays as $item)
                             <option value="{{$item->id}}">{{$item->barangayName}}</option>
@@ -46,8 +47,8 @@
                       </select>
                 </div>
                 <div class="mb-3">
-                      <label for="barangaySecretary" class="form-label">Barangay Secretary</label>
-                      <input type="text" class="form-control text-capitalize" name="barangaySecretary" id="barangaySecretary" placeholder="Juan Dela Cruz">
+                      <label for="name" class="form-label">Name </label>
+                      <input type="text" class="form-control text-capitalize" name="name" id="name" placeholder="Juan Dela Cruz">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
@@ -58,8 +59,8 @@
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
                 <div class="mb-3">
-                    <label for="contactNumber" class="form-label">Contact No.</label>
-                    <input type="text" class="form-control" name="contactNumber" id="contactNumber" placeholder="09563459871">
+                    <label for="contact_number" class="form-label">Contact No.</label>
+                    <input type="text" class="form-control" name="contact_number" id="contact_number" placeholder="09563459871">
                 </div>
               </div>
               <div class="modal-footer">
@@ -92,6 +93,7 @@
             ajax: "{{ route('account') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'barangay', name: 'barangay'},
                 {data: 'name', name: 'name'},
                 {data: 'email', name: 'email'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},

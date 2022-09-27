@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangayController;
+use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ResidentInformationController;
-use App\Http\Controllers\SecretaryAuthController;
 use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\HomeController;
 
@@ -37,24 +37,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
     Route::get('/account', [AccountController::class, 'index'])->name('account');
     Route::post('/account/store', [AccountController::class, 'store'])->name('account.store');
     Route::delete('/account/destroy', [AccountController::class, 'destroy'])->name('account.destroy');
+
+    // residents
+    Route::get('/residents', [ResidentInformationController::class, 'adminResident'])->name('admin.resident');
 });
 
 // secretary
 Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], function(){
-    Route::get('/login', [SecretaryAuthController::class, 'showLoginForm'])->name('secretary.loginForm');
-    Route::post('/login', [SecretaryAuthController::class, 'login'])->name('secretary.login'); 
-
     Route::get('/home', [SecretaryController::class, 'index'])->name('secretary.home');
     Route::get('/resident', [ResidentInformationController::class, 'index'])->name('resident');
-    // barangay
-    // Route::get('/barangay', [BarangayController::class, 'index'])->name('barangay');
-    // Route::post('/barangay/store', [BarangayController::class, 'store'])->name('barangay.store');
-    // Route::delete('/barangay/destroy', [BarangayController::class, 'destroy'])->name('barangay.destroy');
 
-    // accounts
-    // Route::get('/account', [AccountController::class, 'index'])->name('account');
-    // Route::post('/account/store', [AccountController::class, 'store'])->name('account.store');
-    // Route::delete('/account/destroy', [AccountController::class, 'destroy'])->name('account.destroy');
+    //barangay officials
+    Route::get('/brgyofficials', [BarangayOfficialController::class, 'index'])->name('barangay.officials');
 });
 
 
