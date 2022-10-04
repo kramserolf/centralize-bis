@@ -42,12 +42,12 @@
      
         <div class="container-fluid">
             <div class="row flex-nowrap">
-                <div class="col-auto col-sm-3 col-lg-2 px-0 bg-secondary">
+                <div class="col-auto col-sm-3 col-lg-2 px-0 bg-primary">
                     <div class="d-flex sidebar flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                        <div class="col-md-4 col-lg-12">
+                        <div class="col-md-4 col-lg-12 mb-3">
                             <a href="{{route('secretary.home')}}" class="pb-3 text-white text-decoration-none">
                                 @if(!empty($filter_setting->logo))
-                                <img class=" image mx-auto d-block" src="{{asset('images/barangay_logo/'.$filter_setting->logo.'')}}" alt="Your Barangay Logo here" style="width: 50%">
+                                <img class=" mx-auto d-block" src="{{asset('images/barangay_logo/'.$filter_setting->logo.'')}}" alt="Your Barangay Logo here" style="width: 50%">
                                 @else
                                 <img class="mx-auto d-block" src="{{asset('images/baggao_logo.png')}}" alt="Your Barangay Logo here" style="width: 50%;">
                                 @endif
