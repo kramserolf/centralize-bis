@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\ResidentInformation;
+use App\Models\BarangaySetting;
 use DataTables;
 
 class ResidentInformationController extends Controller
@@ -17,11 +18,13 @@ class ResidentInformationController extends Controller
      */
     public function index(Request $request)
     {
+        // get current barangay setting
+        $filter_setting = BarangaySetting::filterSetting();
         // get current authentication id
         $id = Auth::id();
         // filter barangay id
         $filter = DB::table('users as u')   
-                            ->leftJoin('accounts as a', 'u.id' ,'a.account_id')
+                            ->leftJoin('accounts as a', 'u.id' ,'a.user_id')
                             ->rightJoin('barangays as b', 'a.barangay_id', 'b.id')
                             ->select('u.*', 'b.*', 'a.*', 'a.barangay_id as brgy_id')
                             ->where('u.id', $id)
@@ -39,14 +42,14 @@ class ResidentInformationController extends Controller
             return DataTables::of($resident)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-success btn-sm editResident"><i class="fas fa-fw fa-pencil-alt"></i> Edit</a> ';
-                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-danger btn-sm deleteResident"><i class="fas fa-fw fa-trash-alt"></i> Delete</a>';
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> Edit</a> ';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('secretary/resident', compact('resident', 'filter', 'brgy_id'));
+        return view('secretary/resident', compact('resident', 'filter', 'brgy_id', 'filter_setting'));
     }
 
     /**

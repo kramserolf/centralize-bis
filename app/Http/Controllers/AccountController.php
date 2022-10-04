@@ -25,16 +25,16 @@ class AccountController extends Controller
         $account = [];
         if($request->ajax()) {
             $account = DB::table('users as u')
-                            ->leftJoin('accounts as a', 'u.id', 'a.account_id')
+                            ->leftJoin('accounts as a', 'u.id', 'a.user_id')
                             ->leftJoin('barangays as b', 'a.barangay_id', 'b.id')
                             ->select('u.*', 'b.barangayName as barangay')
-                            ->where('u.is_admin', '1')
+                            ->where('u.is_role', '1')
                             ->get();
             return DataTables::of($account)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-success btn-sm editAccount"><i class="fas fa-fw fa-pencil-alt"></i> Edit</a> ';
-                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-danger btn-sm deleteAccount"><i class="fas fa-fw fa-trash-alt"></i> Delete</a>';
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editAccount"><i class="bi-pencil-square"></i> Edit</a> ';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteAccount"><i class="bi-trash"></i> Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -66,7 +66,7 @@ class AccountController extends Controller
             'barangay_id' => 'required',
             'name' => 'required',
             'email' => 'required|string|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:6',
             'contact_number' => 'required|min:10',
         ]);
         // insert into users
@@ -74,14 +74,14 @@ class AccountController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_admin' => 1,
+            'is_role' => 1,
         ]);
         // get inserted ID
         $lastInsertId = $user->id;
         // insert into accounts
         $account = Account::updateOrCreate([
             'barangay_id' => $request->barangay_id,
-            'account_id' => $lastInsertId,
+            'user_id' => $lastInsertId,
             'contact_number' => $request->contact_number
         ]);
         

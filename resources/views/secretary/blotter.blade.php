@@ -1,23 +1,22 @@
 @extends('layouts.secretary-sidebar')
-<style>
-    #residents {
+{{-- <style>
+    #blotters {
         background-color: gray;
     }
-</style>
+</style> --}}
 @section('content')
-    <span class="badge bg-primary fs-4 mb-3">Lists of Residents</span>
+    <span class="badge bg-primary fs-4 mb-3">Blotters</span>
     <!-- Button trigger modal -->
     <div class="d-flex flex-row-reverse bd-highlight">
         <!-- Button trigger modal -->
-        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addAccount"><i class="bi-plus-circle"></i> Add Resident</a>
+        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addBlotter"><i class="bi-plus-circle"></i> Add Official</a>
     </div>
     <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>
                 <td class="text-center">Name</td>
-                <td class="text-center">Mobile No.</td>
-                <td class="text-center">Barangay</td>
+
                 <td class="text-center">Action</td>
             </tr>
         </thead>
@@ -65,7 +64,6 @@
 <script>
     
     $(document).ready(function(){
-
         // $('#barangay').trigger('click');
 
         //ajax setup
@@ -81,28 +79,27 @@
             serverSide: true,
             responsive: true,
             select: true,
-            ajax: "{{ route('resident') }}",
+            ajax: "{{ route('barangay.blotter') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'lastName', name: 'lastName'},
-                {data: 'mobileNumber', name: 'mobileNumber'},
-                {data: 'barangay', name: 'barangay'},
+                {data: 'user_id', name: 'user_id'},
+                // {data: 'name', name: 'name'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-            columnDefs: [ 
-          {
-            'targets': 1,
-            'render': function(data, type, row){
-              return data +', '+row.firstName;
-            },
-            'targets': 1
-        }
-      ]
+    //         columnDefs: [ 
+    //       {
+    //         'targets': 1,
+    //         'render': function(data, type, row){
+    //           return data +', '+row.firstName+' ' +row.middleName;
+    //         },
+    //         'targets': 1
+    //     }
+    //   ]
         });
 
         //show modal
             // SHOW ADD MODAL
-        $('#addAccount').click(function () {
+        $('#addBlotter').click(function () {
             $('#id').val('');
             $('#accountForm').trigger("reset");
             $('#addModal').modal('show');

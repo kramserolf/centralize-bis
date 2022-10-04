@@ -5,12 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Account extends Model
+class Blotter extends Model
 {
     use HasFactory;
     protected $fillable = [ 
         'user_id', 
         'barangay_id',
-        'contact_number' 
+        'incident_type',
+        'status',
+        'schedule_date',
+        'date_reported',
+        'time_incident',
+        'location',
+        'narrative',
     ];
 }

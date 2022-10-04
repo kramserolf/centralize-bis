@@ -1,11 +1,11 @@
 @extends('layouts.admin-sidebar')
 <style>
-    #acct, #acctIcon {
+    #acct {
         background-color: gray;
     }
 </style>
 @section('content')
-    <span class="badge bg-primary fs-4 mb-3 mt-2">Lists of Accounts</span>
+    <span class="badge bg-secondary fs-4 mb-3 mt-2">Lists of Accounts</span>
     <!-- Button trigger modal -->
     <div class="d-flex flex-row-reverse bd-highlight">
         <!-- Button trigger modal -->
@@ -76,7 +76,7 @@
 <script>
     
     $(document).ready(function(){
-
+        // $('#barangay').trigger('click');
         //ajax setup
         $.ajaxSetup({
             headers: {
@@ -121,6 +121,7 @@
                     $('#accountForm').trigger("reset");
                     $('#addModal').modal('hide');
                     table.draw();
+                    toastr.success('Account created successfully','Success');
                 },
                 error: function (data) {
                     console.log('Error:', data);
@@ -141,10 +142,10 @@
                     },
                     success: function (data) {
                     table.draw();
-                    // toastr.success('Expense deleted successfully','Success');
+                    toastr.success('Account deleted successfully','Success');
                     },
                     error: function (data) {
-                    // toastr.error(data['responseJSON']['message'],'Error has occured');
+                    toastr.error(data['responseJSON']['message'],'Error has occured');
                     }
                 });
             }

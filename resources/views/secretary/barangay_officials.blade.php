@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    #resident, #residentIcon {
+    #brgy_officials {
         background-color: gray;
     }
 </style>
@@ -9,7 +9,7 @@
     <!-- Button trigger modal -->
     <div class="d-flex flex-row-reverse bd-highlight">
         <!-- Button trigger modal -->
-        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addAccount"><i class="bi-plus-square ">  </i> Add Official</a>
+        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addAccount"><i class="bi-plus-circle"></i> Add Official</a>
     </div>
     <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>
@@ -66,6 +66,7 @@
 <script>
     
     $(document).ready(function(){
+        // $('#barangay').trigger('click');
 
         //ajax setup
         $.ajaxSetup({

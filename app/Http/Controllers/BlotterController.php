@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Barangay;
+use App\Models\BarangaySetting;
+use App\Models\User;
 use DataTables;
 
-class BarangayController extends Controller
+class BlotterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +19,17 @@ class BarangayController extends Controller
      */
     public function index(Request $request)
     {
-        $barangay = [];
+        $filter_setting = BarangaySetting::filterSetting();
+        $blotter = [];
         if($request->ajax()) {
-            $barangay = DB::table('barangays')
-                            ->latest()->get();  
-            return DataTables::of($barangay)
+            $blotter = DB::table('blotters')
+                            ->leftJoin('barangays', 'blotters.barangay_id', 'barangays.id')
+                            ->leftJoin('users', 'blotters.user_id', 'users.id')
+                            ->leftJoin('accounts', 'barangays.id', 'accounts.barangay_id')
+                            ->select('blotters.user_id as user_id', 'blotters.date_reported as date_reported', 'users.*')
+                            ->where('accounts.user_id', Auth::id())
+                            ->get();
+            return DataTables::of($blotter)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editBarangay"><i class="bi-pencil-square"></i> Edit</a> ';
@@ -30,7 +39,7 @@ class BarangayController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('admin/barangay', compact('barangay'));
+        return view('secretary/blotter', compact('blotter', 'filter_setting'));
     }
 
     /**
@@ -51,23 +60,7 @@ class BarangayController extends Controller
      */
     public function store(Request $request)
     {
-        // validate
-        $request->validate([
-            'barangayName' => 'required',
-            'barangayCaptain' => 'required',
-        ]);
-
-        // insert default logo
-        
-        // insert
-        $barangay = Barangay::updateOrCreate([
-            'id' => $request->id
-        ],[
-            'barangayName' => $request->barangayName,
-            'barangayLogo' => 'baggao_logo.png',
-            'barangayCaptain' => $request->barangayCaptain,
-        ]);
-        return response()->json(['success'=>'Barangay saved successfully.']);
+        //
     }
 
     /**
@@ -110,8 +103,8 @@ class BarangayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        Barangay::where('id', $request->id)->delete();
+        //
     }
 }

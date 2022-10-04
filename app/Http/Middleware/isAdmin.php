@@ -16,7 +16,7 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->is_admin == 0){
+        if(auth()->user()->is_role == 0){
             return $next($request);
         }
         return back()->with(session()->flash('unrestricted', 'Ooops! You do not have access on this page.'));

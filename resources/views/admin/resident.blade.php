@@ -1,11 +1,11 @@
 @extends('layouts.admin-sidebar')
 <style>
-    #resident, #residentIcon {
+    #resident {
         background-color: gray;
     }
 </style>
 @section('content')
-    <span class="badge bg-primary fs-4 mb-3">Lists of Residents</span>
+    <span class="badge bg-secondary fs-4 mb-3 mt-2">Lists of Residents</span>
     <!-- Button trigger modal -->
     <div class="d-flex flex-row-reverse bd-highlight">
         <!-- Button trigger modal -->
@@ -26,7 +26,7 @@
 <script>
     
     $(document).ready(function(){
-
+        // $('#barangay').trigger('click');
         //ajax setup
         $.ajaxSetup({
             headers: {
