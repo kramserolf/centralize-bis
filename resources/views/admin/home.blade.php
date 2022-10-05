@@ -5,9 +5,8 @@
     }
 </style>
 @section('content')
-    <div class="m-4">
-        <span class="badge bg-info fs-4">Admin Dashboard</span>
-    </div>
+    <h2 class="mb-4 px-4 mt-4 fw-bold text-secondary"><i class="bi bi-house-door-fill"></i> Dashboard</h2>
+
     <div class="d-flex justify-content-evenly">
         <div class="col-md-4 p-2 mt-2">
             <div class="card border-left-primary shadow h-100 py-2">

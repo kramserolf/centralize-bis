@@ -48,9 +48,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
 Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], function(){
     Route::get('/home', [SecretaryController::class, 'index'])->name('secretary.home');
     // residents
-    Route::get('/resident', [ResidentInformationController::class, 'index'])->name('resident');
+    Route::get('/residents', [ResidentInformationController::class, 'index'])->name('resident');
+    Route::post('/resident/store', [ResidentInformationController::class, 'store'])->name('resident.store');
+    Route::delete('/resident/destroy', [ResidentInformationController::class, 'destroy'])->name('resident.destroy');
+    Route::get('/resident/show', [ResidentInformationController::class, 'show'])->name('resident.show');
     //barangay officials
     Route::get('/officials', [BarangayOfficialController::class, 'index'])->name('barangay.officials');
+    Route::post('/officials/store', [BarangayOfficialController::class, 'store'])->name('official.store');
+    Route::delete('/officials/destroy', [BarangayOfficialController::class, 'destroy'])->name('official.destroy');
     // barangay settings
     Route::get('/settings', [BarangaySettingController::class, 'index'])->name('setting');
     Route::post('/settings/update', [BarangaySettingController::class, 'saveSetting'])->name('update.setting');

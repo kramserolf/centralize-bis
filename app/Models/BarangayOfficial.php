@@ -13,6 +13,7 @@ class BarangayOfficial extends Model
         'position', 
         'name',
         'official_committee',
-        'year_of_service',
+        'zone',
+        'years_of_service'
     ];
 }

@@ -5,12 +5,8 @@
     }
 </style>
 @section('content')
-    <span class="badge bg-secondary fs-4 mb-3 mt-2">Lists of Barangay</span>
-    <!-- Button trigger modal -->
-    <div class="d-flex flex-row-reverse bd-highlight">
-        <!-- Button trigger modal -->
-        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addBarangay"><i class="bi-plus-square ">  </i> Add Barangay</a>
-    </div>
+    <h2 class="mb-4 px-4 mt-4 fw-bold text-secondary"><i class="bi bi-pin-map-fill"></i> Barangay List</h2>
+
     <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
@@ -80,19 +76,20 @@
                 {data: 'barangayCaptain', name: 'barangayCaptain'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-            // responsive: {
-            //     details: {
-            //         display: $.fn.dataTable.Responsive.display.modal( {
-            //             header: function (row) {
-            //                 var data = row.data();
-            //                 return 'Details of '+data['barangayName'];
-            //             }
-            //         } ),
-            //         renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-            //             tableClass: 'data-table'
-            //         } )
-            //     }
-            // },
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: '<i class="bi-plus-circle"></i> Add',
+                    className: 'badge bg-secondary fs-5 mb-2',
+                    action: function(e, dt, node, config){
+                        // show modal
+                        $('#id').val('');
+                        $('#barangayForm').trigger("reset");
+                        $('#addModal').modal('show');
+                        $('#savedata').html('Save');
+                    },
+                }
+            ]
         });
 
         //show modal

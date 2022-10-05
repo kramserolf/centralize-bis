@@ -35,15 +35,17 @@ class ResidentInformationController extends Controller
         $resident = [];
         if($request->ajax()) {
             $resident = DB::table('resident_information as r')
+                            ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
                             ->leftJoin('barangays as b', 'r.barangayId', 'b.id')
-                            ->select('b.barangayName as barangay', 'r.*')
-                            ->where('b.id', $brgy_id)
+                            ->select('b.barangayName as barangay_name', 'r.*')
+                            ->where('a.user_id', Auth::id())
                             ->get();
             return DataTables::of($resident)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> Edit</a> ';
-                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> Delete</a>';
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class=" m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> </a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -70,7 +72,27 @@ class ResidentInformationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $brgy_id = DB::table('barangays as b')
+                        ->leftJoin('accounts as a', 'b.id', 'a.barangay_id')
+                        ->select('b.id as id', 'b.barangayName as barangay')
+                        ->where('a.user_id', Auth::id())
+                        ->first();
+
+       ResidentInformation::create([
+        'barangayId' => $brgy_id->id,
+        'family_no' => $request->family_no,
+        'name' => $request->name,
+        'gender' => $request->gender,
+        'civil_status' => $request->civil_status,
+        'birthday' => $request->birthday,
+        'age' => $request->age,
+        'zone' => $request->zone,
+        'barangay' => $brgy_id->barangay,
+        'municipality' => 'Baggao',
+        'province' => 'Cagayan',
+       ]);
+       
+       return response()->json(['success'=>'Resident saved successfully.']);
     }
 
     /**
@@ -79,9 +101,13 @@ class ResidentInformationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $where = [
+            'id' => $request->id
+        ];
+        $residents  = ResidentInformation::where($where)->first();
+        return response()->json($residents);
     }
 
     /**
@@ -113,9 +139,9 @@ class ResidentInformationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        ResidentInformation::where('id', $request->id)->delete();
     }
 
     public function adminResident(Request $request)

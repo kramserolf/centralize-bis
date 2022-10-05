@@ -5,12 +5,8 @@
     }
 </style>
 @section('content')
-    <span class="badge bg-secondary fs-4 mb-3 mt-2">Lists of Accounts</span>
-    <!-- Button trigger modal -->
-    <div class="d-flex flex-row-reverse bd-highlight">
-        <!-- Button trigger modal -->
-        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addAccount"><i class="bi-plus-square ">  </i> Add Account</a>
-    </div>
+    <h2 class="mb-4 px-4 mt-4 fw-bold text-secondary"><i class="bi bi-people-fill"></i> Accounts</h2>
+
     <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
@@ -59,7 +55,7 @@
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
                 <div class="mb-3">
-                    <label for="contact_number" class="form-label">Contact No.</label>
+                    <label for="contact_number" class="form-label">Contact No. <span class="text-muted" style="font-size: 12px">(optional)</span></label>
                     <input type="text" class="form-control" name="contact_number" id="contact_number" placeholder="09563459871">
                 </div>
               </div>
@@ -98,6 +94,20 @@
                 {data: 'email', name: 'email'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
+            dom: 'Bfrtlip',
+            buttons: [
+                {
+                    text: '<i class="bi-plus-circle"></i> Add',
+                    className: 'badge bg-secondary fs-5 mb-2',
+                    action: function(e, dt, node, config){
+                        // show modal
+                        $('#id').val('');
+                        $('#accountForm').trigger("reset");
+                        $('#addModal').modal('show');
+                        $('#savedata').html('Save');
+                    },
+                }
+            ]
         });
 
         //show modal
@@ -124,8 +134,7 @@
                     toastr.success('Account created successfully','Success');
                 },
                 error: function (data) {
-                    console.log('Error:', data);
-
+                    toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });

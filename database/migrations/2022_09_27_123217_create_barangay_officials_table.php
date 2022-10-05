@@ -18,8 +18,9 @@ return new class extends Migration
             $table->smallInteger('barangay_id');
             $table->string('position');
             $table->string('name');
-            $table->string('official_committee');
-            $table->string('year_of_service');
+            $table->string('official_committee')->nullable();
+            $table->string('zone')->nullable();
+            $table->string('years_of_service')->nullable();
             $table->timestamps();
         });
     }

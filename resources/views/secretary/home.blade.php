@@ -1,14 +1,14 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    #home, #homeIcon {
-        background-color: gray;
+    .sidebar-home{
+       color: rgb(180, 179, 179);
     }
 </style>
 @section('content')
 <div class="m-4">
     <span class="badge bg-info fs-4">Barangay Dashboard</span>
 </div>
-<div class="d-flex justify-content-evenly">
+<div class="d-flex justify-content-center">
     <div class="col-md-4 p-2 mt-2">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">

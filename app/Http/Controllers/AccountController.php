@@ -67,7 +67,6 @@ class AccountController extends Controller
             'name' => 'required',
             'email' => 'required|string|unique:users',
             'password' => 'required|string|min:6',
-            'contact_number' => 'required|min:10',
         ]);
         // insert into users
         $user = User::updateOrCreate([
@@ -131,5 +130,6 @@ class AccountController extends Controller
     public function destroy(Request $request)
     {
         User::where('id', $request->id)->delete();
+        Account::where('user_id', $request->id)->delete();
     }
 }

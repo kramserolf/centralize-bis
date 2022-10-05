@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->smallInteger('user_id');
             $table->string('barangay_id');
-            $table->string('contact_number');
+            $table->string('contact_number')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
