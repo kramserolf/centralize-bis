@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('resident_information', function (Blueprint $table) {
             $table->id( );
             $table->smallInteger('barangayId');
-            $table->decimal('family_no');
+            $table->smallInteger('household_no')->nullable();
+            $table->decimal('family_no')->nullable();
             $table->string('name');
             $table->string('gender');
             $table->string('civil_status');
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->string('age');
             $table->string('hf_relation')->nullable();
             $table->string('religion')->nullable();
-            $table->string('zone');
+            $table->mediumInteger('zone');
             $table->string('barangay');
             $table->string('municipality');
             $table->string('province');

@@ -5,9 +5,7 @@
     }
 </style>
 @section('content')
-<div class="m-4">
-    <span class="badge bg-info fs-4">Barangay Dashboard</span>
-</div>
+<h4 class="text-center px-2 fw-bold text-secondary">     Dashboard</h4>
 <div class="d-flex justify-content-center">
     <div class="col-md-4 p-2 mt-2">
         <div class="card border-left-primary shadow h-100 py-2">

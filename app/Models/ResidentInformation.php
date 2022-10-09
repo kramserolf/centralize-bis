@@ -10,6 +10,7 @@ class ResidentInformation extends Model
     use HasFactory;
     protected $fillable = [ 
             'barangayId',
+            'household_no',
             'family_no',
           'name',
           'gender',
@@ -77,4 +78,5 @@ class ResidentInformation extends Model
           'emergency_kit',
           'cp_number',
     ];
+
 }

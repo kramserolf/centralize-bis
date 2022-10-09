@@ -15,7 +15,12 @@ use App\Models\BarangaySetting;
 use DataTables;
 class SecretaryController extends Controller
 {
-    
+    // check user if authenticated
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {   
         //get current authenticated user
@@ -28,24 +33,20 @@ class SecretaryController extends Controller
                 ->select('u.*', 'b.*', 'a.*', 'b.id as brgy_id', 'b.barangayLogo as logo')
                 ->where('u.id', $id)
                 ->first();
+                
         // get current authenticated barangay id
         $brgy_id = $filter->brgy_id;
 
         $filter_setting = BarangaySetting::filterSetting();
-
-  
-        // if(!empty($filter_setting)){
-        //     return true;
-        // } else{
-            
-        // }
         
         $population = DB::table('resident_information as r')
                             ->leftJoin('barangays as b', 'r.barangayId', 'b.id')
                             ->where('r.barangayId', $brgy_id)
                             ->get();
+
         $total = $population->count();
         // dd($population);
+
         return view('secretary.home', compact('filter', 'total', 'filter_setting'));
     }
 

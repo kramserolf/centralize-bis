@@ -13,4 +13,9 @@ class Barangay extends Model
             'barangayLogo', 
             'barangayCaptain', 
         ];
+    
+    public function getRouteKeyName()
+    {
+        return 'barangayName';
+    }
 }

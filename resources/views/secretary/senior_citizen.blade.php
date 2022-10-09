@@ -1,21 +1,20 @@
 @extends('layouts.secretary-sidebar')
 <style>
-   .sidebar-brgy{
+   .sidebar-reports{
        color: rgb(180, 179, 179);
     }
 </style>
 @section('content')
-<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-person-bounding-box"></i> Barangay Officials</h4>
+<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-person-bounding-box"></i> Senior Citizens</h4>
 
     <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>
-                <td class="text-center">Position</td>
+                <td class="text-center">Household No.</td>
                 <td class="text-center">Name</td>
-                <td class="text-center">Official Committee</td>
-                <td class="text-center">Service Tenure</td>
-                <td class="text-center">Area Zone</td>
+                <td class="text-center">Age</td>
+                <td class="text-center">Zone</td>
                 <td class="text-center">Action</td>
             </tr>
         </thead>
@@ -94,30 +93,29 @@
             serverSide: true,
             responsive: true,
             select: true,
-            ajax: "{{ route('barangay.officials') }}",
+            ajax: "{{ route('senior') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'position', name: 'position'},
+                {data: 'household_no', name: 'household_no'},
                 {data: 'name', name: 'name'},
-                {data: 'official_committee', name: 'official_committee'},
-                {data: 'years_of_service', name: 'years_of_service'},
+                {data: 'age', name: 'age'},
                 {data: 'zone', name: 'zone'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    text: '<i class="bi-plus-circle text-ce"></i> Add',
-                    className: 'badge bg-secondary fs-5 mb-2',
-                    action: function(e, dt, node, config){
-                        // show modal
-                        $('#id').val('');
-                        $('#barangayOfficialForm').trigger("reset");
-                        $('#addModal').modal('show');
-                        $('#savedata').html('Save');
-                    },
-                }
-            ]
+            // dom: 'Bfrtip',
+            // buttons: [
+            //     {
+            //         text: '<i class="bi-plus-circle text-ce"></i> Add',
+            //         className: 'badge bg-secondary fs-5 mb-2',
+            //         action: function(e, dt, node, config){
+            //             // show modal
+            //             $('#id').val('');
+            //             $('#barangayOfficialForm').trigger("reset");
+            //             $('#addModal').modal('show');
+            //             $('#savedata').html('Save');
+            //         },
+            //     }
+            // ]
    
         });
 
@@ -163,11 +161,6 @@
             }
         });
 
-    // tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
     }); //end of script
 
 </script>

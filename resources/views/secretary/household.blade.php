@@ -5,16 +5,15 @@
     }
 </style>
 @section('content')
-<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-people-fill"></i> Residents</h4>
+<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-people-fill"></i> Households</h4>
 
-    <table class="table table-bordered data-table nowrap w-100">
+    <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
-                <td class="text-center">No.</td>
-                <td class="text-center" style="width: 10%;" id="household">Household No.</td>
-                <td class="text-center" >Name</td>
-                <td class="text-center">Zone</td>
-                <td class="text-center" style="width: 15%;">Mobile No.</td>
+                <td class="text-center" style="width: 10%">Household No.</td>
+                <td class="text-center">Family Head</td>
+                <td class="text-center" style="width: 15%">Zone</td>
+                <td class="text-center">Mobile No.</td>
                 {{-- <td class="text-center">Zone</td> --}}
                 <td class="text-center">Action</td>
             </tr>
@@ -41,7 +40,7 @@
                         <a class="nav-link" id="nav-work-tab" data-bs-toggle="tab" href="#nav-work" role="tab" aria-controls="nav-work" aria-selected="false">Work</a>
                         <a class="nav-link" id="nav-farm-tab" data-bs-toggle="tab" href="#nav-farm" role="tab" aria-controls="nav-farm" aria-selected="false">Farm</a>
                         <a class="nav-link" id="nav-business-tab" data-bs-toggle="tab" href="#nav-business" role="tab" aria-controls="nav-business" aria-selected="false">Business</a>
-                        <a class="nav-link" id="nav-utilities-tab" data-bs-toggle="tab" href="#nav-utilities" role="tab" aria-controls="nav-utilities" aria-selected="false">Utilities</a>
+                        <a class="nav-link" id="nav-vehicles-tab" data-bs-toggle="tab" href="#nav-vehicles" role="tab" aria-controls="nav-vehicles" aria-selected="false">Vehicles</a>
                         <a class="nav-link" id="nav-gadgets-tab" data-bs-toggle="tab" href="#nav-gadgets" role="tab" aria-controls="nav-gadgets" aria-selected="false">Gadgets</a>
                         <a class="nav-link" id="nav-calamity-tab" data-bs-toggle="tab" href="#nav-calamity" role="tab" aria-controls="nav-calamity" aria-selected="false">Calamity</a>
                         <a class="nav-link" id="nav-others-tab" data-bs-toggle="tab" href="#nav-others" role="tab" aria-controls="nav-others" aria-selected="false">Others</a>
@@ -102,17 +101,26 @@
                                     <input type="text" class="form-control" name="religion" id="religion">
                                 </div>
                             </div>
-                            <div class="row form-row mt-1 fw-bold">
+                            <div class="row form-row mb-3 mt-1 fw-bold">
+                                <div class="form-group col-md-3">
+                                    <label for="zone" class="form-label text-capitalize">Zone (purok)</label>
+                                    <input type="text" class="form-control" name="zone" id="zone">
+                                </div>
                                 <div class="form-group col-md-4">
-                                    <label for="zone" class="form-label">Area Zone </span></label>
-                                    <select class="form-select" aria-label="Default select example" name="zone" id="zone">
-                                        <option selected>Select option</option>
-                                        @foreach ($filter_zone as $item)
-                                        <option value="{{$item->zone}}">{{$item->zone}}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="barangay" class="form-label text-capitalize">barangay:</label>
+                                    <input type="text" class="form-control" name="barangay" id="barangay">
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <label for="municipality" class="form-label text-capitalize">municipality:</label>
+                                    <input type="text" class="form-control" name="municipality" id="municipality">
                                 </div>
 
+                            </div>
+                            <div class="row form-row mt-1 fw-bold">
+                                <div class="form-group col-md-6">
+                                    <label for="province" class="form-label text-capitalize">province:</label>
+                                    <input type="text" class="form-control" name="province" id="province">
+                                </div>
                             </div>
 
                               {{-- <div class="row form-row mb-3 mt-2 fw-bold">
@@ -270,40 +278,8 @@
                             </div>
                             
                         </div>
-                        <div class="tab-pane fade" id="nav-business" role="tabpanel" aria-labelledby="nav-business-tab">
-                            <div class="row form-row mb-3 mt-2 fw-bold">
-                                <div class="form-group col-md-7">
-                                    <div class="form-check mb-1">
-                                        <input class="form-check-input" type="checkbox" value="poultry" id="poultry" name="poultry">
-                                        <label class="form-check-label" for="poultry">
-                                          Poultry
-                                        </label>
-                                    </div>
-                                    <div class="form-check mb-1">
-                                        <input class="form-check-input" type="checkbox" value="livestock" id="livestock" name="livestock">
-                                        <label class="form-check-label" for="livestock">
-                                          Livestock
-                                        </label>
-                                    </div>
-                                    <div class="form-check mb-1">
-                                        <input class="form-check-input" type="checkbox" value="fishery" id="fishery" name="fishery">
-                                        <label class="form-check-label" for="fishery">
-                                          Fishery
-                                        </label>
-                                    </div>
-                                    <div class="form-check mb-1">
-                                        <input class="form-check-input" type="checkbox" value="store" id="store" name="store">
-                                        <label class="form-check-label" for="store">
-                                          Store
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-5">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav-utilities" role="tabpanel" aria-labelledby="nav-utilities-tab">Utilities</div>
+                        <div class="tab-pane fade" id="nav-business" role="tabpanel" aria-labelledby="nav-business-tab">business.</div>
+                        <div class="tab-pane fade" id="nav-vehicles" role="tabpanel" aria-labelledby="nav-vehicles-tab">vehicles.</div>
                         <div class="tab-pane fade" id="nav-gadgets" role="tabpanel" aria-labelledby="nav-gadgets-tab">gadgets.</div>
                         <div class="tab-pane fade" id="nav-calamity" role="tabpanel" aria-labelledby="nav-calamity-tab">calamity.</div>
                         <div class="tab-pane fade" id="nav-others" role="tabpanel" aria-labelledby="nav-others-tab">others.</div>
@@ -400,32 +376,31 @@
             serverSide: true,
             responsive: true,
             select: true,
-            ajax: "{{ route('resident') }}",
+            ajax: "{{ route('household') }}",
             deferRender: true,
             columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'household_no', name: 'household_no'},
                 {data: 'name', name: 'name'},
-                {data: 'zone_name', name: 'zone_name', class: 'text-end'},
+                {data: 'zone', name: 'zone', class: 'text-end'},
                 // {data: 'zone', name: 'zone', render: function(data, type, full, meta) {return "Zone" + " " +  "0"+  data}},
                 {data: 'cp_number', name: 'cp_number', class: 'text-end'},
                 // {data: 'zone', name: 'zone'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-            dom: 'Bfrtlip',
-            buttons: [
-                {
-                    text: '<i class="bi-plus-circle"></i> Add',
-                    className: 'badge bg-secondary fs-5 mb-2',
-                    action: function(e, dt, node, config){
-                        // show modal
-                        $('#id').val('');
-                        $('#residentForm').trigger("reset");
-                        $('#addModal').modal('show');
-                        $('#savedata').html('Save');
-                    },
-                }
-            ]
+            // dom: 'Bfrtlip',
+            // buttons: [
+            //     {
+            //         text: '<i class="bi-plus-circle"></i> Add',
+            //         className: 'badge bg-secondary fs-5 mb-2',
+            //         action: function(e, dt, node, config){
+            //             // show modal
+            //             $('#id').val('');
+            //             $('#residentForm').trigger("reset");
+            //             $('#addModal').modal('show');
+            //             $('#savedata').html('Save');
+            //         },
+            //     }
+            // ]
         });
 
         //show modal

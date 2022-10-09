@@ -8,10 +8,17 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Account;
 use App\Models\BarangayOfficial;
 use App\Models\BarangaySetting;
+use App\Models\Zone;
 use DataTables;
 
 class BarangayOfficialController extends Controller
 {
+    // check user if authenticated
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -22,41 +29,29 @@ class BarangayOfficialController extends Controller
         // get current logo
         $filter_setting = BarangaySetting::filterSetting();
 
+        // filter Zone
+        $filter_zone = Zone::zoneFilter();
 
-        // get current authentication id
-        // $id = Auth::id();
-        // filter barangay id
-        // $filter = DB::table('users as u')   
-        //                     ->leftJoin('accounts as a', 'u.id' ,'a.user_id')
-        //                     ->rightJoin('barangays as b', 'a.barangay_id', 'b.id')
-        //                     ->select('u.*', 'b.*', 'a.*', 'a.barangay_id as brgy_id')
-        //                     ->where('u.id', $id)
-        //                     ->first();
-        // get current auth barangay id
-        // $brgy_id = $filter->brgy_id;
         //load barangay table
         $barangay_officials = [];
         if($request->ajax()) {
             $barangay_officials = DB::table('barangay_officials as o')
                                     ->leftJoin('accounts as a', 'o.barangay_id', 'a.barangay_id')
+                                    ->select('o.*')
                                     ->where('a.user_id', Auth::id())
                                     ->get();
-            // $barangay_officials = DB::table('barangay_officials as o')
-            //                 ->leftJoin('barangays as b', 'o.barangay_id', 'b.id')
-            //                 ->select('b.barangayName as barangay', 'o.*')
-            //                 ->where('b.id', $brgy_id)
-            //                 ->get();
+
             return DataTables::of($barangay_officials)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editBarangayOfficial"><i class="bi-pencil-square"></i> Edit</a> ';
-                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteBarangayOfficial"><i class="bi-trash"></i> Delete</a>';
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editBarangayOfficial"><i class="bi-pencil-square"></i> </a> ';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteBarangayOfficial"><i class="bi-trash" ></i> </a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('secretary/barangay_officials', compact('barangay_officials', 'filter_setting'));
+        return view('secretary/barangay_officials', compact('barangay_officials', 'filter_setting', 'filter_zone'));
 
     }
 

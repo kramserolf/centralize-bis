@@ -7,10 +7,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\ResidentInformation;
 use App\Models\BarangaySetting;
+use App\Models\Barangay;
+use App\Models\Zone;
 use DataTables;
 
 class ResidentInformationController extends Controller
 {
+    // check user if authenticated
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -20,25 +28,19 @@ class ResidentInformationController extends Controller
     {
         // get current barangay setting
         $filter_setting = BarangaySetting::filterSetting();
-        // get current authentication id
-        $id = Auth::id();
-        // filter barangay id
-        $filter = DB::table('users as u')   
-                            ->leftJoin('accounts as a', 'u.id' ,'a.user_id')
-                            ->rightJoin('barangays as b', 'a.barangay_id', 'b.id')
-                            ->select('u.*', 'b.*', 'a.*', 'a.barangay_id as brgy_id')
-                            ->where('u.id', $id)
-                            ->first();
-        // get current auth barangay id
-        $brgy_id = $filter->brgy_id;
+
+        // filter Zone
+        $filter_zone = Zone::zoneFilter();
+
         // load resident table
         $resident = [];
         if($request->ajax()) {
             $resident = DB::table('resident_information as r')
                             ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
-                            ->leftJoin('barangays as b', 'r.barangayId', 'b.id')
-                            ->select('b.barangayName as barangay_name', 'r.*')
+                            ->leftJoin('zones as z', 'r.zone', 'z.id')
+                            ->select('r.*', 'z.zone as zone_name')
                             ->where('a.user_id', Auth::id())
+                            ->orderBy('r.household_no', 'asc')
                             ->get();
             return DataTables::of($resident)
                 ->addIndexColumn()
@@ -51,7 +53,11 @@ class ResidentInformationController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('secretary/resident', compact('resident', 'filter', 'brgy_id', 'filter_setting'));
+        return view('secretary/resident', [
+            'resident' => $resident, 
+            'filter_setting' => $filter_setting,
+            'filter_zone' => $filter_zone,
+        ]);
     }
 
     /**
@@ -77,7 +83,7 @@ class ResidentInformationController extends Controller
                         ->select('b.id as id', 'b.barangayName as barangay')
                         ->where('a.user_id', Auth::id())
                         ->first();
-
+  
        ResidentInformation::create([
         'barangayId' => $brgy_id->id,
         'family_no' => $request->family_no,
@@ -142,6 +148,76 @@ class ResidentInformationController extends Controller
     public function destroy(Request $request)
     {
         ResidentInformation::where('id', $request->id)->delete();
+    }
+
+    // household list
+    public function household(Request $request)
+    {
+         // get current barangay setting
+         $filter_setting = BarangaySetting::filterSetting();
+
+         // load resident table
+         $household = [];
+         if($request->ajax()) {
+             $household = DB::table('resident_information as r')
+                             ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
+                             ->leftJoin('barangays as b', 'r.barangayId', 'b.id')
+                             ->where('a.user_id', Auth::id())
+                            ->groupBy('r.household_no')
+                             ->orderBy('r.household_no', 'asc')
+                             ->get();
+             return DataTables::of($household)
+                 ->addIndexColumn()
+                 ->addColumn('action', function ($row) {
+                     $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class=" m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
+                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
+                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> </a>';
+                     return $btn;
+                 })
+                 ->rawColumns(['action'])
+                 ->make(true);
+         }
+         return view('secretary/household', [
+             'household' => $household, 
+             'filter_setting' => $filter_setting,
+         ]);
+    }
+
+    // senior citizen list
+    public function senior(Request $request)
+    {
+        // get current barangay setting
+        $filter_setting = BarangaySetting::filterSetting();
+
+        // filter Zone
+        $filter_zone = Zone::zoneFilter();
+
+        // load resident table
+        $senior = [];
+        if($request->ajax()) {
+            $senior = DB::table('resident_information as r')
+                                    ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
+                                    ->leftJoin('zones as z', 'r.zone', 'z.id')
+                                    ->select('z.zone as zone', 'r.household_no', 'r.name', 'r.age', 'r.id')
+                                    ->where('a.user_id', Auth::id())
+                                    ->where('r.age', '>=', 60)
+                                    ->orderBy('z.zone', 'asc')
+                                    ->get();
+            return DataTables::of($senior)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class=" m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('secretary/senior_citizen', [
+            'senior' => $senior, 
+            'filter_setting' => $filter_setting,
+            'filter_zone' => $filter_zone,
+        ]);
     }
 
     public function adminResident(Request $request)

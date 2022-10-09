@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class isSecretary
 {
@@ -18,7 +19,7 @@ class isSecretary
     {
         if(auth()->user()->is_role == 1){
             return $next($request);
-        }
+        } 
         return back()->with(session()->flash('unrestricted', 'Ooops! You do not have access on this page.'));
     }
 }

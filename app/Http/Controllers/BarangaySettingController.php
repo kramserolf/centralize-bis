@@ -11,6 +11,11 @@ use App\Models\Account;
 
 class BarangaySettingController extends Controller
 {
+     // check user if authenticated
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
     public function index()
     {
         $filter_setting = BarangaySetting::filterSetting();
