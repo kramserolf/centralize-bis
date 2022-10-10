@@ -44,10 +44,15 @@ class SecretaryController extends Controller
                             ->where('r.barangayId', $brgy_id)
                             ->get();
 
-        $total = $population->count();
-        // dd($population);
+        $total_population = $population->count();
+        
+        $resident_account = DB::table('users as u')
+                                ->leftJoin('accounts as a', 'u.id', 'a.user_id')
+                                ->leftJoin('barangays as b', 'a.barangay_id', 'b.id')
+                                ->where('u.is_role', 2)
+                                ->count();
 
-        return view('secretary.home', compact('filter', 'total', 'filter_setting'));
+        return view('secretary.home', compact('filter', 'total_population', 'resident_account', 'filter_setting'));
     }
 
 }

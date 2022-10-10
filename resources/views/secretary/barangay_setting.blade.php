@@ -1,11 +1,11 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    #brgySetting {
-        background-color: gray;
+    .sidebar-settings {
+        color: rgb(180, 179, 179);
     }
 </style>
 @section('content')
-<span class="badge bg-primary fs-4 mb-3">Settings</span>
+<h4 class="text-center px-2 fw-bold text-secondary">     Settings</h4>
 <div class="row m-4">
     <div class="col-xl-6">
         <form action="{{route('update.setting')}}" method="POST"  name="barangaySettingForm" id="barangaySettingForm" enctype="multipart/form-data">

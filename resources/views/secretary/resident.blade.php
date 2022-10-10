@@ -42,9 +42,9 @@
                         <a class="nav-link" id="nav-farm-tab" data-bs-toggle="tab" href="#nav-farm" role="tab" aria-controls="nav-farm" aria-selected="false">Farm</a>
                         <a class="nav-link" id="nav-business-tab" data-bs-toggle="tab" href="#nav-business" role="tab" aria-controls="nav-business" aria-selected="false">Business</a>
                         <a class="nav-link" id="nav-utilities-tab" data-bs-toggle="tab" href="#nav-utilities" role="tab" aria-controls="nav-utilities" aria-selected="false">Utilities</a>
-                        <a class="nav-link" id="nav-gadgets-tab" data-bs-toggle="tab" href="#nav-gadgets" role="tab" aria-controls="nav-gadgets" aria-selected="false">Gadgets</a>
+
                         <a class="nav-link" id="nav-calamity-tab" data-bs-toggle="tab" href="#nav-calamity" role="tab" aria-controls="nav-calamity" aria-selected="false">Calamity</a>
-                        <a class="nav-link" id="nav-others-tab" data-bs-toggle="tab" href="#nav-others" role="tab" aria-controls="nav-others" aria-selected="false">Others</a>
+                        <a class="nav-link" id="nav-others-tab" data-bs-toggle="tab" href="#nav-status" role="tab" aria-controls="nav-status" aria-selected="false">Status</a>
 
 
                         {{-- <a class="nav-link disabled" id="nav-disabled-tab" data-bs-toggle="tab" href="#nav-disabled" role="tab" aria-controls="nav-disabled" tabindex="-1" aria-disabled="true">Disabled</a> --}}
@@ -53,11 +53,11 @@
                         <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-education-tab">
 
                             <div class="row form-row mb-3 mt-2 fw-bold">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-5">
                                     <label for="name" class="form-label">Name:</label>
                                     <input type="text" class="form-control text-capitalize" name="name" id="name">
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label for="gender" class="form-label">Gender:</label>
                                     <select class="form-select" aria-label="Default select example" name="gender" id="gender">
                                         <option selected>Select gender</option>
@@ -69,6 +69,10 @@
                                 <div class="form-group col-md-2">
                                     <label for="family_no" class="form-label">Family No.:</label>
                                     <input type="text" class="form-control text-end" name="family_no" id="family_no">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="household_no" class="form-label">Household No.:</label>
+                                    <input type="text" class="form-control text-end" name="household_no" id="household_no">
                                 </div>
                             </div>
                             <div class="row form-row mb-3 mt-1 fw-bold">
@@ -272,7 +276,8 @@
                         </div>
                         <div class="tab-pane fade" id="nav-business" role="tabpanel" aria-labelledby="nav-business-tab">
                             <div class="row form-row mb-3 mt-2 fw-bold">
-                                <div class="form-group col-md-7">
+                                <div class="form-group col-md-4">
+                                    <h4>Business</h4>
                                     <div class="form-check mb-1">
                                         <input class="form-check-input" type="checkbox" value="poultry" id="poultry" name="poultry">
                                         <label class="form-check-label" for="poultry">
@@ -298,16 +303,145 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-5">
-
+                                <div class="form-group col-md-4">
+                                    <h4>Vehicles</h4>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="checkbox" value="motorcycle" id="motorcycle" name="motorcycle">
+                                        <label class="form-check-label" for="motorcycle">
+                                          Motorcycle
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="checkbox" value="tricycle" id="tricycle" name="tricycle">
+                                        <label class="form-check-label" for="tricycle">
+                                          Tricycle
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="checkbox" value="van" id="van" name="van">
+                                        <label class="form-check-label" for="van">
+                                          Van
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="checkbox" value="truck" id="truck" name="truck">
+                                        <label class="form-check-label" for="truck">
+                                          Truck
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="checkbox" value="kuliglig" id="kuliglig" name="kuliglig">
+                                        <label class="form-check-label" for="kuliglig">
+                                          Kuliglig
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="checkbox" value="ripper" id="ripper" name="ripper">
+                                        <label class="form-check-label" for="ripper">
+                                          Ripper
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="checkbox" value="tractor" id="tractor" name="tractor">
+                                        <label class="form-check-label" for="tractor">
+                                          Tractor
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-utilities" role="tabpanel" aria-labelledby="nav-utilities-tab">Utilities</div>
-                        <div class="tab-pane fade" id="nav-gadgets" role="tabpanel" aria-labelledby="nav-gadgets-tab">gadgets.</div>
-                        <div class="tab-pane fade" id="nav-calamity" role="tabpanel" aria-labelledby="nav-calamity-tab">calamity.</div>
-                        <div class="tab-pane fade" id="nav-others" role="tabpanel" aria-labelledby="nav-others-tab">others.</div>
-                        {{-- <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laudantium minima repellat incidunt facilis obcaecati blanditiis corrupti ad officia doloribus ullam sapiente ipsum, nemo a, excepturi voluptatem voluptatibus velit eum dignissimos ut, nam tempora? Reiciendis illo itaque veritatis eligendi fuga, mollitia ratione totam veniam esse in.</div> --}}
+                        <div class="tab-pane fade" id="nav-calamity" role="tabpanel" aria-labelledby="nav-calamity-tab">
+                            <div class="row form-row mb-3 mt-2 fw-bold">
+                                <div class="form-group col-md-6">
+                                    <h5>Experience Drought?</h5>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="radio" name="experience_drought" id="experience_drought" value="1">
+                                        <label class="form-check-label" for="experience_drought">
+                                          Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="radio" name="experience_drought" id="experience_drought" value="2">
+                                        <label class="form-check-label" for="experience_drought">
+                                          No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h5>Experience Typhoon Evacuation?</h5>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="radio" name="experience_evacuation" id="experience_evacuation" value="1">
+                                        <label class="form-check-label" for="experience_evacuation">
+                                          Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="radio" name="experience_evacuation" id="experience_evacuation" value="2">
+                                        <label class="form-check-label" for="experience_evacuation">
+                                          No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5>House is</h5>
+                            <div class="row form-row mb-3 mt-2 fw-bold">
+                                <div class="form-group col-md-6">
+                                    <div class="form-check mb-1">
+                                        <div class="form-check mb-1">
+                                            <input class="form-check-input" type="checkbox" value="1" id="flood_prone" name="flood_prone">
+                                            <label class="form-check-label" for="flood_prone">
+                                              Flood prone
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-1">
+                                            <input class="form-check-input" type="checkbox" value="1" id="landslide prone" name="landslide prone">
+                                            <label class="form-check-label" for="landslide prone">
+                                                Landslide prone
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-status" role="tabpanel" aria-labelledby="nav-status-tab">
+                            <div class="row form-row mb-3 mt-2 fw-bold">
+                                <div class="form-group col-md-6">
+                                    <h5>PSA registered</h5>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="radio" name="psa_registered" id="psa_registered" value="1">
+                                        <label class="form-check-label" for="psa_registered">
+                                          Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="radio" name="psa_registered" id="psa_registered" value="2">
+                                        <label class="form-check-label" for="psa_registered">
+                                          No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h5>Experience crime or any form of illegal?</h5>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="radio" name="crime_victim" id="crime_victim" value="1">
+                                        <label class="form-check-label" for="crime_victim">
+                                          Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-1">
+                                        <input class="form-check-input" type="radio" name="crime_victim" id="crime_victim" value="2">
+                                        <label class="form-check-label" for="crime_victim">
+                                          No
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="crime_cause" class="form-label"><span class="text-muted" style="font-size: 12px">If yes, type the cause:</span></label>
+                                        <input type="text" class="form-control" name="crime_cause" id="crime_cause">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                       </div>
 
               </div>
@@ -500,8 +634,6 @@
 
 
     // calculation of age
-
-
     $('#birthday').change(function(){
         var today = new Date();
         var birthDate = new Date($('#birthday').val());
@@ -512,6 +644,10 @@
     }
         return $('#age').val(age);
     });
+
+    // if($('#crime_victim').is(":checked")){
+    //     alert('yes is checked');
+    // }
 </script>
 
 @endsection

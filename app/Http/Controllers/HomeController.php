@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ResidentInformation;
+use App\Models\User;
 
 
 class HomeController extends Controller
@@ -27,7 +28,11 @@ class HomeController extends Controller
     public function index()
     {
         $total_population = ResidentInformation::count();
-        return view('admin/home', compact('total_population'));
+
+        $total_accounts = User::where('is_role', 1)
+                            ->count();
+
+        return view('admin/home', compact('total_population', 'total_accounts'));
     }
 
 }

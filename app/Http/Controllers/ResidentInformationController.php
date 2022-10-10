@@ -156,16 +156,24 @@ class ResidentInformationController extends Controller
          // get current barangay setting
          $filter_setting = BarangaySetting::filterSetting();
 
+        //  // get current barangay id
+        //  $barangay_id = DB::table('accounts as a')
+        //                     ->select('a.barangay_id')
+        //                     ->where('a.user_id', Auth::id())
+        //                     ->first();
+
+        // $brgy_id = $barangay_id->barangay_id;
          // load resident table
          $household = [];
          if($request->ajax()) {
              $household = DB::table('resident_information as r')
-                             ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
-                             ->leftJoin('barangays as b', 'r.barangayId', 'b.id')
-                             ->where('a.user_id', Auth::id())
+                            ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
+                            ->leftJoin('zones as z', 'r.zone', 'z.id')
+                            ->select('r.id', 'r.household_no', 'r.name', 'z.zone', 'r.cp_number')
+                            ->where('a.user_id', Auth::id())
                             ->groupBy('r.household_no')
-                             ->orderBy('r.household_no', 'asc')
-                             ->get();
+                            ->orderBy('r.household_no', 'asc')
+                            ->get();
              return DataTables::of($household)
                  ->addIndexColumn()
                  ->addColumn('action', function ($row) {

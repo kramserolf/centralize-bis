@@ -1,7 +1,7 @@
 @extends('layouts.secretary-sidebar')
 <style>
     .sidebar-settings {
-        color: gray;
+        color: rgb(180, 179, 179);
     }
 </style>
 @section('content')

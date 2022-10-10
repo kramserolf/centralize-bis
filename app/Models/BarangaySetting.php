@@ -21,10 +21,17 @@ class BarangaySetting extends Model
 
     public function scopefilterSetting()
     {
+        $barangay_id = DB::table('accounts as a')
+                            ->select('a.barangay_id')
+                            ->where('a.user_id', Auth::id())
+                            ->first();
+
+        $brgy_id = $barangay_id->barangay_id;
+        
         $filter = DB::table('barangay_settings as s')
                             ->leftJoin('barangays as b', 's.barangay_id', 'b.id')
                             ->select('s.logo as logo', 'b.barangayName as barangay')
-                            ->where('s.user_id', Auth::id())
+                            ->where('s.barangay_id', $brgy_id)
                             ->first();
         return $filter;
                                     

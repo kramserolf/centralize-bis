@@ -1,11 +1,11 @@
 @extends('layouts.admin-sidebar')
 <style>
-    #acct {
-        background-color: gray;
+    .admin-account{
+       color: rgb(180, 179, 179);
     }
 </style>
 @section('content')
-    <h2 class="mb-4 px-4 mt-4 fw-bold text-secondary"><i class="bi bi-people-fill"></i> Accounts</h2>
+<h4 class="text-center px-2 fw-bold text-secondary">  Accounts</h4>
 
     <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>
