@@ -10,12 +10,12 @@ class CertificateLayout extends Model
     use HasFactory;
 
     protected $fillable = [ 
+        'barangay_id',
         'logo1', 
         'logo2',
         'cert_type',
         'cert_header',
         'cert_title',
-        'cert_purpose',
         'paragraph1',
         'paragraph2',
         'paragraph3',

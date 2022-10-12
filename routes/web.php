@@ -8,8 +8,11 @@ use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\BlotterController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ResidentInformationController;
+use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\SecretaryController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CertificateLayoutController;
+use App\Http\Controllers\CertificateTypeController;
 use App\Http\Controllers\HomeController;
 use App\Models\User;
 use App\Models\Barangay;
@@ -32,7 +35,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-
+Route::group(['prefix' => 'resident', 'middleware' => ['is_resident']], function(){
+    Route::get('/home', [HomeController::class, 'residentHome'])->name('resident.home');
+});
 
 // ADMIN ACCOUNT
 Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
@@ -65,6 +70,12 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
     // residents
     Route::get('/residents', [ResidentInformationController::class, 'index'])->name('resident');
+    // resident accounts
+    Route::get('/resident-accounts', [ResidentController::class, 'index'])->name('barangay.resident_account');
+    Route::delete('/resident-account/destroy', [ResidentController::class, 'destroy'])->name('resident_account.destroy');
+    // generate resident account
+    Route::post('/residents', [ResidentController::class, 'store'])->name('resident.account');
+
     Route::get('/households', [ResidentInformationController::class, 'household'])->name('household');
     Route::get('/senior-citizens', [ResidentInformationController::class, 'senior'])->name('senior');
     Route::post('/resident/store', [ResidentInformationController::class, 'store'])->name('resident.store');
@@ -88,9 +99,19 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
     Route::post('/zone/store', [ZoneController::class, 'store'])->name('zone.store');
     Route::delete('/zone/destroy', [ZoneController::class, 'destroy'])->name('zone.destroy');
 
+    // annoucements
+    Route::get('/announcements', [AnnouncementController::class, 'index'])->name('barangay.announcement');
+
+    // certificate types
+    Route::get('/certificate-types', [CertificateTypeController::class, 'index'])->name('certificate.type');
+    Route::post('/certificate-types', [CertificateTypeController::class, 'store'])->name('type.store');
+    Route::delete('/certificate-types', [CertificateTypeController::class, 'destroy'])->name('type.destroy');
+
     // certificate layouts
-    Route::get('/layouts', [CertificateLayoutController::class, 'index'])->name('barangay.layout');
-    Route::post('/layouts', [CertificateLayoutController::class, 'store'])->name('layout.store');
+    Route::get('/certificate-layouts', [CertificateLayoutController::class, 'index'])->name('barangay.layout');
+    Route::post('/certificate-layouts', [CertificateLayoutController::class, 'store'])->name('layout.store');
+
+
 
     // Route::get('/home/{barangay}', function (Barangay $barangay) {
     //     $filter = DB::table('barangays as b')

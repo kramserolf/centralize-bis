@@ -16,6 +16,9 @@ class isResident
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if(auth()->user()->is_role == 2){
+            return $next($request);
+        } 
+        return back()->with(session()->flash('unrestricted', 'Ooops! You do not have access on this page.'));
     }
 }

@@ -81,6 +81,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{route('barangay')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3">
+                                    <i class="bi-pin-map-fill admin-barangay"></i> <span class="ms-1 d-none d-sm-inline admin-barangay">Barangay</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{route('account')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3">
                                     <i class="bi-person-square admin-account"></i> <span class="ms-1 d-none d-sm-inline admin-account">Accounts</span>
                                 </a>

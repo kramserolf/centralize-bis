@@ -1,7 +1,7 @@
 @extends('layouts.admin-sidebar')
 <style>
-    #brgy {
-        background-color: gray;
+      .admin-barangay{
+       color: rgb(180, 179, 179);
     }
 </style>
 @section('content')

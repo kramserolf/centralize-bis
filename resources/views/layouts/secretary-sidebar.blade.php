@@ -26,7 +26,9 @@
 
     <!-- Scripts -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js" charset="utf8"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
@@ -102,15 +104,17 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
                                 <li><a class="dropdown-item" href="{{route('resident')}}"><i class="bi-people-fill"></i> Residents</a></li>
+                                <li><a class="dropdown-item" href="{{route('barangay.resident_account')}}"><i class="bi-key-fill"></i> Resident Accounts</a></li>
                                 <li><a class="dropdown-item" href="{{route('household')}}"><i class="bi-pin-map-fill sidebar-brgy"></i> Households</a></li>
                                 <li><a class="dropdown-item" href="{{route('barangay.officials')}}"><i class="bi-person-badge-fill"></i> Barangay Officials</a></li>
                                 <li><a class="dropdown-item" href="{{route('barangay.zone')}}"><i class="bi-compass-fill"></i> Zone</a></li>
+                                
                                 
                                 {{-- <li><a class="dropdown-item" href="{route('barangay.blotter')}}"><i class="bi-record-btn-fill"></i> Blotters</a></li> --}}
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle px-sm-0 px-1 text-white" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" disabled class="text-muted nav-link dropdown-toggle px-sm-0 px-1 text-white" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-journal-text sidebar-issuance"></i></i> <span class="ms-1 d-none d-sm-inline sidebar-issuance">Issuance</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
@@ -134,23 +138,22 @@
                                 <li><a class="dropdown-item" href="#"><i class="bi-people-fill"></i> List of Residents <span class="text-muted" style="font-size: 12px">(per zone)</span></a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi-file-earmark-pdf-fill"></i> List of Household</a></li>
                                 <li><a class="dropdown-item" href="{{route('senior')}}"><i class="bi-file-earmark-word-fill"></i> List of Senior Citizen</a></li>
-                                {{-- <li><a class="dropdown-item" href="{route('barangay.blotter')}}"><i class="bi-record-btn-fill"></i> Zone</a></li> --}}
-                                
-                                {{-- <li><a class="dropdown-item" href="{route('barangay.blotter')}}"><i class="bi-record-btn-fill"></i> Blotters</a></li> --}}
                             </ul>
                         </li>
-                        {{-- <li>
-                            <a href="#" class="nav-link px-sm-0 px-2 text-white">
-                                <i class="bi-newspaper"></i> <span class="ms-1 d-none d-sm-inline ">Reports</span></a>
-                        </li> --}}
+                        <li class="nav-item">
+                            <a href="{{route('barangay.announcement')}}" class="nav-link px-sm-0 px-2 text-white">
+                                <i class="bi-megaphone-fill sidebar-announcement"></i> <span class="ms-1 d-none d-sm-inline sidebar-announcement">Announcements</span>
+                            </a>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle px-sm-0 px-1 text-white" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-wrench sidebar-settings"></i> <span class="ms-1 d-none d-sm-inline sidebar-settings">Settings</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
-                                <li><a class="dropdown-item" href="/barangay/settings"><i class="bi-person-badge-fill"></i>Logo</a></li>
-                                <li><a class="dropdown-item" href="/barangay/layouts"><i class="bi-person-badge-fill"></i>Layouts</a></li>
-                                <li><a class="dropdown-item" href=""><i class="bi-person-badge-fill"></i>Barangay</a></li>
+                                <li><a class="dropdown-item" href="/barangay/settings"><i class="bi-person-badge-fill"></i> Barangay Logo</a></li>
+                                <li><a class="dropdown-item" href="/barangay/certificate-types"><i class="bi-person-badge-fill"></i> Certificate Types</a></li>
+                                <li><a class="dropdown-item" href="/barangay/certificate-layouts"><i class="bi-person-badge-fill"></i>C ertificate Layouts</a></li>
+                                <li><a class="dropdown-item" href=""><i class="bi-person-badge-fill"></i> Barangay</a></li>
                                 {{-- <li><a class="dropdown-item" href="{{route('resident')}}"><i class="bi-people-fill"></i> Residents</a></li>
                                 <li><a class="dropdown-item" href="{route('barangay.blotter')}}"><i class="bi-record-btn-fill"></i> Blotters</a></li> --}}
                             </ul>

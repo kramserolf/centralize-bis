@@ -38,7 +38,7 @@ class ResidentInformationController extends Controller
             $resident = DB::table('resident_information as r')
                             ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
                             ->leftJoin('zones as z', 'r.zone', 'z.id')
-                            ->select('r.*', 'z.zone as zone_name')
+                            ->select('r.household_no', 'r.name', 'r.cp_number', 'r.id', 'z.zone as zone_name')
                             ->where('a.user_id', Auth::id())
                             ->orderBy('r.household_no', 'asc')
                             ->get();
@@ -46,6 +46,7 @@ class ResidentInformationController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class=" m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class=" m-1 btn btn-outline-success btn-sm generateResidentAccount"><i class="bi-key-fill"></i> </a>';
                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> </a>';
                     return $btn;

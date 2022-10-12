@@ -55,6 +55,9 @@ class LoginController extends Controller
                 case '1':
                     return '/barangay/home';
                     break;
+                case '2':
+                    return '/resident/home';
+                    break;
             }
     }
 }

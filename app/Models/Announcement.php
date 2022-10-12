@@ -5,17 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Barangay extends Model
+class Announcement extends Model
 {
     use HasFactory;
     protected $fillable = [ 
-        'barangayName', 
-        'barangayLogo', 
-        'barangayCaptain', 
+        'barangay_id', 
+        'title', 
+        'content', 
+        'image',
+        'date',
+        'location'
     ];
     
     public function getRouteKeyName()
     {
-        return 'barangayName';
+        return 'title';
     }
 }

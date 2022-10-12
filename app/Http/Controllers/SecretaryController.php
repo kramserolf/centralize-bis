@@ -28,12 +28,12 @@ class SecretaryController extends Controller
     
         // filter secretary account by barangay
         $filter = DB::table('users as u')   
-                ->leftJoin('accounts as a', 'u.id' ,'a.user_id')
-                ->rightJoin('barangays as b', 'a.barangay_id', 'b.id')
-                ->select('u.*', 'b.*', 'a.*', 'b.id as brgy_id', 'b.barangayLogo as logo')
-                ->where('u.id', $id)
-                ->first();
-                
+                        ->leftJoin('accounts as a', 'u.id' ,'a.user_id')
+                        ->rightJoin('barangays as b', 'a.barangay_id', 'b.id')
+                        ->select('u.*', 'b.*', 'a.*', 'b.id as brgy_id', 'b.barangayLogo as logo')
+                        ->where('u.id', $id)
+                        ->first();
+                        
         // get current authenticated barangay id
         $brgy_id = $filter->brgy_id;
 
@@ -46,11 +46,11 @@ class SecretaryController extends Controller
 
         $total_population = $population->count();
         
-        $resident_account = DB::table('users as u')
-                                ->leftJoin('accounts as a', 'u.id', 'a.user_id')
-                                ->leftJoin('barangays as b', 'a.barangay_id', 'b.id')
-                                ->where('u.is_role', 2)
-                                ->count();
+        $resident_account = DB::table('residents as r')
+                                        ->leftJoin('users as u', 'r.user_id', 'u.id')
+                                        ->where('u.is_role', 2)
+                                        ->where('r.barangay_id', $brgy_id)
+                                        ->count();
 
         return view('secretary.home', compact('filter', 'total_population', 'resident_account', 'filter_setting'));
     }

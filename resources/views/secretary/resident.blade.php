@@ -14,14 +14,24 @@
                 <td class="text-center" style="width: 10%;" id="household">Household No.</td>
                 <td class="text-center" >Name</td>
                 <td class="text-center">Zone</td>
-                <td class="text-center" style="width: 15%;">Mobile No.</td>
+                <td class="text-center" >Mobile No.</td>
                 {{-- <td class="text-center">Zone</td> --}}
-                <td class="text-center">Action</td>
+                <td class="text-center" style="width: 15%;">Action</td>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
-
+{{-- <div class="modal fade" id="addAccountModal" data-bs-backdrop="statis" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="residentAccountFrom" id="residentAccountForm" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Resident Details</h5>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> --}}
 {{-- add modal --}}
   <div class="modal modal-lg fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -629,6 +639,29 @@
                 });
             }
         });
+
+        //generate account
+          // VIEW DETAILS
+          $('body').on('click', '.generateResidentAccount', function () {
+            var id = $(this).data('id');
+            if (confirm("Generate email and password for this account?") === true) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('resident.account') }}",
+                    data:{
+                    id:id
+                    },
+                    success: function (data) {
+                    table.draw();
+                    toastr.success('Account generated successfully','Success');
+                    },
+                    error: function (data) {
+                    toastr.error(data['responseJSON']['message'],'Error has occured');
+                    }
+                });
+            }
+        });
+
 
     }); //end of script
 

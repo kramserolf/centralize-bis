@@ -35,4 +35,8 @@ class HomeController extends Controller
         return view('admin/home', compact('total_population', 'total_accounts'));
     }
 
+    public function residentHome()
+    {
+        return view('resident.home');
+    }
 }

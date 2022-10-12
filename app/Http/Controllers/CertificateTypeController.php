@@ -3,17 +3,53 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\BarangaySetting;
+use App\Models\Account;
+use App\Models\CertificateType;
+use DataTables;
 
 class CertificateTypeController extends Controller
 {
+     // check user if authenticated
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // get current logo
+        $filter_setting = BarangaySetting::filterSetting();
+
+
+        // get current barangay id
+        $barangay_id = Account::barangayId();
+
+         //load barangay table
+         $certificate_type = [];
+         if($request->ajax()) {
+             $certificate_type = DB::table('certificate_types as t')
+                                        ->where('t.barangay_id', $barangay_id)
+                                        ->get();
+ 
+             return DataTables::of($certificate_type)
+                 ->addIndexColumn()
+                 ->addColumn('action', function ($row) {
+                     $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editCertificateType"><i class="bi-pencil-square"></i> </a> ';
+                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteCertificateType"><i class="bi-trash" ></i> </a>';
+                     return $btn;
+                 })
+                 ->rawColumns(['action'])
+                 ->make(true);
+         }
+
+        return view('certificates/types', compact( 'certificate_type' ,'filter_setting'));
     }
 
     /**
@@ -34,7 +70,19 @@ class CertificateTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string'
+        ]);
+
+        //filter barangay id
+        $barangay_id = Account::barangayId();
+
+        CertificateType::create([
+            'barangay_id' => $barangay_id,
+            'name' => $request->name,
+            'purpose' => $request->purpose,
+        ]);
+        return response()->json(['success'=>'Certificate type saved successfully.']);
     }
 
     /**
@@ -77,8 +125,9 @@ class CertificateTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        CertificateType::where('id', $request->id)
+                        ->delete();
     }
 }
