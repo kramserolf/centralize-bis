@@ -7,15 +7,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\ResidentInformation;
-use App\Models\Resident;
+use App\Models\ResidentAccount;
 use App\Models\BarangaySetting;
 use App\Models\Account;
 use App\Models\User;
 use App\Models\Zone ;
 use DataTables;
 
-class ResidentController extends Controller
+class ResidentAccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -23,36 +27,36 @@ class ResidentController extends Controller
      */
     public function index(Request $request)
     {
-        // get current logo
-        $filter_setting = BarangaySetting::filterSetting();
+         // get current logo
+         $filter_setting = BarangaySetting::filterSetting();
 
-        // filter Zone
-        $filter_zone = Zone::zoneFilter();
-
-        $barangay_id = Account::barangayId();
-
-        //load barangay table
-        $resident_account = [];
-           if($request->ajax()) {
-               $resident_account = DB::table('residents as r')
-                                        ->leftJoin('users as u', 'r.user_id', 'u.id')
-                                        ->leftJoin('resident_information as i', 'r.residentinfo_id', 'i.id')
-                                        ->leftJoin('zones as z', 'i.zone', 'z.id')
-                                        ->select('u.name as name', 'u.email as email', 'z.zone as zone', 'r.id')
-                                        ->where('r.barangay_id', $barangay_id)
-                                        ->get();
+         // filter Zone
+         $filter_zone = Zone::zoneFilter();
+ 
+         $barangay_id = Account::barangayId();
+ 
+         //load barangay table
+         $resident_account = [];
+            if($request->ajax()) {
+                $resident_account = DB::table('resident_accounts as r')
+                                         ->leftJoin('users as u', 'r.user_id', 'u.id')
+                                         ->leftJoin('resident_information as i', 'r.residentinfo_id', 'i.id')
+                                         ->leftJoin('zones as z', 'i.zone', 'z.id')
+                                         ->select('u.name as name', 'u.email as email', 'z.zone as zone', 'r.id')
+                                         ->where('r.barangay_id', $barangay_id)
+                                         ->get();
+    
+                return DataTables::of($resident_account)
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteResidentAccount"><i class="bi-trash" ></i> </a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
    
-               return DataTables::of($resident_account)
-                   ->addIndexColumn()
-                   ->addColumn('action', function ($row) {
-                       $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteResidentAccount"><i class="bi-trash" ></i> </a>';
-                       return $btn;
-                   })
-                   ->rawColumns(['action'])
-                   ->make(true);
-           }
-  
-          return view('secretary/resident_account', compact( 'resident_account' ,'filter_setting', 'filter_zone'));
+           return view('secretary/resident_account', compact( 'resident_account' ,'filter_setting', 'filter_zone'));
     }
 
     /**
@@ -92,7 +96,7 @@ class ResidentController extends Controller
         //get current barangay
         $barangay_id = Account::barangayId();
         
-        Resident::create([
+        ResidentAccount::create([
             'residentinfo_id' => $request->id,
             'barangay_id' => $barangay_id,
             'user_id' => $lastInsertId,
@@ -143,11 +147,11 @@ class ResidentController extends Controller
      */
     public function destroy(Request $request)
     {
-        $resident = Resident::where('id', $request->id)
-                        ->first();
-        Resident::where('id', $request->id)
-                        ->delete();
+        $resident = ResidentAccount::where('id', $request->id)
+        ->first();
+        ResidentAccount::where('id', $request->id)
+                ->delete();
         User::where('id', $resident->user_id)
-                        ->delete();
+        ->delete();
     }
 }

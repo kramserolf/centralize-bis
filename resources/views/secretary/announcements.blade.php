@@ -25,7 +25,7 @@
 <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form name="announcementForm" id="announcementForm" enctype="multipart/form-data">
+        <form action="{{route('announcement.store')}}" method="POST" name="announcementForm" id="announcementForm" enctype="multipart/form-data">
 
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">New Announcement</h5>
@@ -53,14 +53,14 @@
 
                   <div class="row form-row mb-3">
                     <div class="form-group col-md-12">
-                        <label for="image" class="form-label fw-bold">Image <span class="text-muted" style="font-size: 12px">(optional)</span></label>
-                      <input type="file" class="form-control" name="image" id="image">
+                       <label for="image" class="form-label fw-bold">Image <span class="text-muted" style="font-size: 12px">(optional)</span></label>
+                      <input type="file" class="form-control" name="image" id="inputImage">
                     </div>
                   </div>
 
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-primary" name="savedata" id="savedata" >Save</button>
+                  <button type="submit" class="btn btn-outline-primary" name="savedata" id="savedata" >Save</button>
                   <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
               </div>
         </form>
@@ -114,39 +114,46 @@
         });
 
       //add function
-      $('#savedata').click(function (e) {
-        e.preventDefault();
-        $.ajax({
-            data: $('#announcementForm').serialize(),
-            url: "{{ route('official.store')}}",
-            type: "POST",
-            dataType: "json",
-                success: function (data) {
-                    $('#announcementForm').trigger("reset");
-                    $('#addModal').modal('hide');
-                    table.draw();
-                    toastr.success('Barangay official added successfully','Success');
+       //add function
+       $('#announcementForm').submit(function(e){
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('announcement.store') }}",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: (response) => {
+                    if(response){
+                        this.reset();
+                        $('#addModal').modal('hide');
+                        table.draw();
+                        toastr.success('Announcement added successfully','Success');
+                        // setTimeout(() => {
+                        //     location.reload(true);
+                        // }, 1500);
+                    }
                 },
-                error: function (data) {
-                    toastr.error(data['responseJSON']['message'],'Error has occured');
-
+                error: function(response){
+                    toastr.error(response['responseJSON']['message'],'Error has occured');
                 }
             });
         });
 
         // DELETE 
-        $('body').on('click', '.deleteBarangayOfficial', function () {
+        $('body').on('click', '.deleteAnnouncement', function () {
         var id = $(this).data("id");
-            if (confirm("Are You sure want to delete this barangay official?") === true) {
+            if (confirm("Are You sure want to delete this announcement?") === true) {
                 $.ajax({
                     type: "DELETE",
-                    url: "{{ url('barangay/officials/destroy') }}",
+                    url: "{{ url('barangay/announcement/destroy') }}",
                     data:{
                     id:id
                     },
                     success: function (data) {
                     table.draw();
-                    toastr.success('Barangay official deleted successfully','Success');
+                    toastr.success('Announcement deleted successfully','Success');
                     },
                     error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');
@@ -154,13 +161,8 @@
                 });
             }
         });
-
-    // tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-    }); //end of script
+    }); 
+    //end of script
 
 </script>
 

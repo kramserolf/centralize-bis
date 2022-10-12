@@ -46,7 +46,7 @@ class SecretaryController extends Controller
 
         $total_population = $population->count();
         
-        $resident_account = DB::table('residents as r')
+        $resident_account = DB::table('resident_accounts as r')
                                         ->leftJoin('users as u', 'r.user_id', 'u.id')
                                         ->where('u.is_role', 2)
                                         ->where('r.barangay_id', $brgy_id)

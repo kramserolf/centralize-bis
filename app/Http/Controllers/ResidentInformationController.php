@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ResidentInformation;
 use App\Models\BarangaySetting;
 use App\Models\Barangay;
+use App\Models\Account;
 use App\Models\Zone;
 use DataTables;
 
@@ -29,6 +30,8 @@ class ResidentInformationController extends Controller
         // get current barangay setting
         $filter_setting = BarangaySetting::filterSetting();
 
+        $barangay_id = Account::barangayId();
+
         // filter Zone
         $filter_zone = Zone::zoneFilter();
 
@@ -36,10 +39,10 @@ class ResidentInformationController extends Controller
         $resident = [];
         if($request->ajax()) {
             $resident = DB::table('resident_information as r')
-                            ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
+
                             ->leftJoin('zones as z', 'r.zone', 'z.id')
                             ->select('r.household_no', 'r.name', 'r.cp_number', 'r.id', 'z.zone as zone_name')
-                            ->where('a.user_id', Auth::id())
+                            ->where('r.barangayId', $barangay_id)
                             ->orderBy('r.household_no', 'asc')
                             ->get();
             return DataTables::of($resident)

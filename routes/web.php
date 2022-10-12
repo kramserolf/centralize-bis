@@ -8,7 +8,7 @@ use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\BlotterController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ResidentInformationController;
-use App\Http\Controllers\ResidentController;
+use App\Http\Controllers\ResidentAccountController;
 use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CertificateLayoutController;
@@ -56,25 +56,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
     Route::get('/residents', [ResidentInformationController::class, 'adminResident'])->name('admin.resident');
 });
 
-// SECREATARY ACCOUNT
-// Route::controller(ResidentInformationController::class)
-//     ->group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], function(){
-//     // residents
-//     Route::get('/residents', 'index')->name('resident');
-//     Route::post('/resident/store', 'store')->name('resident.store');
-//     Route::delete('/resident/destroy', 'destroy')->name('resident.destroy');
-//     Route::get('/resident/show', 'show')->name('resident.show');
-// });
 Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], function(){
     Route::get('/home', [SecretaryController::class, 'index'])->name('secretary.home');
 
     // residents
     Route::get('/residents', [ResidentInformationController::class, 'index'])->name('resident');
     // resident accounts
-    Route::get('/resident-accounts', [ResidentController::class, 'index'])->name('barangay.resident_account');
-    Route::delete('/resident-account/destroy', [ResidentController::class, 'destroy'])->name('resident_account.destroy');
+    Route::get('/resident-accounts', [ResidentAccountController::class, 'index'])->name('barangay.resident_account');
+    Route::delete('/resident-account/destroy', [ResidentAccountController::class, 'destroy'])->name('resident_account.destroy');
     // generate resident account
-    Route::post('/residents', [ResidentController::class, 'store'])->name('resident.account');
+    Route::post('/residents', [ResidentAccountController::class, 'store'])->name('resident.account');
 
     Route::get('/households', [ResidentInformationController::class, 'household'])->name('household');
     Route::get('/senior-citizens', [ResidentInformationController::class, 'senior'])->name('senior');
@@ -101,6 +92,8 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
     // annoucements
     Route::get('/announcements', [AnnouncementController::class, 'index'])->name('barangay.announcement');
+    Route::post('/announcement/store', [AnnouncementController::class, 'store'])->name('announcement.store');
+    Route::delete('/announcement/destroy', [AnnouncementController::class, 'destroy'])->name('announcement.destroy');
 
     // certificate types
     Route::get('/certificate-types', [CertificateTypeController::class, 'index'])->name('certificate.type');

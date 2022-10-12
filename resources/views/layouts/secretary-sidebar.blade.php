@@ -150,12 +150,9 @@
                                 <i class="bi-wrench sidebar-settings"></i> <span class="ms-1 d-none d-sm-inline sidebar-settings">Settings</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
-                                <li><a class="dropdown-item" href="/barangay/settings"><i class="bi-person-badge-fill"></i> Barangay Logo</a></li>
+                                <li><a class="dropdown-item" href="/barangay/settings"><i class="bi-person-badge-fill"></i> Barangay</a></li>
                                 <li><a class="dropdown-item" href="/barangay/certificate-types"><i class="bi-person-badge-fill"></i> Certificate Types</a></li>
                                 <li><a class="dropdown-item" href="/barangay/certificate-layouts"><i class="bi-person-badge-fill"></i>C ertificate Layouts</a></li>
-                                <li><a class="dropdown-item" href=""><i class="bi-person-badge-fill"></i> Barangay</a></li>
-                                {{-- <li><a class="dropdown-item" href="{{route('resident')}}"><i class="bi-people-fill"></i> Residents</a></li>
-                                <li><a class="dropdown-item" href="{route('barangay.blotter')}}"><i class="bi-record-btn-fill"></i> Blotters</a></li> --}}
                             </ul>
                         </li>
                     </ul>

@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use App\Models\BarangaySetting;
 use App\Models\Account;
-use App\Models\Zone ;
+use App\Models\Announcement;
 use DataTables;
+
 
 class AnnouncementController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +40,8 @@ class AnnouncementController extends Controller
                return DataTables::of($announcement)
                    ->addIndexColumn()
                    ->addColumn('action', function ($row) {
-                       $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteResidentAccount"><i class="bi-trash" ></i> </a>';
+                       $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editAnnouncement"><i class="bi-pencil-square"></i> </a> ';
+                       $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteAnnouncement"><i class="bi-trash" ></i> </a>';
                        return $btn;
                    })
                    ->rawColumns(['action'])
@@ -63,8 +70,36 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'title' => 'required|string',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1920',
+        ]);
+        // barangay id
+        $barangay_id = Account::barangayId();
+
+        // get the image name
+        if(!empty($request->image)){         
+            $imageName = $request->image->getClientOriginalName();
+
+            // move the image to the folder
+            $request->image->move(public_path('images/announcements'), $imageName);
+        } else{
+            $imageName = null;
+        }
+
+
+
+        Announcement::create([
+            'barangay_id' => $barangay_id,
+            'title' => $request->title,
+            'content' => $request->content,
+            'image'=> $imageName,
+            'date' => $request->date,
+            'location' => $request->location
+        ]);
+
+        return response()->json('Announcement created successfully');
+    }   
 
     /**
      * Display the specified resource.
@@ -106,8 +141,16 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $image_path = Announcement::where('id', $request->id)
+                            ->first();
+        // delete the image from the folder
+        File::delete(public_path('images/announcements/'.$image_path->image.''));
+
+        // delete the data in announcement table
+        Announcement::where('id', $request->id)
+                        ->delete();
+        
     }
 }
