@@ -7,7 +7,7 @@
 @section('content')
 <h4 class="text-center px-2 fw-bold text-secondary">     Dashboard</h4>
 <div class="row px-5 mt-3 justify-content-center">
-    <div class="col-md-4 p-2 mt-2">
+    <div class="col-xl md-6 sm-4 p-2 mt-2">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body text-center">
                 <div class="row no-gutters">
@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 p-2 mt-2">
+    <div class="col-xl md-6 sm-4 p-2 mt-2">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body text-center">
                 <div class="row no-gutters">
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4 p-2 mt-2">
+    <div class="col-xl md-6 sm-4 p-2 mt-2">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body text-center">
                 <div class="row no-gutters">

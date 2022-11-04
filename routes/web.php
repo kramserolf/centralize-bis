@@ -35,6 +35,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+// RESIDENT ACCOUNT
 Route::group(['prefix' => 'resident', 'middleware' => ['is_resident']], function(){
     Route::get('/home', [HomeController::class, 'residentHome'])->name('resident.home');
 });
@@ -103,6 +104,11 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
     // certificate layouts
     Route::get('/certificate-layouts', [CertificateLayoutController::class, 'index'])->name('barangay.layout');
     Route::post('/certificate-layouts', [CertificateLayoutController::class, 'store'])->name('layout.store');
+
+    // issued certificates
+    Route::get('/residents/issue-certificate', [ResidentInformationController::class, 'getCertificateLayout'])->name('get-certificate.layout');
+    Route::get('/resident/select-certificate', [ResidentInformationController::class, 'edit'])->name('resident.select-certificate');
+    Route::post('/resident/issue-certificate', [ResidentInformationController::class, 'issueCertificate'])->name('issue-certificate.store');
 
 
 

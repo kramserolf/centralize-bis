@@ -17,9 +17,10 @@ class isSecretary
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->is_role == 1){
-            return $next($request);
-        } 
-        return back()->with(session()->flash('unrestricted', 'Ooops! You do not have access on this page.'));
+        if(!auth()->user()->is_role == 1){
+            abort(403);
+        }
+
+        return $next($request);
     }
 }

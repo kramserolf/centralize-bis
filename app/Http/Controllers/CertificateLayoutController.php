@@ -9,7 +9,7 @@ use App\Models\BarangaySetting;
 use App\Models\Account;
 use App\Models\CertificateLayout;
 use App\Models\CertificateType;
-use DataTables;
+use Yajra\DataTables\DataTables;
 
 class CertificateLayoutController extends Controller
 {
@@ -44,7 +44,7 @@ class CertificateLayoutController extends Controller
                                      ->select('l.id', 't.name', 'l.updated_at')
                                      ->where('l.barangay_id', $barangay->barangay_id)
                                      ->get();
- 
+           
              return DataTables::of($certificate_layout)
                  ->addIndexColumn()
                  ->addColumn('action', function ($row) {

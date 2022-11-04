@@ -5,7 +5,7 @@
     }
 </style>
 @section('content')
-<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-person-bounding-box"></i> Certificate Types</h4>
+<h4 class="text-center px-2 fw-bold text-secondary"> Certificate Types</h4>
 
     <table class="table table-bordered data-table nowrap" style="width: 100%;">
         <thead>

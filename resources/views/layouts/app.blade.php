@@ -37,82 +37,70 @@
 <body>
 
     <div id="app">
-  
+        @auth
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url('/resident/home') }}">
+                    @if(Auth::user()->is_role == 2)
+                        <strong>{{$barangay_name}} Online Portal</strong>
+                    @endif
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav me-auto">
+
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ms-auto">
+                        <!-- Authentication Links -->
+                        @guest
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                </li>
+                            @endif
+
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        @endauth
+
 
         <main class="py-4">
             @yield('content')
         </main>
     </div>
 
-     
-        {{-- <div class="container-fluid">
-            <div class="row flex-nowrap">
-                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary">
-                    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                        <a href="/" class="d-flex align-items-center pb-4 mb-md-0 me-md-auto text-white text-decoration-none">
-                            <span class="fs-5 d-none d-sm-inline">Centralized Barangay Information System</span>
-                        </a>
-                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                            <li class="nav-item">
-                                <a href="{{route('home')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="home">
-                                    <i class="bi-house-fill" id="homeIcon"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('barangay')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3" id="brgy">
-                                    <i class="bi-bank2" id="brgyIcon"></i>  <span class="ms-1 d-none d-sm-inline">Barangay</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3">
-                                    <i class="bi-person-circle"></i>  <span class="ms-1 d-none d-sm-inline">Accounts</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3">
-                                    <i class="bi-people-fill"></i>  <span class="ms-1 d-none d-sm-inline">Residents</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3">
-                                    <i class="bi-archive-fill"></i>  <span class="ms-1 d-none d-sm-inline">Reports</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <hr>
-                        <div class="dropdown pb-4">
-                            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="hugenerd" width="40" height="40" class="rounded-circle">
-                                <span class="d-none d-sm-inline mx-2">
-                                    @if(Auth::check())
-                                    {
-                                        {{Auth::user()->name}}
-                                    }
-                                    @endif
-                                </span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                        {{ __('Sign out') }}
-                                    </a>
-                                    <form id='logout-form' action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col py-3">
-                  @yield('content')
-                </div>
-            </div>
-        </div> --}}
+
 </body>
 </html>

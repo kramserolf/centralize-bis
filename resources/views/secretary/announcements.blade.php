@@ -92,10 +92,12 @@
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'date', name: 'date'},
                 {data: 'title', name: 'title'},
-                {data: 'content', name: 'content'},
+                {data: 'content', name: 'content',  render: function (data, type, row) {
+                            return type === 'display' && data.length > 50 ? data.substr(0, 30) + '…' : data}},
                 {data: 'location', name: 'location'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
+
             dom: 'Bfrtip',
             buttons: [
                 {

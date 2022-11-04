@@ -21,17 +21,7 @@
         </thead>
         <tbody></tbody>
     </table>
-{{-- <div class="modal fade" id="addAccountModal" data-bs-backdrop="statis" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form name="residentAccountFrom" id="residentAccountForm" enctype="multipart/form-data">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Resident Details</h5>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> --}}
+
 {{-- add modal --}}
   <div class="modal modal-lg fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -524,6 +514,40 @@
     </div>
   </div>
 
+  {{-- certificate modal --}}
+  <div class="modal fade" id="certificateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form name="certificateForm" id="certificateForm" enctype="multipart/form-data">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"> Issue Certificate <i class="bi-info-circle"></i></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                    {{-- hidden id --}}
+                    <input hidden name="issued_id" id="issued_id">
+                    <input hidden type="text" name="issued_name" id="issued_name">
+                    <div class="form-group col-md-12">
+                        <label for="cert_type" class="form-label">Certificate Type:</label>
+                        <select class="form-select" aria-label="Default select example" name="cert_type" id="cert_type">
+                            <option selected>Select option</option>
+                            @foreach ($certificate as $item)
+                            <option value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                          </select>
+                    </div>
+                
+
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" name="btn_issueCertificate" id="btn_issueCertificate" >Issue</button>
+                  <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 <script>
     
@@ -551,9 +575,7 @@
                 {data: 'household_no', name: 'household_no'},
                 {data: 'name', name: 'name'},
                 {data: 'zone_name', name: 'zone_name', class: 'text-end'},
-                // {data: 'zone', name: 'zone', render: function(data, type, full, meta) {return "Zone" + " " +  "0"+  data}},
                 {data: 'cp_number', name: 'cp_number', class: 'text-end'},
-                // {data: 'zone', name: 'zone'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
             dom: 'Bfrtlip',
@@ -640,8 +662,47 @@
             }
         });
 
+
+        // get certificate
+        $('body').on('click', '.issueCertificate', function () {
+            var id = $(this).data('id');
+            $.ajax({
+                type:"GET",
+                url: "{{ url('barangay/residents/issue-certificate') }}",
+                data: { id: id},
+                dataType: 'json',
+                    success: function(data){
+                        $('#certificateModal').modal('show');
+                        $('#issued_name').val(data.name);
+                        $('#issued_id').val(data.id);
+
+                    }
+            });
+        });
+
+        // save issued certificate
+    
+        $('#btn_issueCertificate').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            data: $('#certificateForm').serialize(),
+            url: "{{ route('issue-certificate.store')}}",
+            type: "POST",
+            dataType: "json",
+                success: function (data) {
+                    $('#certificateForm').trigger("reset");
+                    $('#certificateModal').modal('hide');
+                    table.draw();
+                    toastr.success('Certificate issued successfully','Success');
+                },
+                error: function (data) {
+                    toastr.error(data['responseJSON']['message'],'Error has occured');
+                }
+            });
+        });
+
+
         //generate account
-          // VIEW DETAILS
           $('body').on('click', '.generateResidentAccount', function () {
             var id = $(this).data('id');
             if (confirm("Generate email and password for this account?") === true) {

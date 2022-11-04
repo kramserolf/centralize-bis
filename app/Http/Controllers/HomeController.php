@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ResidentInformation;
 use App\Models\User;
+use App\Models\ResidentAccount;
+use App\Models\Barangay;
+use App\Models\Announcement;
+
 
 
 class HomeController extends Controller
@@ -37,6 +42,17 @@ class HomeController extends Controller
 
     public function residentHome()
     {
-        return view('resident.home');
+        // get current Barangay id
+        $barangay_id = ResidentAccount::barangayId();
+
+        $current_barangay = Barangay::where('id', $barangay_id)
+                                ->first();
+
+        $barangay_name = $current_barangay->barangayName;
+
+        $announcements = Announcement::where('barangay_id', $barangay_id)
+                                    ->get();
+
+        return view('resident.home', compact('barangay_name', 'announcements'));
     }
 }

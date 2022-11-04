@@ -22,8 +22,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
 
-
-
     <!-- Scripts -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
 
@@ -34,7 +32,6 @@
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>    --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>    
     
@@ -77,7 +74,6 @@
                         @endif
                     </a>
                     <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        {{-- <span class="fs-5">B<span class="d-none d-sm-inline">rand</span></span> --}}
                         @if(!empty($filter_setting->logo))
                         <img class="mx-auto d-block d-none d-sm-inline" src="{{asset('images/barangay_logo/'.$filter_setting->logo.'')}}" alt="Your Barangay Logo here" style="width: 40%">
                         @else
@@ -90,14 +86,7 @@
                                 <i class="bi-house-door-fill sidebar-home"></i> <span class="ms-1 d-none d-sm-inline sidebar-home">Dashboard</span>
                             </a>
                         </li>
-                        {{-- <li>
-                            <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-sm-0 px-2 text-white">
-                                <i class="fs-5 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link px-sm-0 px-2 text-white">
-                                <i class="fs-5 bi-table"></i> <span class="ms-1 d-none d-sm-inline ">Orders</span></a>
-                        </li> --}}
+
                         <li class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle px-sm-0 px-1 text-white " id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-geo-alt sidebar-brgy"></i> <span class="ms-1 d-none d-sm-inline sidebar-brgy">Barangay</span>
@@ -108,28 +97,18 @@
                                 <li><a class="dropdown-item" href="{{route('household')}}"><i class="bi-pin-map-fill sidebar-brgy"></i> Households</a></li>
                                 <li><a class="dropdown-item" href="{{route('barangay.officials')}}"><i class="bi-person-badge-fill"></i> Barangay Officials</a></li>
                                 <li><a class="dropdown-item" href="{{route('barangay.zone')}}"><i class="bi-compass-fill"></i> Zone</a></li>
-                                
-                                
-                                {{-- <li><a class="dropdown-item" href="{route('barangay.blotter')}}"><i class="bi-record-btn-fill"></i> Blotters</a></li> --}}
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" disabled class="text-muted nav-link dropdown-toggle px-sm-0 px-1 text-white" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" class="nav-link dropdown-toggle px-sm-0 px-1 text-white" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-journal-text sidebar-issuance"></i></i> <span class="ms-1 d-none d-sm-inline sidebar-issuance">Issuance</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
                                 <li><a class="dropdown-item" href="#"><i class="bi-record-btn-fill"></i>     Blotters</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi-file-earmark-pdf-fill"></i> Certificates</a></li>
+                                <li><a class="dropdown-item" href="{{route('get-certificate.layout')}}"><i class="bi-file-earmark-pdf-fill"></i> Certificates</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="bi-file-earmark-word-fill"></i> Clearance</a></li>
-                                {{-- <li><a class="dropdown-item" href="{route('barangay.blotter')}}"><i class="bi-record-btn-fill"></i> Zone</a></li> --}}
-                                
-                                {{-- <li><a class="dropdown-item" href="{route('barangay.blotter')}}"><i class="bi-record-btn-fill"></i> Blotters</a></li> --}}
                             </ul>
                         </li>
-                        {{-- <li>
-                            <a href="#" class="nav-link px-sm-0 px-2 text-white">
-                                <i class="bi-journal-text"></i> <span class="ms-1 d-none d-sm-inline ">Issuance</span></a>
-                        </li> --}}
                         <li class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle px-sm-0 px-1 text-white" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-newspaper sidebar-reports"></i> <span class="ms-1 d-none d-sm-inline sidebar-reports">Reports</span>
@@ -152,7 +131,7 @@
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
                                 <li><a class="dropdown-item" href="/barangay/settings"><i class="bi-person-badge-fill"></i> Barangay</a></li>
                                 <li><a class="dropdown-item" href="/barangay/certificate-types"><i class="bi-person-badge-fill"></i> Certificate Types</a></li>
-                                <li><a class="dropdown-item" href="/barangay/certificate-layouts"><i class="bi-person-badge-fill"></i>C ertificate Layouts</a></li>
+                                <li><a class="dropdown-item" href="/barangay/certificate-layouts"><i class="bi-person-badge-fill"></i> Certificate Layouts</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -213,6 +192,7 @@
             </div>
         </div>
     </div>
+</body>
 <script>
 </script>
 </body>
