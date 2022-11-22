@@ -1,11 +1,11 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    .sidebar-brgy{
-       color: rgb(180, 179, 179);
-    }
-</style>
+    .sidebar-reports{
+        color: rgb(180, 179, 179);
+     }
+ </style>
 @section('content')
-<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-people-fill"></i> Households</h4>
+<h4 class="text-center px-2 fw-bold text-secondary"> Households</h4>
 
     <table class="table table-bordered table-sm data-table nowrap" style="width: 100%;">
         <thead>

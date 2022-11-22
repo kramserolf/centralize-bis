@@ -1,9 +1,9 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    .sidebar-brgy{
-       color: rgb(180, 179, 179);
-    }
-</style>
+    .sidebar-reports{
+        color: rgb(180, 179, 179);
+     }
+ </style>
 @section('content')
 <h4 class="text-center px-2 fw-bold text-secondary">Residents per Zone</h4>
 <div class="m-2">

@@ -5,7 +5,7 @@
     }
 </style>
 @section('content')
-<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-people-fill"></i> Residents</h4>
+<h4 class="text-center px-2 fw-bold text-secondary">Residents</h4>
 
     <table class="table table-bordered table-sm data-table nowrap w-100">
         <thead>

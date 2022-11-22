@@ -5,7 +5,7 @@
     }
 </style>
 @section('content')
-<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-person-bounding-box"></i> Zone Lists</h4>
+<h4 class="text-center px-2 fw-bold text-secondary"> Zone Lists</h4>
 
     <table class="table table-bordered table-sm data-table nowrap" style="width: 100%;">
         <thead>
