@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-   .sidebar-settings{
+   .sidebar-settings, .sidebar-types{
        color: rgb(180, 179, 179);
     }
 </style>
@@ -152,11 +152,8 @@
             }
         });
 
-    // tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+        $('#submenu4').addClass('show').removeClass('hide');
+        
     }); //end of script
 
 </script>

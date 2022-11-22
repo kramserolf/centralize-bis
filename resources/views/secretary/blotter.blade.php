@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    .sidebar-issuance{
+    .sidebar-issuance, .sidebar-blotters{
         color: rgb(180, 179, 179);
      }
  </style>
@@ -201,7 +201,7 @@
                 });
             }
         });
-
+        $('#submenu2').addClass('show').removeClass('hide');
     }); //end of script
 
 </script>

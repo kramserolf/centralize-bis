@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    .sidebar-reports{
+    .sidebar-reports, .sidebar-filter-zone{
         color: rgb(180, 179, 179);
      }
  </style>
@@ -129,6 +129,7 @@
             $('body').removeClass('loading');
         }
     });
+    $('#submenu3').addClass('show').removeClass('hide');
 </script>
 
 @endsection

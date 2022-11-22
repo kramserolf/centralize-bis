@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    .sidebar-settings {
+    .sidebar-settings, .sidebar-layouts {
         color: rgb(180, 179, 179);
     }
 </style>
@@ -155,6 +155,7 @@
                 }
             });
         });
+        $('#submenu4').addClass('show').removeClass('hide');
     });
 </script>
 @endsection

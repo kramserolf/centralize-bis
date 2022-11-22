@@ -106,7 +106,7 @@
                         </ul>
                     <div class="dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="hugenerd" width="28" height="28" class="rounded-circle">
+                            <img src="{{ asset('images/baggao_logo.png') }}" alt="hugenerd" width="28" height="28" class="rounded-circle">
                             <span class="d-none d-sm-inline mx-1">
                                 @auth
                                     {{Auth::user()->name}}
@@ -155,9 +155,14 @@
                        @yield('content')
                     </div>
                 </main>
-                {{-- <footer class="row bg-light py-4 mt-auto">
-                    <div class="col"> Footer content here... </div>
-                </footer> --}}
+                <footer class="row bg-light mt-auto">
+                    <div class="text-center">
+                        <span class="text-muted">
+                            &copy; {{ date('Y') }} SJCBI Batch 2022.
+                            All Rights Reserved
+                            </span>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>

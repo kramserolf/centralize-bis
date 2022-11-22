@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    .sidebar-brgy{
+    .sidebar-brgy, .sidebar-residents{
        color: rgb(180, 179, 179);
     }
 </style>
@@ -742,6 +742,7 @@
     // if($('#crime_victim').is(":checked")){
     //     alert('yes is checked');
     // }
+    $('#submenu1').addClass('show').removeClass('hide');
 </script>
 
 @endsection

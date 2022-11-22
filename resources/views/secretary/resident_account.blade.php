@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-   .sidebar-brgy{
+   .sidebar-brgy, .sidebar-accounts{
        color: rgb(180, 179, 179);
     }
 </style>
@@ -68,6 +68,7 @@
                 });
             }
         });
+        $('#submenu1').addClass('show').removeClass('hide');
     }); 
     //end of script
 

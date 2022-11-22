@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-   .sidebar-brgy{
+   .sidebar-brgy, .sidebar-officials{
        color: rgb(180, 179, 179);
     }
 </style>
@@ -162,12 +162,8 @@
                 });
             }
         });
+        $('#submenu1').addClass('show').removeClass('hide');
 
-    // tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
     }); //end of script
 
 </script>

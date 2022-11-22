@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-    .sidebar-reports{
+    .sidebar-reports, .sidebar-households{
         color: rgb(180, 179, 179);
      }
  </style>
@@ -471,6 +471,7 @@
             }
         });
 
+        $('#submenu3').addClass('show').removeClass('hide');
     }); //end of script
 
 
