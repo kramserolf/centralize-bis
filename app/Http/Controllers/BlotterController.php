@@ -45,6 +45,26 @@ class BlotterController extends Controller
         return view('secretary/blotter', compact('blotter', 'filter_setting', 'residents'));
     }
 
+    public function adminIndex(Request $request)
+    {
+        $blotter = [];
+        if($request->ajax()) {
+            $blotter = DB::table('blotters as b')
+                            ->leftJoin('barangays as y', 'b.barangay_id', 'y.id')
+                            ->select('b.*', 'y.barangayName as barangay')
+                            ->get();
+            return DataTables::of($blotter)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm viewBlotter"><i class="bi-eye"></i> </a> ';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('admin/blotter', compact('blotter'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -82,7 +82,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{route('barangay')}}" class="nav-link align-middle fs-5 mb-1 text-white px-3">
-                                    <i class="bi-pin-map-fill admin-barangay"></i> <span class="ms-1 d-none d-sm-inline admin-account">Barangay</span>
+                                    <i class="bi-pin-map-fill admin-barangay"></i> <span class="ms-1 d-none d-sm-inline admin-barangay">Barangay</span>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -91,9 +91,15 @@
                                 </a>
                             </li>
                             
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="#" class="nav-link align-middle fs-5 mb-1 text-white px-3">
                                     <i class="bi-journal-text admin-report"></i> <span class="ms-1 d-none d-sm-inline admin-report">Reports</span>
+                                </a>
+                            </li> --}}
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.blotter') }}" class="nav-link align-middle fs-5 mb-1 text-white px-3">
+                                    <i class="bi-shield-check admin-blotter"></i> <span class="ms-1 d-none d-sm-inline admin-blotter">Blotters</span>
                                 </a>
                             </li>
 

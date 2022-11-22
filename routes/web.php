@@ -56,6 +56,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
 
     // residents
     Route::get('/residents', [ResidentInformationController::class, 'adminResident'])->name('admin.resident');
+
+    // blotter
+    Route::get('/blotters', [BlotterController::class, 'adminIndex'])->name('admin.blotter');
 });
 
 Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], function(){
