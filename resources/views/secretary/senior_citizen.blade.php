@@ -5,9 +5,9 @@
     }
 </style>
 @section('content')
-<h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-person-bounding-box"></i> Senior Citizens</h4>
+<h4 class="text-center px-2 fw-bold text-secondary"> Senior Citizens</h4>
 
-    <table class="table table-bordered data-table nowrap" style="width: 100%;">
+    <table class="table table-bordered table-sm data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>

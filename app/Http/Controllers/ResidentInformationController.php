@@ -443,4 +443,107 @@ class ResidentInformationController extends Controller
         }
         return view('admin/resident', compact('resident'));
     }
+
+    public function residentPerZone(Request $request)
+    {
+        // get current barangay setting
+        $filter_setting = BarangaySetting::filterSetting();
+
+        // filter barangay ID
+        $barangay_id = Account::barangayId();
+
+        // filter Zone
+        $filter_zone = Zone::zoneFilter();
+
+        // get certificates
+        $certificate = DB::table('certificate_layouts as l')
+                            ->leftJoin('certificate_types as t', 'l.cert_type', 't.id')
+                            ->select('l.id', 't.name')
+                            ->where('l.barangay_id', $barangay_id)
+                            ->get();
+        
+        // load resident table
+        $resident = [];
+        if($request->ajax()) {
+            $resident = DB::table('resident_information as r')
+                            ->leftJoin('zones as z', 'r.zone', 'z.id')
+                            ->select('r.household_no', 'r.name', 'r.cp_number', 'r.id', 'z.zone as zone_name', 'r.zone')
+                            ->where('r.barangayId', $barangay_id)
+                            ->orderBy('r.household_no', 'asc')
+                            ->get();
+                            
+            return DataTables::of($resident)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('secretary/resident_per_zone', [
+            'resident' => $resident, 
+            'filter_setting' => $filter_setting,
+            'filter_zone' => $filter_zone,
+            'certificate' => $certificate,
+        ]);
+    }
+
+    public function filterZone(Request $request)
+    {
+        // get current barangay setting
+        $filter_setting = BarangaySetting::filterSetting();
+        // filter barangay ID
+        $barangay_id = Account::barangayId();
+        // filter Zone
+        $filter_zone = Zone::zoneFilter();
+
+        $result = '';
+        if($request->ajax()){
+            $result = DB::table('resident_information as r')
+                            ->leftJoin('zones as z', 'r.zone', 'z.id')
+                            ->select('r.id','r.household_no', 'r.name', 'r.cp_number', 'r.id', 'z.zone as zone_name', 'r.zone')
+                            ->where('r.barangayId', $barangay_id)
+                            ->where('r.zone', $request->zone)
+                            ->orderBy('r.household_no', 'asc')
+                            ->get();
+            if($result){
+                foreach($result as $key => $resident){
+                    $result .='<tr style="font-size: 15px">'.
+                    '<td>'.$resident->household_no.'</td>'.
+                    '<td>'.$resident->name.'</td>'.
+                    '<td>'.$resident->zone_name.'</td>'.
+                    '<td>'.$resident->cp_number.'</td>'.
+                '</tr>';
+                }
+                return response($result);
+            }
+        }
+        return view('secretary/resident_per_zone', compact('result'));
+    }
+    public function search(Request $request)
+    {
+        // filter barangay ID
+        $barangay_id = Account::barangayId();
+        $output = "";
+        if($request->ajax()){
+            $residents = DB::table('resident_information as r')
+                    ->leftJoin('zones as z', 'r.zone', 'z.id')
+                    ->select('r.*','z.zone as zone_name')
+                    ->where('r.name', 'LIKE', '%'.$request->search."%")
+                    ->where('r.barangayId', $barangay_id)
+                    ->get();
+            if($residents){
+                foreach($residents as $key => $resident){
+                    $output .='<tr style="font-size: 15px">'.
+                    '<td>'.$resident->household_no.'</td>'.
+                    '<td>'.$resident->name.'</td>'.
+                    '<td>'.$resident->zone_name.'</td>'.
+                    '<td>'.$resident->cp_number.'</td>'.
+                '</tr>';
+                }
+                return response($output);
+            }
+        }
+    }
 }

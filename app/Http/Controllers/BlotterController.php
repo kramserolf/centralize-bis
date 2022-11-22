@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Barangay;
 use App\Models\BarangaySetting;
+use App\Models\Blotter;
+use App\Models\ResidentInformation;
 use App\Models\User;
 use DataTables;
 
@@ -20,26 +22,27 @@ class BlotterController extends Controller
     public function index(Request $request)
     {
         $filter_setting = BarangaySetting::filterSetting();
+        $residents = ResidentInformation::select('id', 'name')
+                            ->get();
         $blotter = [];
         if($request->ajax()) {
-            $blotter = DB::table('blotters')
-                            ->leftJoin('barangays', 'blotters.barangay_id', 'barangays.id')
-                            ->leftJoin('users', 'blotters.user_id', 'users.id')
-                            ->leftJoin('accounts', 'barangays.id', 'accounts.barangay_id')
-                            ->select('blotters.user_id as user_id', 'blotters.date_reported as date_reported', 'users.*')
-                            ->where('accounts.user_id', Auth::id())
+            $blotter = DB::table('blotters as b')
+                            ->leftJoin('resident_information as i', 'b.user_id', 'i.id')
+                            ->leftJoin('accounts as a', 'b.barangay_id', 'a.barangay_id')
+                            ->select('b.*', 'i.name as complainant')
+                            ->where('a.user_id', Auth::id())
                             ->get();
             return DataTables::of($blotter)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editBarangay"><i class="bi-pencil-square"></i> Edit</a> ';
-                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteBarangay"><i class="bi-trash"></i> Delete</a>';
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm viewBlotter"><i class="bi-eye"></i> </a> ';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteBlotter"><i class="bi-trash"></i> </a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('secretary/blotter', compact('blotter', 'filter_setting'));
+        return view('secretary/blotter', compact('blotter', 'filter_setting', 'residents'));
     }
 
     /**
@@ -60,7 +63,32 @@ class BlotterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => 'required',
+            'incident_type' => 'required|string',
+            'respondents' => 'required',
+            'date_reported' => 'required',
+            'schedule_date' => 'required',
+            'narrative' => 'required|string'
+        ]);
+
+        $barangay = DB::table('accounts')
+                        ->select('barangay_id')
+                        ->where('user_id', Auth::id())
+                        ->first();
+
+        $blotter = Blotter::create([
+            'barangay_id' => $barangay->barangay_id,
+            'user_id' => $request->user_id,
+            'respondents' => $request->respondents,
+            'incident_type' => $request->incident_type,
+            'schedule_date' => $request->schedule_date,
+            'date_reported' => $request->date_reported,
+            'location' => $request->location,
+            'narrative' => $request->narrative,
+        ]);
+
+        return response($blotter);
     }
 
     /**
@@ -103,8 +131,10 @@ class BlotterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        Blotter::where('id', $request->id)
+                    ->delete();
+        return response()->json(['success' => 'Blotter deleted successfully']);
     }
 }

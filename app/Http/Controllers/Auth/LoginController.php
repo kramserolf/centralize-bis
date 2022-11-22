@@ -60,4 +60,5 @@ class LoginController extends Controller
                     break;
             }
     }
+
 }

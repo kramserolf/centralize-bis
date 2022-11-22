@@ -20,7 +20,7 @@ class Zone extends Model
     {
         $filter = DB::table('zones as z')
                             ->leftJoin('accounts as a', 'z.barangay_id', 'a.barangay_id')
-                            ->select('z.zone as zone')
+                            ->select('z.id', 'z.zone as zone')
                             ->where('a.user_id', Auth::id())
                             ->orderBy('z.zone', 'asc')
                             ->get();

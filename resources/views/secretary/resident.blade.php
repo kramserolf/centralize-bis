@@ -7,7 +7,7 @@
 @section('content')
 <h4 class="text-center px-2 fw-bold text-secondary"><i class="bi-people-fill"></i> Residents</h4>
 
-    <table class="table table-bordered data-table nowrap w-100">
+    <table class="table table-bordered table-sm data-table nowrap w-100">
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>
@@ -578,11 +578,11 @@
                 {data: 'cp_number', name: 'cp_number', class: 'text-end'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-            dom: 'Bfrtlip',
+            dom: 'Bfrtip',
             buttons: [
                 {
-                    text: '<i class="bi-plus-circle"></i> Add',
-                    className: 'badge bg-secondary fs-5 mb-2',
+                    text: '<i class="bi-plus-circle text-ce"></i> Add',
+                    className: 'btn btn-success btn-sm',
                     action: function(e, dt, node, config){
                         // show modal
                         $('#id').val('');

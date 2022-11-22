@@ -21,6 +21,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
     <!-- Scripts -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
@@ -34,6 +36,8 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     
 
     <style>
@@ -59,6 +63,26 @@
         }
         }
 
+    .overlay {
+          display: none;
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          z-index: 999;
+          background: rgba(255, 255, 255, 0.8) url({{ asset('images/loading.gif') }}) center no-repeat;
+      }
+
+      /* Turn off scrollbar when body element has the loading class */
+      body.loading {
+          overflow: hidden;
+      }
+
+      /* Make spinner image visible when body element has the loading class */
+      body.loading .overlay {
+          display: block;
+      }
     </style>
 </head>
 <body>
@@ -94,19 +118,19 @@
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
                                 <li><a class="dropdown-item" href="{{route('resident')}}"><i class="bi-people-fill"></i> Residents</a></li>
                                 <li><a class="dropdown-item" href="{{route('barangay.resident_account')}}"><i class="bi-key-fill"></i> Resident Accounts</a></li>
-                                <li><a class="dropdown-item" href="{{route('household')}}"><i class="bi-pin-map-fill sidebar-brgy"></i> Households</a></li>
+                                {{-- <li><a class="dropdown-item" href="{{route('household')}}"><i class="bi-pin-map-fill sidebar-brgy"></i> Households</a></li> --}}
                                 <li><a class="dropdown-item" href="{{route('barangay.officials')}}"><i class="bi-person-badge-fill"></i> Barangay Officials</a></li>
                                 <li><a class="dropdown-item" href="{{route('barangay.zone')}}"><i class="bi-compass-fill"></i> Zone</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
+
                             <a href="#" class="nav-link dropdown-toggle px-sm-0 px-1 text-white" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi-journal-text sidebar-issuance"></i></i> <span class="ms-1 d-none d-sm-inline sidebar-issuance">Issuance</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
-                                <li><a class="dropdown-item" href="#"><i class="bi-record-btn-fill"></i>     Blotters</a></li>
+                                <li><a class="dropdown-item" href="{{ route('barangay.blotter') }}"><i class="bi-record-btn-fill"></i>     Blotters</a></li>
                                 <li><a class="dropdown-item" href="{{route('get-certificate.layout')}}"><i class="bi-file-earmark-pdf-fill"></i> Certificates</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi-file-earmark-word-fill"></i> Clearance</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -114,8 +138,8 @@
                                 <i class="bi-newspaper sidebar-reports"></i> <span class="ms-1 d-none d-sm-inline sidebar-reports">Reports</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdown">
-                                <li><a class="dropdown-item" href="#"><i class="bi-people-fill"></i> List of Residents <span class="text-muted" style="font-size: 12px">(per zone)</span></a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi-file-earmark-pdf-fill"></i> List of Household</a></li>
+                                <li><a class="dropdown-item" href="{{ route('resident.per-zone') }}"><i class="bi-people-fill"></i> List of Residents <span class="text-muted" style="font-size: 12px">(per zone)</span></a></li>
+                                <li><a class="dropdown-item" href="{{route('household')}}"><i class="bi-pin-map-fill sidebar-brgy"></i> List of Household</a></li>
                                 <li><a class="dropdown-item" href="{{route('senior')}}"><i class="bi-file-earmark-word-fill"></i> List of Senior Citizen</a></li>
                             </ul>
                         </li>

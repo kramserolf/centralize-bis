@@ -7,7 +7,7 @@
 @section('content')
 <h4 class="text-center px-2 fw-bold text-secondary">Announcements</h4>
 
-    <table class="table table-bordered data-table nowrap" style="width: 100%;">
+    <table class="table table-bordered table-sm data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>
@@ -97,12 +97,11 @@
                 {data: 'location', name: 'location'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-
             dom: 'Bfrtip',
             buttons: [
                 {
                     text: '<i class="bi-plus-circle text-ce"></i> Add',
-                    className: 'badge bg-secondary fs-5 mb-2',
+                    className: 'btn btn-success btn-sm',
                     action: function(e, dt, node, config){
                         // show modal
                         $('#id').val('');

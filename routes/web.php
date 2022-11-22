@@ -17,6 +17,7 @@ use App\Http\Controllers\HomeController;
 use App\Models\User;
 use App\Models\Barangay;
 use App\Models\Account;
+use Database\Factories\ResidentInformationFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -73,6 +74,9 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
     Route::post('/resident/store', [ResidentInformationController::class, 'store'])->name('resident.store');
     Route::delete('/resident/destroy', [ResidentInformationController::class, 'destroy'])->name('resident.destroy');
     Route::get('/resident/show', [ResidentInformationController::class, 'show'])->name('resident.show');
+    Route::get('/residents/per-zone', [ResidentInformationController::class, 'residentPerZone'])->name('resident.per-zone');
+    Route::get('/resident/filter-by-zone', [ResidentInformationController::class, 'filterZone'])->name('filter.zone');
+    Route::get('/resident/zone/search', [ResidentInformationController::class, 'search']);
 
     //barangay officials
     Route::get('/officials', [BarangayOfficialController::class, 'index'])->name('barangay.officials');
@@ -81,6 +85,8 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
     // blotters
     Route::get('/blotters', [BlotterController::class, 'index'])->name('barangay.blotter');
+    Route::post('/blotters/store', [BlotterController::class, 'store'])->name('blotter.store');
+    Route::delete('/blotter/destroy', [BlotterController::class, 'destroy']);
 
     // barangay settings
     Route::get('/settings', [BarangaySettingController::class, 'index'])->name('setting');

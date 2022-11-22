@@ -1,55 +1,93 @@
 @extends('layouts.secretary-sidebar')
-{{-- <style>
-    #blotters {
-        background-color: gray;
-    }
-</style> --}}
+<style>
+    .sidebar-issuance{
+        color: rgb(180, 179, 179);
+     }
+ </style>
 @section('content')
-    <span class="badge bg-primary fs-4 mb-3">Blotters</span>
-    <!-- Button trigger modal -->
-    <div class="d-flex flex-row-reverse bd-highlight">
-        <!-- Button trigger modal -->
-        <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mb-2" btn-sm id="addBlotter"><i class="bi-plus-circle"></i> Add Official</a>
-    </div>
-    <table class="table table-bordered data-table nowrap" style="width: 100%;">
+<h4 class="text-center px-2 fw-bold text-secondary">Blotters</h4>
+
+    <table class="table table-bordered table-sm data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>
-                <td class="text-center">Name</td>
-
+                <td class="text-center">Incident Type</td>
+                <td class="text-center">Complainant</td>
+                <td class="text-center">Respondents</td>
+                <td class="text-center">Settlement Date</td>
+                <td class="text-center">Status</td>
                 <td class="text-center">Action</td>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
+    
 
 {{-- add modal --}}
   <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form name="accountForm" id="accountForm" enctype="multipart/form-data">
+        <form name="blotterForm" id="blotterForm" enctype="multipart/form-data">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">New Resident</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">New Blotter</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                     {{-- hidden id --}}
                     <input type="hidden" name="id" id="id">
-                    <nav class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-                        <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-                        <a class="nav-link disabled" id="nav-disabled-tab" data-bs-toggle="tab" href="#nav-disabled" role="tab" aria-controls="nav-disabled" tabindex="-1" aria-disabled="true">Disabled</a>
-                      </nav>
-                      <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid tempore tempora molestiae pariatur, voluptate fuga corrupti est reiciendis maxime totam dolores, voluptates, dolorem eaque sequi.</div>
-                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni, natus sed soluta necessitatibus tempore aspernatur? Praesentium, odit explicabo distinctio dolore adipisci officia iure, ut magnam optio aliquam at similique veritatis.</div>
-                        <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laudantium minima repellat incidunt facilis obcaecati blanditiis corrupti ad officia doloribus ullam sapiente ipsum, nemo a, excepturi voluptatem voluptatibus velit eum dignissimos ut, nam tempora? Reiciendis illo itaque veritatis eligendi fuga, mollitia ratione totam veniam esse in.</div>
+                    <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Complainant</label>
+                        <div class="col-sm-9">
+                            <select class="form-select select-user" aria-label="Default select example" name="user_id" id="select_user">
+                                <option value=""></option>
+                                @foreach ($residents as $resident )
+                                    <option value="{{ $resident->id }}">{{ $resident->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                       </div>
-                    <div class="mb-3">
-                        <label for="barangaySecretary" class="form-label">Barangay Secretary</label>
-                        <input type="text" class="form-control text-capitalize" name="barangaySecretary" id="barangaySecretary" placeholder="Juan Dela Cruz">
-                    </div>
+                      <div class="mb-3 row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">Incident Type</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="inputPassword" name="incident_type">
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Respondent</label>
+                        <div class="col-sm-9">
+                            <select class="form-select select-user" aria-label="Default select example" name="respondents" id="select_respondent">
+                                <option value=""></option>
+                                @foreach ($residents as $resident )
+                                    <option value="{{ $resident->name }}">{{ $resident->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Schedule Date</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" id="inputPassword" name="schedule_date">
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Date Reported</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" id="inputPassword" name="date_reported">
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Location <span class="text-muted" style="font-size: 11px">(optional)</span></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="inputPassword" name="location">
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Narrative</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" placeholder="Enter narrative here" name="narrative" id="narrative" style="height: 100px"></textarea>
+                        </div>
+                      </div>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-outline-primary" name="savedata" id="savedata" >Save</button>
@@ -59,19 +97,35 @@
       </div>
     </div>
   </div>
-
-
-<script>
     
+<script>
     $(document).ready(function(){
-        // $('#barangay').trigger('click');
-
         //ajax setup
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        
+        // select user 
+        $('#select_user').select2({
+            dropdownParent: $('#addModal'),
+            theme: "bootstrap-5",
+            placeholder: "Select complainant",
+            allowClear: true,
+            tags: true,
+        });
+        
+        $('#select_respondent').select2({
+            dropdownParent: $('#addModal'),
+            theme: "bootstrap-5",
+            placeholder: "Select respondent",
+            allowClear: true,
+            tags: true,
+        });
+
+
 
         //load table
         let table = $('.data-table').DataTable({
@@ -82,66 +136,67 @@
             ajax: "{{ route('barangay.blotter') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'user_id', name: 'user_id'},
-                // {data: 'name', name: 'name'},
+                {data: 'incident_type', name: 'incident_type'},
+                {data: 'complainant', name: 'complainant'},
+                {data: 'respondents', name: 'complainant'},
+                {data: 'schedule_date', name: 'schedule_date'},
+                {data: 'status', name: 'status'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-    //         columnDefs: [ 
-    //       {
-    //         'targets': 1,
-    //         'render': function(data, type, row){
-    //           return data +', '+row.firstName+' ' +row.middleName;
-    //         },
-    //         'targets': 1
-    //     }
-    //   ]
-        });
-
-        //show modal
-            // SHOW ADD MODAL
-        $('#addBlotter').click(function () {
-            $('#id').val('');
-            $('#accountForm').trigger("reset");
-            $('#addModal').modal('show');
-            $('#savedata').html('Save');
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: '<i class="bi-plus-circle text-ce"></i> Add',
+                    className: 'btn btn-success btn-sm',
+                    action: function(e, dt, node, config){
+                        // show modal
+                        $('#id').val('');
+                        $('#blotterForm').trigger("reset");
+                        $('#addModal').modal('show');
+                        $('#savedata').html('Save');
+                    },
+                }
+            ]
         });
 
         //add function
         $('#savedata').click(function (e) {
         e.preventDefault();
         $.ajax({
-            data: $('#accountForm').serialize(),
-            url: "{{ route('account.store')}}",
+            data: $('#blotterForm').serialize(),
+            url: "{{ route('blotter.store')}}",
             type: "POST",
             dataType: "json",
                 success: function (data) {
-                    $('#accountForm').trigger("reset");
+                    $('#blotterForm').trigger("reset");
                     $('#addModal').modal('hide');
+                    $('#select_user').val(null).trigger('change');
+                    $('#select_respondent').val(null).trigger('change');
+                    toastr.success('Blotter added successfully','Success');
                     table.draw();
                 },
                 error: function (data) {
-                    console.log('Error:', data);
-
+                    toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });
 
         // DELETE 
-        $('body').on('click', '.deleteAccount', function () {
+        $('body').on('click', '.deleteBlotter', function () {
         var id = $(this).data("id");
-            if (confirm("Are You sure want to delete this account?") === true) {
+            if (confirm("Are You sure want to delete this blotter?") === true) {
                 $.ajax({
                     type: "DELETE",
-                    url: "{{ url('admin/account/destroy') }}",
+                    url: "{{ url('barangay/blotter/destroy') }}",
                     data:{
                     id:id
                     },
                     success: function (data) {
                     table.draw();
-                    // toastr.success('Expense deleted successfully','Success');
+                    toastr.success('Blotter deleted successfully','Success');
                     },
                     error: function (data) {
-                    // toastr.error(data['responseJSON']['message'],'Error has occured');
+                    toastr.error(data['responseJSON']['message'],'Error has occured');
                     }
                 });
             }

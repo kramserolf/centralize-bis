@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('blotters', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('user_id');
             $table->smallInteger('barangay_id');
+            $table->smallInteger('user_id');
+            $table->string('respondents');
             $table->string('incident_type');
-            $table->string('status');
+            $table->string('status')->default('pending');
             $table->date('schedule_date');
             $table->date('date_reported');
-            $table->timestamp('time_incident');
-            $table->string('location');
-            $table->string('narative');
+            $table->string('location')->nullable();
+            $table->string('narrative');
             $table->timestamps();
         });
     }
