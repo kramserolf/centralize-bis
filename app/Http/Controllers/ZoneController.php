@@ -75,16 +75,18 @@ class ZoneController extends Controller
             'zone' => 'required|string',
         ]);
 
-        // filter barangay id
-        $filter = Account::where('user_id', Auth::id())
-                            ->first();
+        $barangay_id = Account::barangayId();
 
-        $insert = Zone::create([
-               'barangay_id' => $filter->barangay_id,
+        $insert = Zone::updateOrCreate(
+            [
+                'id' => $request->id
+            ],
+            [
+               'barangay_id' => $barangay_id,
                'zone' => $request->zone,
             ]);
 
-            return response()->json(['success'=>'Zone saved successfully.']);
+            return response()->json($insert);
     }
 
     /**
@@ -104,9 +106,11 @@ class ZoneController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $zone = Zone::where('id', $request->id)
+                        ->first();
+        return response()->json($zone);
     }
 
     /**

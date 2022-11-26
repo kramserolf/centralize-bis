@@ -15,7 +15,6 @@
                 <td class="text-center">Complainant</td>
                 <td class="text-center">Respondents</td>
                 <td class="text-center">Settlement Date</td>
-                <td class="text-center">Status</td>
                 <td class="text-center">Action</td>
             </tr>
         </thead>
@@ -50,7 +49,7 @@
                       <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-3 col-form-label">Incident Type</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="inputPassword" name="incident_type">
+                          <input type="text" class="form-control" id="incident_type" name="incident_type">
                         </div>
                       </div>
                       <div class="mb-3 row">
@@ -67,19 +66,19 @@
                       <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label">Schedule Date</label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control" id="inputPassword" name="schedule_date">
+                            <input type="date" class="form-control" id="schedule_date" name="schedule_date">
                         </div>
                       </div>
                       <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label">Date Reported</label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control" id="inputPassword" name="date_reported">
+                            <input type="date" class="form-control" id="date_reported" name="date_reported">
                         </div>
                       </div>
                       <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label">Location <span class="text-muted" style="font-size: 11px">(optional)</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="inputPassword" name="location">
+                            <input type="text" class="form-control" id="location" name="location">
                         </div>
                       </div>
                       <div class="mb-3 row">
@@ -97,6 +96,71 @@
       </div>
     </div>
   </div>
+
+  {{-- view modal --}}
+  <div class="modal fade" id="viewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form name="blotterForm" id="blotterForm" enctype="multipart/form-data">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">New Blotter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                    {{-- hidden id --}}
+                    <input type="hidden" name="id" id="id">
+                    <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Complainant:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_complainant"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">Incident Type:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_incident"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Respondent:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_respondent"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Schedule Date:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_schedule_date"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Date Reported:</label>
+                        <div class="col-sm-9 fs-5 mt-1">
+                            <p class="fw-bold fs-5 mt-1" id="view_date_reported"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Location:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_location"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Narrative:</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" placeholder="Enter narrative here" name="view_narrative" id="view_narrative" style="height: 100px"></textarea>
+                        </div>
+                      </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
     
 <script>
     $(document).ready(function(){
@@ -139,8 +203,7 @@
                 {data: 'incident_type', name: 'incident_type'},
                 {data: 'complainant', name: 'complainant'},
                 {data: 'respondents', name: 'complainant'},
-                {data: 'schedule_date', name: 'schedule_date'},
-                {data: 'status', name: 'status'},
+                {data: 'date', name: 'date'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
             dom: 'Bfrtip',
@@ -172,11 +235,37 @@
                     $('#addModal').modal('hide');
                     $('#select_user').val(null).trigger('change');
                     $('#select_respondent').val(null).trigger('change');
-                    toastr.success('Blotter added successfully','Success');
                     table.draw();
                 },
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');
+                }   
+            });
+        });
+
+        
+        // EDIT 
+        $('body').on('click', '.viewBlotter', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('barangay/blotters/edit') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#viewModal').modal('show');
+                    $('#id').val(id);
+                    $('#view_complainant').html(data.complainant);
+                    $('#view_incident').html(data.incident_type);
+                    $('#view_respondent').html(data.respondents);
+                    $('#view_schedule_date').html(data.schedule_date);
+                    $('#view_date_reported').html(data.date_reported);
+                    $('#view_location').html(data.location);
+                    $('#view_narrative').val(data.narrative);
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });

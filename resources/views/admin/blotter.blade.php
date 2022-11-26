@@ -20,6 +20,75 @@
         </thead>
         <tbody></tbody>
     </table>
+  {{-- view modal --}}
+  <div class="modal fade" id="viewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form name="blotterForm" id="blotterForm" enctype="multipart/form-data">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">New Blotter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                    {{-- hidden id --}}
+                    <input type="hidden" name="id" id="id">
+                    <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Barangay:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_barangay"></p>
+                        </div>
+                      </div>
+                    <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Complainant:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_complainant"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="inputPassword" class="col-sm-3 col-form-label">Incident Type:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_incident"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Respondent:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_respondent"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Schedule Date:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_schedule_date"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Date Reported:</label>
+                        <div class="col-sm-9 fs-5 mt-1">
+                            <p class="fw-bold fs-5 mt-1" id="view_date_reported"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Location:</label>
+                        <div class="col-sm-9">
+                            <p class="fw-bold fs-5 mt-1" id="view_location"></p>
+                        </div>
+                      </div>
+                      <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Narrative:</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" placeholder="Enter narrative here" name="view_narrative" id="view_narrative" style="height: 100px"></textarea>
+                        </div>
+                      </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 <script>
     
@@ -76,6 +145,34 @@
                 error: function (data) {
                     console.log('Error:', data);
 
+                }
+            });
+        });
+
+                
+        // EDIT 
+        $('body').on('click', '.viewBlotter', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('admin/blotters/view') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#viewModal').modal('show');
+                    $('#id').val(id);
+                    $('#view_barangay').html(data.barangayName);
+                    $('#view_complainant').html(data.complainant);
+                    $('#view_incident').html(data.incident_type);
+                    $('#view_respondent').html(data.respondents);
+                    $('#view_schedule_date').html(data.schedule_date);
+                    $('#view_date_reported').html(data.date_reported);
+                    $('#view_location').html(data.location);
+                    $('#view_narrative').val(data.narrative);
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });

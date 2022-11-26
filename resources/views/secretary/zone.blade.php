@@ -100,12 +100,40 @@
             dataType: "json",
                 success: function (data) {
                     $('#zoneForm').trigger("reset");
+                    if($('#savedata').html('Save') == 'Save'){
+                        toastr.success('Zone added successfully','Success');
+                    } else {
+                        toastr.success('Zone updated successfully','Success');
+                    }
                     table.draw();
-                    toastr.success('Zone added successfully','Success');
+                    $('#addModal').modal('hide');
+
                 },
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');
 
+                }
+            });
+        });
+
+                // EDIT 
+        $('body').on('click', '.editZone', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('barangay/zone/edit') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#addModal').modal('show');
+                    $('#id').val(id);
+                    $('#zone').val(data.zone);
+                    $('.modal-title').html('Update Zone');
+                    $('#savedata').html('Update');
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });

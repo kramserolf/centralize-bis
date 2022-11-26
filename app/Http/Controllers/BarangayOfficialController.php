@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Account;
+use App\Models\Barangay;
 use App\Models\BarangayOfficial;
 use App\Models\BarangaySetting;
 use App\Models\Zone;
@@ -82,7 +83,11 @@ class BarangayOfficialController extends Controller
         $filter = Account::where('user_id', Auth::id())
                             ->first();
 
-        $insert = BarangayOfficial::create([
+        $insert = BarangayOfficial::updateOrCreate(
+            [
+                'id' => $request->id
+            ],
+            [
                'barangay_id' => $filter->barangay_id,
                'position' => $request->position, 
                'name' => $request->name,
@@ -91,7 +96,7 @@ class BarangayOfficialController extends Controller
                'zone' => $request->zone, 
             ]);
 
-            return response()->json(['success'=>'Barangay saved successfully.']);
+            return response()->json($insert);
     }
 
     /**
@@ -111,9 +116,14 @@ class BarangayOfficialController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $barangay_id = Account::barangayId();
+        $official = DB::table('barangay_officials as o')
+                                ->where('o.barangay_id', $barangay_id)
+                                ->where('o.id', $request->id)
+                                ->first();
+        return response()->json($official);
     }
 
     /**

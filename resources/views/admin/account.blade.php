@@ -32,7 +32,7 @@
               </div>
               <div class="modal-body">
                     {{-- hidden id --}}
-                    <input type="hidden" name="id" id="id">
+                    <input type="" name="id" id="id">
                 <div class="mb-3">
                       <label for="barangay_id" class="form-label">Barangay</label>
                       <select class="form-select" aria-label="Default select example" name="barangay_id" id="barangay_id">
@@ -129,12 +129,40 @@
             dataType: "json",
                 success: function (data) {
                     $('#accountForm').trigger("reset");
-                    $('#addModal').modal('hide');
                     table.draw();
-                    toastr.success('Account created successfully','Success');
+                    if($('#savedata').html() == 'Save'){
+                        toastr.success('Account added successfully','Success');
+                    } else{
+                        toastr.success('Account updated successfully','Success');
+                    }
+                    $('#addModal').modal('hide');
                 },
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');
+                }
+            });
+        });
+
+                // EDIT 
+        $('body').on('click', '.editAccount', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('admin/account/edit') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#addModal').modal('show');
+                    $('#id').val(id);
+                    $('#name').val(data.name);
+                    $('#email').val(data.email);
+                    $('#barangay_id').val(data.barangay_id);
+                    $('#savedata').html('Update');
+                    $('.modal-title').html('Update Account');
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });

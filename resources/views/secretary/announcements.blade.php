@@ -66,7 +66,58 @@
         </form>
       </div>
     </div>
-  </div>
+</div>
+
+{{-- edit modal --}}
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form action="" method="POST" name="editAnnouncementForm" id="editAnnouncementForm" enctype="multipart/form-data">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Update Announcement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                    {{-- hidden id --}}
+                    <input type="hidden" name="edit_id" id="edit_id">
+                  <div class="mb-3">
+                      <label for="title" class="form-label fw-bold">Title</label>
+                      <input type="text" class="form-control" name="edit_title" id="edit_title" placeholder="e.g Subsidy Program">
+                  </div>
+                  <div class="mb-3">
+                    <label for="content" class="form-label fw-bold">Content</label>
+                    <textarea class="form-control" id="edit_content" name="edit_content" rows="5" placeholder="e.g There will subsidy program this coming Tuesday, Octorber 22, 2022....."></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="location" class="form-label fw-bold">Location</label>
+                    <input type="text" class="form-control" name="edit_location" id="edit_location" placeholder="e.g. Barangay Hall">
+                  </div>
+                  <div class="mb-3">
+                    <label for="date" class="form-label fw-bold">Date</label>
+                    <input type="date" class="form-control" name="edit_date" id="edit_date">
+                  </div>
+
+                  <div class="row form-row mb-3">
+                    <div class="form-group col-md-12">
+                       <label for="image" class="form-label fw-bold">Image <span class="text-muted" style="font-size: 12px">(optional)</span></label>
+                      <input type="file" class="form-control" name="edit_image" id="edit_image">
+                        <div class="text-center">
+                            <img src="#" alt="" id="previewImage" style="width: 50%">
+                        </div>
+                    </div>
+                  </div>
+
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-outline-primary" name="savedata" id="savedata" >Update</button>
+                  <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+              </div>
+        </form>
+      </div>
+    </div>
+</div>
+
 
 
 <script>
@@ -114,7 +165,6 @@
    
         });
 
-      //add function
        //add function
        $('#announcementForm').submit(function(e){
             e.preventDefault();
@@ -131,6 +181,60 @@
                         $('#addModal').modal('hide');
                         table.draw();
                         toastr.success('Announcement added successfully','Success');
+                        // setTimeout(() => {
+                        //     location.reload(true);
+                        // }, 1500);
+                    }
+                },
+                error: function(response){
+                    toastr.error(response['responseJSON']['message'],'Error has occured');
+                }
+            });
+        });
+
+
+        // EDIT 
+        $('body').on('click', '.editAnnouncement', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('barangay/announcement/edit') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#editModal').modal('show');
+                    $('#edit_id').val(id);
+                    $('#edit_title').val(data.title);
+                    $('#edit_content').val(data.content);
+                    $('#edit_date').val(data.date);
+                    $('#edit_location').val(data.location);
+                    $('#previewImage').attr('src', '../../images/'+data.image);
+                    $('.modal-title').html('Update Barangay');
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
+                }
+            });
+        });
+
+
+               //update function
+       $('#editAnnouncementForm').submit(function(e){
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('announcement.update') }}",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: (response) => {
+                    if(response){
+                        this.reset();
+                        $('#editModal').modal('hide');
+                        table.draw();
+                        toastr.success('Announcement updated successfully','Success');
                         // setTimeout(() => {
                         //     location.reload(true);
                         // }, 1500);
@@ -161,6 +265,24 @@
                     }
                 });
             }
+        });
+
+        // preview image image
+        function previewOfferImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#previewImage').attr('src', e.target.result);
+                    
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#edit_image").change(function(){
+                previewOfferImage(this);
+                $('#previewImage').show();
         });
     }); 
     //end of script

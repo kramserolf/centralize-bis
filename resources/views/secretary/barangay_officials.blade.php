@@ -131,13 +131,43 @@
             dataType: "json",
                 success: function (data) {
                     $('#barangayOfficialForm').trigger("reset");
-                    $('#addModal').modal('hide');
+                    if($('#savedata').html() == 'Save'){
+                        toastr.success('Barangay official added successfully','Success');  
+                    } else{
+                        toastr.success('Barangay update added successfully','Success');
+                    }
                     table.draw();
-                    toastr.success('Barangay official added successfully','Success');
+                    $('#addModal').modal('hide');
                 },
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');
 
+                }
+            });
+        });
+
+        
+        // EDIT 
+        $('body').on('click', '.editBarangayOfficial', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('barangay/official/edit') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#addModal').modal('show');
+                    $('#id').val(id);
+                    $('#position').val(data.position);
+                    $('#name').val(data.name);
+                    $('#committee').val(data.official_committee);
+                    $('#zone').val(data.zone);
+                    $('#years_of_service').val(data.years_of_service);
+                    $('.modal-title').html('Update Barangay');
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });

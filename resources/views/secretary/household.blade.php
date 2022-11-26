@@ -15,7 +15,6 @@
                 <td class="text-center" style="width: 15%">Zone</td>
                 <td class="text-center">Mobile No.</td>
                 {{-- <td class="text-center">Zone</td> --}}
-                <td class="text-center">Action</td>
             </tr>
         </thead>
         <tbody></tbody>
@@ -385,7 +384,6 @@
                 // {data: 'zone', name: 'zone', render: function(data, type, full, meta) {return "Zone" + " " +  "0"+  data}},
                 {data: 'cp_number', name: 'cp_number', class: 'text-end'},
                 // {data: 'zone', name: 'zone'},
-                {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
             dom: 'fBrtlip',
             buttons: [

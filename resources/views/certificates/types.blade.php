@@ -24,7 +24,6 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <form name="certificateTypeForm" id="certificateTypeForm" enctype="multipart/form-data">
-
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">New Certificate Type</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -120,13 +119,40 @@
             dataType: "json",
                 success: function (data) {
                     $('#certificateTypeForm').trigger("reset");
-                    $('#addModal').modal('hide');
                     table.draw();
-                    toastr.success('Certificate type added successfully','Success');
+                    if($('#savedata').html() == 'Save'){
+                        toastr.success('Certificate type added successfully','Success');
+                    } else{
+                        toastr.success('Certificate type updated successfully','Success');
+                    }
+                    $('#addModal').modal('hide');
                 },
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');
 
+                }
+            });
+        });
+        // EDIT 
+        $('body').on('click', '.editCertificateType', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('barangay/certificate-types/edit') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#addModal').modal('show');
+                    $('#id').val(data.id);
+                    $('#barangay_id').val(data.barangay_id);
+                    $('#name').val(data.name);
+                    $('#purpose').val(data.purpose);
+                    $('#savedata').html('Update');
+                    $('.modal-title').html('Update Certificate Type');
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });

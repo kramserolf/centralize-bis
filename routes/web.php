@@ -48,11 +48,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
     Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
     // barangay
     Route::get('/barangay', [BarangayController::class, 'index'])->name('barangay');
+    Route::get('/barangay/edit', [BarangayController::class, 'edit']);
     Route::post('/barangay/store', [BarangayController::class, 'store'])->name('barangay.store');
     Route::delete('/barangay/destroy', [BarangayController::class, 'destroy'])->name('barangay.destroy');
 
     // accounts
     Route::get('/account', [AccountController::class, 'index'])->name('account');
+    Route::get('/account/edit', [AccountController::class, 'edit']);
     Route::post('/account/store', [AccountController::class, 'store'])->name('account.store');
     Route::delete('/account/destroy', [AccountController::class, 'destroy'])->name('account.destroy');
 
@@ -61,9 +63,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
 
     // blotter
     Route::get('/blotters', [BlotterController::class, 'adminIndex'])->name('admin.blotter');
+    Route::get('/blotters/view', [BlotterController::class, 'viewBlotter']);
 
     Route::get('/reports', [FileController::class, 'adminindex'])->name('admin.reports');
     Route::get('report/download', [FileController::class, 'downloadCertificate'])->name('admin.certificate-download');
+
+    Route::get('/profile', [HomeController::class, 'adminProfile'])->name('admin.profile');
 });
 
 Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], function(){
@@ -89,11 +94,13 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
     //barangay officials
     Route::get('/officials', [BarangayOfficialController::class, 'index'])->name('barangay.officials');
+    Route::get('/official/edit', [BarangayOfficialController::class, 'edit']);
     Route::post('/officials/store', [BarangayOfficialController::class, 'store'])->name('official.store');
     Route::delete('/officials/destroy', [BarangayOfficialController::class, 'destroy'])->name('official.destroy');
 
     // blotters
     Route::get('/blotters', [BlotterController::class, 'index'])->name('barangay.blotter');
+    Route::get('/blotters/edit', [BlotterController::class, 'edit']);
     Route::post('/blotters/store', [BlotterController::class, 'store'])->name('blotter.store');
     Route::delete('/blotter/destroy', [BlotterController::class, 'destroy']);
 
@@ -103,22 +110,30 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
     // zone
     Route::get('/zone', [ZoneController::class, 'index'])->name('barangay.zone');
+    Route::get('/zone/edit', [ZoneController::class, 'edit']);
     Route::post('/zone/store', [ZoneController::class, 'store'])->name('zone.store');
     Route::delete('/zone/destroy', [ZoneController::class, 'destroy'])->name('zone.destroy');
 
     // annoucements
     Route::get('/announcements', [AnnouncementController::class, 'index'])->name('barangay.announcement');
+    Route::get('/announcement/edit', [AnnouncementController::class, 'edit']);
     Route::post('/announcement/store', [AnnouncementController::class, 'store'])->name('announcement.store');
+    Route::post('/announcement/update', [AnnouncementController::class, 'update'])->name('announcement.update');
     Route::delete('/announcement/destroy', [AnnouncementController::class, 'destroy'])->name('announcement.destroy');
 
     // certificate types
     Route::get('/certificate-types', [CertificateTypeController::class, 'index'])->name('certificate.type');
+    Route::get('/certificate-types/edit', [CertificateTypeController::class, 'edit']);
     Route::post('/certificate-types', [CertificateTypeController::class, 'store'])->name('type.store');
     Route::delete('/certificate-types', [CertificateTypeController::class, 'destroy'])->name('type.destroy');
 
     // certificate layouts
     Route::get('/certificate-layouts', [CertificateLayoutController::class, 'index'])->name('barangay.layout');
+    Route::get('/certificate-layout/edit', [CertificateLayoutController::class, 'edit']);
     Route::post('/certificate-layouts', [CertificateLayoutController::class, 'store'])->name('layout.store');
+    Route::delete('/certificate-layout/destroy', [CertificateLayoutController::class, 'destroy']);
+    
+
 
     // issued certificates
     Route::get('/residents/issue-certificate', [ResidentInformationController::class, 'getCertificateLayout'])->name('get-certificate.layout');
@@ -131,6 +146,8 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
     Route::get('/reports/files', [FileController::class, 'index'])->name('report.file');
     Route::post('/reports/files', [FileController::class, 'store'])->name('report.store-file');
     Route::delete('/report/file/destroy', [FileController::class, 'destroy']);
+
+    Route::get('/profile', [HomeController::class, 'secretaryProfile'])->name('secretary.profile');
 
     // Route::get('/home/{barangay}', function (Barangay $barangay) {
     //     $filter = DB::table('barangays as b')
@@ -148,4 +165,13 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
 });
 
-Auth::routes();
+Route::middleware(['auth'])->group(function () {
+    Route::put('/profile/update', [HomeController::class, 'profileUpdate'])->name('profile.update');
+    Route::put('/password/update', [HomeController::class, 'passwordUpdate'])->name('password.update');
+});
+
+Auth::routes([
+    'register' => false,
+    'reset' => false, 
+    'verify' => false, 
+]);

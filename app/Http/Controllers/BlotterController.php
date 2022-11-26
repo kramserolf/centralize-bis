@@ -29,14 +29,15 @@ class BlotterController extends Controller
             $blotter = DB::table('blotters as b')
                             ->leftJoin('resident_information as i', 'b.user_id', 'i.id')
                             ->leftJoin('accounts as a', 'b.barangay_id', 'a.barangay_id')
-                            ->select('b.*', 'i.name as complainant')
+                            ->select('b.*', 'i.name as complainant', DB::raw('DATE_FORMAT(b.schedule_date, \'%M %d, %Y\') as date'))
                             ->where('a.user_id', Auth::id())
                             ->get();
             return DataTables::of($blotter)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    // $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm viewBlotter"><i class="bi-eye"></i> </a> ';
-                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteBlotter"><i class="bi-trash"></i> </a>';
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm viewBlotter"><i class="bi-eye"></i> </a> ';
+                    // $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editBlotter"><i class="bi-pencil"></i> </a> ';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteBlotter"><i class="bi-trash"></i> </a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -64,6 +65,18 @@ class BlotterController extends Controller
         }
         return view('admin/blotter', compact('blotter'));
     }
+
+    public function viewBlotter(Request $request)
+    {
+        $blotters = DB::table('blotters as b')
+                            ->leftJoin('barangays as y', 'b.barangay_id', 'y.id')
+                            ->leftJoin('resident_information as r', 'b.user_id', 'r.id')
+                            ->select('b.*', 'y.barangayName', 'r.name as complainant')
+                            ->first();
+        return response()->json($blotters);
+    }
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -97,7 +110,9 @@ class BlotterController extends Controller
                         ->where('user_id', Auth::id())
                         ->first();
 
-        $blotter = Blotter::create([
+        $blotter = Blotter::updateOrCreate(
+            ['id' => $request->id],
+            [
             'barangay_id' => $barangay->barangay_id,
             'user_id' => $request->user_id,
             'respondents' => $request->respondents,
@@ -128,9 +143,15 @@ class BlotterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $blotters = DB::table('blotters as b')
+                            ->leftJoin('resident_information as i', 'b.user_id', 'i.id')
+                            ->leftJoin('accounts as a', 'b.barangay_id', 'a.barangay_id')
+                            ->select('b.*', 'i.name as complainant')
+                            ->where('b.id', $request->id)
+                            ->first();
+        return response()->json($blotters);
     }
 
     /**

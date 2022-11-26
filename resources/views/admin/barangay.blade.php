@@ -92,15 +92,6 @@
             ]
         });
 
-        //show modal
-            // SHOW ADD MODAL
-        $('#addBarangay').click(function () {
-            $('#id').val('');
-            $('#barangayForm').trigger("reset");
-            $('#addModal').modal('show');
-            $('#savedata').html('Save');
-        });
-
         //add function
         $('#savedata').click(function (e) {
         e.preventDefault();
@@ -111,13 +102,41 @@
             dataType: "json",
                 success: function (data) {
                     $('#barangayForm').trigger("reset");
-                    $('#addModal').modal('hide');
                     table.draw();
-                    toastr.success('Barangay added successfully','Success');
+                    if($('#savedata').html() == 'Save'){
+                        toastr.success('Barangay added successfully','Success');
+                    } else{
+                        toastr.success('Barangay updated successfully','Success');
+                    }
+                    $('#addModal').modal('hide');
+
                 },
                 error: function (data) {
                     console.log('Error:', data);
 
+                }
+            });
+        });
+        
+        // EDIT 
+        $('body').on('click', '.editBarangay', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('admin/barangay/edit') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#addModal').modal('show');
+                    $('#id').val(id);
+                    $('#barangayName').val(data.barangayName);
+                    $('#barangayCaptain').val(data.barangayCaptain);
+                    $('#savedata').html('Update');
+                    $('.modal-title').html('Update Barangay');
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
                 }
             });
         });

@@ -61,9 +61,9 @@
                                     <label for="gender" class="form-label">Gender:</label>
                                     <select class="form-select" aria-label="Default select example" name="gender" id="gender">
                                         <option selected>Select gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Others</option>
+                                        <option value="1">Male</option>
+                                        <option value="2">Female</option>
+                                        <option value="3">Others</option>
                                       </select>
                                 </div>
                                 <div class="form-group col-md-2">
@@ -150,7 +150,7 @@
                             <div class="row form-row mb-3 mt-2 fw-bold">
                                 <div class="form-group col-md-8">
                                     <label for="reason_osy" class="form-label">Reason for not attending school</label>
-                                    <select class="form-select" aria-label="Default select example" name="reason_osy" id="educational_attainment">
+                                    <select class="form-select" aria-label="Default select example" name="reason_osy" id="reason_osy">
                                         <option selected>Select option</option>
                                         <option value="School are very far">School are very far</option>
                                         <option value="No school w/ in the barangay">No school w/ in the barangay</option>
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="eligibility" class="form-label">Computer Literate : </label>
-                                    <select class="form-select" aria-label="Default select example" name="reason_osy" id="educational_attainment">
+                                    <select class="form-select" aria-label="Default select example" name="computer_literate" id="computer_literate">
                                         <option selected>Select option</option>
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
@@ -648,12 +648,13 @@
                         $('#gender').val(data.gender);
                          $('#family_no').val(data.family_no);
                          $('#household_no').val(data.household_no);
-                         $('#civil_status select').val(data.civil_status);
+                         $('#civil_status').val(data.civil_status);
                          $('#birthday').val(data.birthday);
                          $('#age').val(data.age);
                          $('#cp_number').val(data.cp_number);
                          $('#hf_relation').val(data.hf_relation);
                          $('#religion').val(data.religion);
+                         $('#zone').val(data.zone);
                         console.log(data);
                         $('#savedata').html('Update');
                     }
@@ -670,9 +671,14 @@
             dataType: "json",
                 success: function (data) {
                     $('#residentForm').trigger("reset");
-                    $('#addModal').modal('hide');
+                    if($('#savedata').html('') == 'Save'){
+                        toastr.success('Resident added successfully','Success');
+                    } else {
+                        toastr.success('Resident updated successfully','Success');
+                    }
                     table.draw();
-                    toastr.success('Resident added successfully','Success');
+
+                    $('#addModal').modal('hide');
                 },
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');

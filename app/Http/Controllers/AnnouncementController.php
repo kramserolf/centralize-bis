@@ -77,15 +77,12 @@ class AnnouncementController extends Controller
         // barangay id
         $barangay_id = Account::barangayId();
 
-        // get the image name
-        if(!empty($request->image)){         
-            $imageName = $request->image->getClientOriginalName();
+        // get the image name     
+        $imageName = $request->image->getClientOriginalName();
 
-            // move the image to the folder
-            $request->image->move(public_path('images/announcements'), $imageName);
-        } else{
-            $imageName = null;
-        }
+        // move the image to the folder
+        $request->image->move(public_path('images/announcements'), $imageName);
+
 
 
 
@@ -118,9 +115,11 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $announcement = Announcement::where('id', $request->id)
+                        ->first();
+        return response()->json($announcement);
     }
 
     /**
@@ -130,9 +129,36 @@ class AnnouncementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $announcement = Announcement::where('id', $request->edit_id)
+                                    ->first();
+
+        $request->validate([
+            'edit_title' => 'required|string',
+            'edit_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1920',
+        ]);
+
+        if(!empty($request->edit_image)){
+                            // get the image name     
+                $imageName = $request->edit_image->getClientOriginalName();
+
+                // move the image to the folder
+                $request->edit_image->move(public_path('images/announcements'), $imageName);
+        } else {
+            $imageName = $announcement->image;
+        }
+        
+        $announcement->barangay_id = $announcement->barangay_id;
+        $announcement->title = $request->edit_title;
+        $announcement->content = $request->edit_content;
+        $announcement->date = $request->edit_date;
+        $announcement->location = $request->edit_location;
+        $announcement->image = $imageName;
+        $announcement->save();
+
+        return response()->json($announcement);
+
     }
 
     /**

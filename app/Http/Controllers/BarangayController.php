@@ -27,8 +27,8 @@ class BarangayController extends Controller
             return DataTables::of($barangay)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editBarangay"><i class="bi-pencil-square"></i> Edit</a> ';
-                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteBarangay"><i class="bi-trash"></i> Delete</a>';
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-secondary btn-sm editBarangay"><i class="bi-pencil-square"></i> </a> ';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="btn btn-outline-danger btn-sm deleteBarangay"><i class="bi-trash"></i></a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -71,7 +71,7 @@ class BarangayController extends Controller
             'barangayLogo' => 'baggao_logo.png',
             'barangayCaptain' => $request->barangayCaptain,
         ]);
-        return response()->json(['success'=>'Barangay saved successfully.']);
+        return response()->json($barangay);
     }
 
     /**
@@ -91,9 +91,11 @@ class BarangayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $barangay = Barangay::where('id', $request->id)
+                    ->first();
+        return response()->json($barangay);
     }
 
     /**

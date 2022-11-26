@@ -63,8 +63,8 @@ class ResidentInformationController extends Controller
             return DataTables::of($resident)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
-                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm generateResidentAccount"><i class="bi-key-fill"></i> </a>';
+                    // $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
+                    $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm generateResidentAccount"><i class="bi-key-fill"></i> </a>';
                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> </a>';
                     return $btn;
@@ -119,6 +119,30 @@ class ResidentInformationController extends Controller
             'municipality' => 'Baggao',
             'province' => 'Cagayan',
             'cp_number' =>   $request->cp_number,
+            'educational_attainment' => $request->educational_attainment,
+            'educational_attainment' => $request->educational_attainment,
+            'reason_osy' => $request->reason_osy,
+            'special_skill' => $request->special_skill,
+            'computer_literate' => $request->computer_literate,
+            'eligibility' => $request->eligibility,
+            'occupation' => $request->occupation,
+            'employment_nature' => $request->employment_nature,
+            'workplace' => $request->workplace,
+            'monthly_income' => $request->monthly_income,
+            'rice_area' => $request->rice_area,
+            'rice_location' => $request->rice_location,
+            'farm_type' => $request->farm_type,
+            'farm_flooded' => $request->farm_flooded,
+            'rice_ownership_status' => $request->rice_ownership_status,
+            'corn_area' => $request->corn_area,
+            'corn_location' => $request->corn_location,
+            'corn_ownership_status' => $request->corn_ownership_status,
+            'livestock' => $request->livestock,
+            'fishery' => $request->fishery,
+            'store' => $request->store,
+            'poultry' => $request->poultry,
+            'corn_area' => $request->corn_area,
+            
         ]);
        
        return response()->json(['success'=>'Resident saved successfully.']);
@@ -147,13 +171,15 @@ class ResidentInformationController extends Controller
      */
     public function edit(Request $request)
     {
-        $id = [
-            'id' => $request->id
-        ];
 
-        $resident_id = ResidentInformation::where($id)
-                        ->first();
-        return response()->json($resident_id);
+        $barangay_id = Account::barangayId();
+        $residents = DB::table('resident_information as r')
+                                ->leftJoin('zones as z', 'r.zone', 'z.id')
+                                ->select('r.*', 'z.zone as zone_name')
+                                ->where('z.barangay_id', $barangay_id)
+                                ->where('r.id', $request->id)
+                                ->first();
+        return response()->json($residents);
     }
 
     /**
@@ -403,13 +429,6 @@ class ResidentInformationController extends Controller
                             ->get();
              return DataTables::of($household)
                  ->addIndexColumn()
-                 ->addColumn('action', function ($row) {
-                     $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class=" m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
-                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
-                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> </a>';
-                     return $btn;
-                 })
-                 ->rawColumns(['action'])
                  ->make(true);
          }
          return view('secretary/household', [

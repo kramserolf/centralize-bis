@@ -219,8 +219,8 @@
             </div>
         </div>
     </div> --}}
-        <div class="container-fluid">
-        <div class="row flex-nowrap">
+        <div class="container-fluid overflow-hidden">
+        <div class="row flex-nowrap vh-100">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar bg-primary sidebar">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="{{ route('secretary.home') }}" class="mx-auto d-block d-flex align-items-center fs-5 pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -341,7 +341,7 @@
                             </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('secretary.profile') }}">Profile</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

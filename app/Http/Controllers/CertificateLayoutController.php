@@ -11,6 +11,8 @@ use App\Models\CertificateLayout;
 use App\Models\CertificateType;
 use Yajra\DataTables\DataTables;
 
+use function PHPUnit\Framework\returnSelf;
+
 class CertificateLayoutController extends Controller
 {
     // check user if authenticated
@@ -41,7 +43,7 @@ class CertificateLayoutController extends Controller
          if($request->ajax()) {
              $certificate_layout = DB::table('certificate_layouts as l')
                                      ->leftJoin('certificate_types as t', 'l.cert_type', 't.id')
-                                     ->select('l.id', 't.name', 'l.updated_at')
+                                     ->select('l.id', 't.name', DB::raw('DATE_FORMAT(l.updated_at, \'%M %d, %Y\') as updated_at'))
                                      ->where('l.barangay_id', $barangay->barangay_id)
                                      ->get();
            
@@ -82,21 +84,35 @@ class CertificateLayoutController extends Controller
 
         $request->validate([
             'paragraph2' => 'required|string',
-            'logo1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1280',
-            'logo2' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1280',
+            'logo1' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1280',
+            'logo2' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1280',
             'cert_type' => 'required',
             'cert_header' => 'required|string',
             'cert_title' => 'required|string'
         ]); 
-        $logo1 = $request->logo1->getClientOriginalName();
 
-        $logo2 = $request->logo2->getClientOriginalname();
 
-        $request->logo1->move(public_path('certificate_logos/'), $logo1);
+        if(empty($request->file('logo1'))){
+            $logo1 = $request->edit_logo1;
+        } else {
 
-        $request->logo2->move(public_path('certificate_logos/'), $logo2);
+             $logo1 = $request->logo1->getClientOriginalName();
+             $request->logo1->move(public_path('certificate_logos/'), $logo1);
+        }
 
-        CertificateLayout::create([
+        if(empty($request->file('logo2'))){
+            
+            $logo2 = $request->edit_logo2;
+        } else {
+
+             $logo2 = $request->logo2->getClientOriginalName();
+             $request->logo2->move(public_path('certificate_logos/'), $logo2);
+        }
+    
+
+        CertificateLayout::updateOrCreate(
+             ['id' => $request->id]   ,
+            [
             'barangay_id' => $barangay_id,
             'cert_type' => $request->cert_type,
             'logo1' => $logo1,
@@ -129,9 +145,14 @@ class CertificateLayoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $layout = DB::table('certificate_layouts as l')
+                                ->leftJoin('certificate_types as t', 'l.cert_type', 't.id')
+                                ->select('l.*', 't.name')
+                                ->where('l.id', $request->id)
+                                ->first();
+        return response()->json($layout);
     }
 
     /**
@@ -152,8 +173,9 @@ class CertificateLayoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        CertificateLayout::where('id', $request->id)
+                        ->delete();
     }
 }

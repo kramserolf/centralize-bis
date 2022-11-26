@@ -25,7 +25,7 @@
       <div class="modal-content">
         <form action="{{route('layout.store')}}"  method="post" name="certificateLayoutForm" id="certificateLayoutForm" enctype="multipart/form-data">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">New Barangay Official</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">New Certificate Layout</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -45,10 +45,14 @@
                         <div class="form-group col-md-4">
                             <label for="logo1" class="form-label fw-bold">Logo 1 <span class="text-muted" style="font-size: 12px;">(left side)</span></label>
                             <input type="file" class="form-control" id="logo1" aria-describedby="logo1" name="logo1">
+                            <input type="text" id="edit_logo1" name="edit_logo1" hidden>
+                            <img src="#" alt="" id="preview_logo1" style="width: 50%">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="logo2" class="form-label fw-bold">Logo 2 <span class="text-muted" style="font-size: 12px;">(right side)</span></label>
                             <input type="file" class="form-control" id="logo2" aria-describedby="logo2" name="logo2">
+                            <input type="text" id="edit_logo2" name="edit_logo2" hidden >
+                            <img src="#" alt="" id="preview_logo2" style="width: 50%">
                         </div>
                     </div>
                     {{-- <div class="row form-row mb-3 mt-2 fw-bold">
@@ -90,7 +94,10 @@
             </form>
       </div>
     </div>
-  </div>
+</div>
+
+{{-- add modal --}}
+
 <script>
     $(document).ready(function(){
          //ajax setup
@@ -120,7 +127,6 @@
                     className: 'btn btn-success btn-sm',
                     action: function(e, dt, node, config){
                         // show modal
-                        $('#id').val('');
                         $('#certificateLayoutForm').trigger("reset");
                         $('#addModal').modal('show');
                         $('#savedata').html('Save');
@@ -145,9 +151,8 @@
                     if(response){
                         this.reset();
                         toastr.success('Settings updated successfully','Success');
-                        setTimeout(() => {
-                            location.reload(true);
-                        }, 1500);
+                        table.draw();
+                        $('#addModal').modal('hide');
                     }
                 },
                 error: function(response){
@@ -155,6 +160,60 @@
                 }
             });
         });
+
+        // EDIT 
+        $('body').on('click', '.editCertificateLayout', function () {
+            var id = $(this).data("id");
+            $.ajax({
+                type: "GET",
+                url: "{{ url('barangay/certificate-layout/edit') }}",
+                data:{
+                id:id
+                },
+                success: function (data) {
+                    $('#addModal').modal('show');
+                    $('#id').val(data.id);
+                    $('#cert_type').val(data.cert_type);
+                    $('#cert_header').val(data.cert_header);
+                    $('#cert_title').val(data.cert_title);
+                    $('#paragraph2').val(data.paragraph2);
+                    $('#paragraph3').val(data.paragraph3);
+                    $('#edit_logo1').val(data.logo1);
+                    $('#edit_logo2').val(data.logo2);
+                    $('#preview_logo1').attr('src', '../../certificate_logos/'+data.logo1);
+                    $('#preview_logo2').attr('src', '../../certificate_logos/'+data.logo2);
+                    $('#savedata').html('Update');
+                    $('.modal-title').html('Update Certificate Type');
+                },
+                error: function (data) {
+                toastr.error(data['responseJSON']['message'],'Error has occured');
+                }
+            });
+        });
+
+        
+        // DELETE 
+        $('body').on('click', '.deleteCertificateLayout', function () {
+        var id = $(this).data("id");
+            if (confirm("Are You sure want to delete this layout?") === true) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ url('barangay/certificate-layout/destroy') }}",
+                    data:{
+                    id:id
+                    },
+                    success: function (data) {
+                    table.draw();
+                    toastr.success('Certificate layout deleted successfully','Success');
+                    },
+                    error: function (data) {
+                    toastr.error(data['responseJSON']['message'],'Error has occured');
+                    }
+                });
+            }
+        });
+
+
         $('#submenu4').addClass('show').removeClass('hide');
     });
 </script>

@@ -77,12 +77,22 @@ class CertificateTypeController extends Controller
         //filter barangay id
         $barangay_id = Account::barangayId();
 
-        CertificateType::create([
-            'barangay_id' => $barangay_id,
-            'name' => $request->name,
-            'purpose' => $request->purpose,
-        ]);
-        return response()->json(['success'=>'Certificate type saved successfully.']);
+        $certificateType = CertificateType::updateOrCreate([
+                                    'id' => $request->id
+                                ],
+                                [
+                                    'barangay_id' => $barangay_id,
+                                    'name' => $request->name,
+                                    'purpose' => $request->purpose,
+                                ]);
+        //     ['id' => $requ]
+        //     [
+        //     'id' => $request
+        //     'barangay_id' => $barangay_id,
+        //     'name' => $request->name,
+        //     'purpose' => $request->purpose,
+        // ]);
+        return response()->json($certificateType);
     }
 
     /**
@@ -102,9 +112,17 @@ class CertificateTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+
+        //filter barangay id
+        $barangay_id = Account::barangayId();
+
+        $certificate_type = DB::table('certificate_types as t')
+                                ->leftJoin('barangays as b', 't.barangay_id', 'b.id')
+                                ->where('t.id', $request->id)
+                                ->first();
+        return response()->json($certificate_type);
     }
 
     /**
