@@ -71,6 +71,7 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
     // residents
     Route::get('/residents', [ResidentInformationController::class, 'index'])->name('resident');
+    Route::get('/resident/edit', [ResidentInformationController::class, 'edit'])->name('edit.resident');
     // resident accounts
     Route::get('/resident-accounts', [ResidentAccountController::class, 'index'])->name('barangay.resident_account');
     Route::delete('/resident-account/destroy', [ResidentAccountController::class, 'destroy'])->name('resident_account.destroy');

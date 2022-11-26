@@ -65,7 +65,7 @@ class ResidentInformationController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm generateResidentAccount"><i class="bi-key-fill"></i> </a>';
-                    // $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
+                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> </a>';
                     return $btn;
                 })
@@ -104,7 +104,9 @@ class ResidentInformationController extends Controller
                         ->where('a.user_id', Auth::id())
                         ->first();
   
-        ResidentInformation::create([
+        ResidentInformation::updateOrCreate(
+            ['id' => $request->id],
+            [
             'barangayId' => $brgy_id->id,
             'family_no' => $request->family_no,
             'name' => $request->name,
@@ -116,6 +118,7 @@ class ResidentInformationController extends Controller
             'barangay' => $brgy_id->barangay,
             'municipality' => 'Baggao',
             'province' => 'Cagayan',
+            'cp_number' =>   $request->cp_number,
         ]);
        
        return response()->json(['success'=>'Resident saved successfully.']);

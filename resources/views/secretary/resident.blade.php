@@ -116,6 +116,10 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group col-md-4">
+                                    <label for="household_no" class="form-label">Mobile Number:</label>
+                                    <input type="text" class="form-control text-end" name="cp_number" id="cp_number">
+                                </div>
 
                             </div>
 
@@ -627,6 +631,33 @@
             $('#residentForm').trigger("reset");
             $('#addModal').modal('show');
             $('#savedata').html('Save');
+        });
+
+        // VIEW DETAILS
+        $('body').on('click', '.editResident', function () {
+            var id = $(this).data('id');
+            $.ajax({
+                type:"GET",
+                url: "{{ url('barangay/resident/edit') }}",
+                data: { id: id},
+                dataType: 'json',
+                    success: function(data){
+                        $('#addModal').modal('show');
+                        $('#id').val(data.id);
+                        $('#name').val(data.name);
+                        $('#gender').val().change(data.gender);
+                         $('#family_no').val(data.family_no);
+                         $('#household_no').val(data.household_no);
+                         $('#civil_status select').val(data.civil_status);
+                         $('#birthday').val(data.birthday);
+                         $('#age').val(data.age);
+                         $('#cp_number').val(data.cp_number);
+                         $('#hf_relation').val(data.hf_relation);
+                         $('#religion').val(data.religion);
+                         $('#zone').val(data.zone);
+                        $('#savedata').html('Update');
+                    }
+            });
         });
 
         //add function
