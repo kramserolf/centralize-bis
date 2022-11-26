@@ -46,7 +46,7 @@
                 <div class="row no-gutters">
                     <div class="col">
                         <div class="text-xs font-weight-bold text-secondary fw-bold mb-3">Issued Certificates</div>
-                        <div class="h2 m-3 fw-bold">0</div>
+                        <div class="h2 m-3 fw-bold">{{ $issueCerticate }}</div>
                         
                     </div>
                 </div>

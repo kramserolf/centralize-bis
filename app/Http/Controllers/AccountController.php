@@ -25,6 +25,7 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {   
+        
         $barangays = Barangay::all();
         $account = [];
         if($request->ajax()) {

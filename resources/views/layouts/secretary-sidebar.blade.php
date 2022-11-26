@@ -16,27 +16,32 @@
     {{-- icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.3/css/buttons.bootstrap5.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.3.1/css/fixedHeader.bootstrap5.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
     <!-- Scripts -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
-
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js" charset="utf8"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/responsive.bootstrap5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.html5.min.js"></script>
+    <script src="{{ asset('js/button.print.js') }}"></script>
+    {{-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.3/js/buttons.print.min.js"></script> --}}
+    <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>    
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
     
 
@@ -216,9 +221,9 @@
     </div> --}}
         <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar bg-primary">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar bg-primary sidebar">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <a href="" class="mx-auto d-block d-flex align-items-center fs-5 pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <a href="{{ route('secretary.home') }}" class="mx-auto d-block d-flex align-items-center fs-5 pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span id="brgy_name" >
                             Barangay @if(!empty($filter_setting->barangay))
                         {{$filter_setting->barangay}}
@@ -227,7 +232,7 @@
                         @endif
                         </span>
                     </a>
-                    <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <a href="{{ route('secretary.home') }}" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         @if(!empty($filter_setting->logo))
                         <img class="mx-auto d-block d-none d-sm-inline" src="{{asset('images/barangay_logo/'.$filter_setting->logo.'')}}" alt="Your Barangay Logo here" style="width: 40%">
                         @else
@@ -285,14 +290,20 @@
                                 <i class="bi-newspaper sidebar-reports"></i>  <span class="ms-1 d-none d-sm-inline sidebar-reports">Reports</span> </a>
                             <ul class="collapse hide nav flex-column" id="submenu3" data-bs-parent="#menu3">
                                 <li class="w-100 m-0">
-                                    <a href="{{ route('resident.per-zone') }}" class="nav-link p-1 text-white" style="font-size: 15px; margin-left: 30px">
+                                    {{-- <a href="{{ route('resident.per-zone') }}" class="nav-link p-1 text-white" style="font-size: 15px; margin-left: 30px">
                                         <span class="sidebar-filter-zone" style="font-size: 15px">Residents <span style="font-size: 12px">(per zone)</span></span>
-                                    </a>
+                                    </a> --}}
                                     <a href="{{route('household')}}" class="nav-link p-1 text-white">
                                         <span class="sidebar-households" style="font-size: 15px; margin-left: 30px"> List of Household</span>
                                     </a>
                                     <a href="{{route('senior')}}" class="nav-link p-1 text-white">
                                         <span class="sidebar-senior" style="font-size: 15px; margin-left: 30px"> Senior Citizens</span>
+                                    </a>
+                                    <a href="{{ route('certificate.reports') }}" class="nav-link p-1 text-white">
+                                        <span class="sidebar-certificate" style="font-size: 15px; margin-left: 30px"> Certificates</span>
+                                    </a>
+                                    <a href="{{ route('report.file') }}" class="nav-link p-1 text-white">
+                                        <span class="sidebar-files" style="font-size: 15px; margin-left: 30px"> Files</span>
                                     </a>
                                 </li>
                             </ul>

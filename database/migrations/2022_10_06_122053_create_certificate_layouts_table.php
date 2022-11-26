@@ -21,7 +21,7 @@ return new class extends Migration
             $table->smallInteger('cert_type');
             $table->string('cert_header');
             $table->string('cert_title');
-            $table->string('paragraph1');
+            $table->string('paragraph1')->nullable();
             $table->string('paragraph2');
             $table->string('paragraph3')->nullable();
             $table->string('paragraph4')->nullable();

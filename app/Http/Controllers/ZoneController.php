@@ -28,21 +28,6 @@ class ZoneController extends Controller
          // get current logo
          $filter_setting = BarangaySetting::filterSetting();
 
-        //  count resident per zone
-
-        // $per_zone = ResidentInformation::all();
-
-        // $count = DB::table('resident_information as r')
-        //                 ->leftJoin('accounts as a', 'r.barangayId', 'a.barangay_id')
-        //                 ->leftJoin('zones as z', 'r.zone', 'z.id')
-        //                 ->selectRaw('count(*) as per_zone, z.zone as zone_name')
-        //                 ->groupBy('r.zone')
-        //                 ->where('a.user_id', Auth::id())
-        //                 ->get();
-
-
-        // dd($array);
- 
          //load barangay table
          $zone = [];
          if($request->ajax()) {

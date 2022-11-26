@@ -103,6 +103,12 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a href="{{ route('admin.reports') }}" class="nav-link align-middle fs-5 mb-1 text-white px-3">
+                                    <i class="bi-files admin-reports"></i> <span class="ms-1 d-none d-sm-inline admin-reports">Reports</span>
+                                </a>
+                            </li>
+
                         </ul>
                     <div class="dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">

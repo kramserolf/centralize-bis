@@ -25,6 +25,9 @@ class SecretaryController extends Controller
     {   
         //get current authenticated user
         $id = Auth::id();
+
+        // filter barangay ID
+        $barangay_id = Account::barangayId();
     
         // filter secretary account by barangay
         $filter = DB::table('users as u')   
@@ -52,7 +55,11 @@ class SecretaryController extends Controller
                                         ->where('r.barangay_id', $brgy_id)
                                         ->count();
 
-        return view('secretary.home', compact('filter', 'total_population', 'resident_account', 'filter_setting'));
+        $issueCerticate = DB::table('issued_certificates')
+                                ->where('barangay_id', $barangay_id)
+                                ->count();
+
+        return view('secretary.home', compact('filter', 'total_population', 'resident_account', 'filter_setting', 'issueCerticate'));
     }
 
 }

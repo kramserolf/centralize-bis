@@ -11,7 +11,9 @@ use App\Models\CertificateLayout;
 use App\Models\CertificateType;
 use App\Models\Account;
 use App\Models\Barangay;
+use App\Models\IssuedCertificate;
 use App\Models\Zone;
+use Carbon\Carbon as CarbonCarbon;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
 use PhpOffice\PhpWord\Element\Section;
@@ -63,7 +65,7 @@ class ResidentInformationController extends Controller
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm viewResident"><i class="bi-eye"></i> </a>';
                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-success btn-sm generateResidentAccount"><i class="bi-key-fill"></i> </a>';
-                    $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
+                    // $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-secondary btn-sm editResident"><i class="bi-pencil-square"></i> </a>';
                     $btn .= '<a href="javascript:void(0);" data-id="'.$row->id.'" class="m-1 btn btn-outline-danger btn-sm deleteResident"><i class="bi-trash"></i> </a>';
                     return $btn;
                 })
@@ -242,20 +244,27 @@ class ResidentInformationController extends Controller
         $resident_id = $request->resident_id;
 
         $resident = ResidentInformation::where('id', $resident_id)
-                            ->select('name')
+                            ->select('name', 'zone')
                             ->first();
+        $zone = Zone::where('id', $resident->zone)
+                        ->select('zone')
+                        ->first();
 
         // certificate layout id
         $certificateLayout_id = $request->cert_type;
 
         // get certificate layout
-        $certificate = CertificateLayout::where('id', $certificateLayout_id)
-                            ->first();
-
-        $certificate_type = DB::table('certificate_types as t')
-                                ->leftJoin('certificate_layouts as l', 't.id', 'l.cert_type')
-                                ->select('t.name')
+        $certificate =  DB::table('certificate_layouts as l')
+                                ->leftJoin('certificate_types as t', 'l.cert_type', 't.id')
+                                ->select('l.*', 't.name', 't.id as type_id')
+                                ->where('l.id', $certificateLayout_id)
                                 ->first();
+
+        // $certificate_type = DB::table('certificate_types as t')
+        //                         ->leftJoin('certificate_layouts as l', 't.id', 'l.cert_type')
+        //                         ->select('t.name', 't.id')
+        //                         ->first();
+
 
          $phpWord = new \PhpOffice\PhpWord\PhpWord();
  
@@ -264,14 +273,17 @@ class ResidentInformationController extends Controller
          $paragraphStyleName2 = 'title1Style';
 
          $paragraphStyleName3 = 'title2Style';
-
+         $paragraphStyleName4 = 'title3Style';
+         $paragraphStyleName5 = 'title4Style';
          
         
          $phpWord->addParagraphStyle($paragraphStyleName1, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 30));
 
          $phpWord->addParagraphStyle($paragraphStyleName2, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceBefore' => 0, 'spaceAfter' => 300));
 
-         $phpWord->addParagraphStyle($paragraphStyleName3, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceBefore' => 0, 'spaceAfter' => 600));
+         $phpWord->addParagraphStyle($paragraphStyleName3, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceBefore' => 0, 'spaceAfter' => 800));
+         $phpWord->addParagraphStyle($paragraphStyleName4, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceBefore' => 1300, 'spaceAfter' => 1000));
+         $phpWord->addParagraphStyle($paragraphStyleName5, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::END, 'spaceBefore' => 0, 'spaceAfter' => 0));
          
          $section = $phpWord->addSection();
 
@@ -327,28 +339,45 @@ class ResidentInformationController extends Controller
         );
 
          $text = $section->addText(
-             'TO WHOM IT MAY CONCERN:', array('name' => 'Times New Roman', 'size' => 12)
+             'TO WHOM IT MAY CONCERN:', array('name' => 'Times New Roman', 'size' => 12, 'spaceAfter' => 500)
          ); 
 
 
-         $text = $section->addText(
-            'THIS IS TO CERTIFY that '.$resident->name.' '.$certificate->paragraph1.'', array('name' => 'Times New Roman', 'size' => 12)
+         $section->addText(
+            '        THIS IS TO CERTIFY that '.$resident->name.' is a bonafide resident of '.$barangay->barangayName. ' ,Baggao Cagayan. Located at '.$zone->zone.'.', array('name' => 'Times New Roman', 'size' => 12, 'spaceBefore' => 300, 'spaceAfter' => 300)
         );
 
-         $text = $section->addText($certificate->paragraph2);
+         $section->addText('        '.$certificate->paragraph2 ,$paragraphStyleName2, array('size' => 13, 'spaceBefore' => 300, 'spaceAfter' => 300));
+         $section->addText('        '.$certificate->paragraph3 ,$paragraphStyleName2, array('size' => 13, 'spaceBefore' => 300, 'spaceAfter' => 300));
+
          $time = Carbon::now();
 
-         $text = $section->addText(
-            'Done this '.$time->format('jS').' day of '.$time->format('F Y').' at Barangay '.$barangay->barangayName.', Baggao, Cagayan'
+         $section->addText(
+            '        Done this '.$time->format('jS').' day of '.$time->format('F Y').' at Barangay '.$barangay->barangayName.', Baggao, Cagayan', $paragraphStyleName2, array('size' => 13, 'spaceBefore' => 300, 'spaceAfter' => 300)
          );
 
-         $text = $section->addText('Certified Correct:');
-         $text = $section->addText($barangay->barangayCaptain, array(
-            'name' => 'Times New Roman', 'size' => 14, 'underline' => 'single' , 'bold' => true
-         ));
-         $text = $section->addText('Punong Barangay');
+         $section->addText(
+            'Certified Correct:', array('name' => 'Times New Roman', 'size' => 12, 'bold' =>true), $paragraphStyleName4
+        );
+         $section->addText($barangay->barangayCaptain, array(
+            'name' => 'Times New Roman', 'size' => 14, 'underline' => 'single' , 'bold' => true), $paragraphStyleName5
+        );
+         $removeSpace = str_replace(' ', '', $resident->name);
+         $fileName = Carbon::now()->toDateString().$removeSpace;
+         $section->addText('Punong Barangay', array(
+            'name' => 'Times New Roman', 'size' => 12 , 'italic' => true), $paragraphStyleName5
+        );
          $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-         $objWriter->save('certificates/'.$resident->name.' - '.$certificate_type->name.'.docx');
+        $objWriter->save('certificates/'.$fileName.'.docx');
+
+
+         IssuedCertificate::create([
+            'barangay_id' => $barangay_id,
+            'resident_id' => $resident_id,
+            'certificate_typeId' => $certificate->type_id,
+            'certificate_layoutId' =>  $certificateLayout_id,
+            'certificate_path' => $fileName
+         ]);
 
          return response()->json('Certificate issued successfully.');
     }

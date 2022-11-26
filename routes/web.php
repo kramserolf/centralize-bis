@@ -11,8 +11,10 @@ use App\Http\Controllers\ResidentInformationController;
 use App\Http\Controllers\ResidentAccountController;
 use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\CertificateLayoutController;
 use App\Http\Controllers\CertificateTypeController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Models\User;
 use App\Models\Barangay;
@@ -59,6 +61,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
 
     // blotter
     Route::get('/blotters', [BlotterController::class, 'adminIndex'])->name('admin.blotter');
+
+    Route::get('/reports', [FileController::class, 'adminindex'])->name('admin.reports');
+    Route::get('report/download', [FileController::class, 'downloadCertificate'])->name('admin.certificate-download');
 });
 
 Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], function(){
@@ -119,7 +124,12 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
     Route::get('/resident/select-certificate', [ResidentInformationController::class, 'edit'])->name('resident.select-certificate');
     Route::post('/resident/issue-certificate', [ResidentInformationController::class, 'issueCertificate'])->name('issue-certificate.store');
 
+    // certificates
+    Route::get('reports/certificates', [CertificateController::class, 'index'])->name('certificate.reports');
 
+    Route::get('/reports/files', [FileController::class, 'index'])->name('report.file');
+    Route::post('/reports/files', [FileController::class, 'store'])->name('report.store-file');
+    Route::delete('/report/file/destroy', [FileController::class, 'destroy']);
 
     // Route::get('/home/{barangay}', function (Barangay $barangay) {
     //     $filter = DB::table('barangays as b')
@@ -131,6 +141,8 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
        
     // });
+
+    Route::get('certificate/download', [CertificateController::class, 'downloadCertificate'])->name('certificate.download');
     
 
 });

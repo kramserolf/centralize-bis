@@ -80,47 +80,7 @@ class CertificateLayoutController extends Controller
         // get barangay id
         $barangay_id = Account::barangayId();
 
-
-        // $phpWord = new \PhpOffice\PhpWord\PhpWord();
-
-        // $paragraphStyleName = 'pStyle';
-
-        // $phpWord->addParagraphStyle($paragraphStyleName, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 0));
-        
-        // $section = $phpWord->addSection();
-
-        // $text = $section->addText($request->get('cert_type'));
-
-        // $text = $section->addText(
-        //     'Republic of the Philippines', array('name' => 'Times New Roman', 'size' => 12), $paragraphStyleName
-        // );
-        // $text = $section->addText(
-        //     'Province of Cagayan', array('name' => 'Times New Roman', 'size' => 12), $paragraphStyleName
-        // );
-        // $text = $section->addText(
-        //     'Municipality of Baggao', array('name' => 'Times New Roman', 'size' => 12), $paragraphStyleName
-        // );
-
-        // $text = $section->addText(
-        //     'Barangay '.$barangay_name->barangayName.'', array('name' => 'Times New Roman', 'size' => 14), $paragraphStyleName
-        // );
-        // $text = $section->addText(
-        //     'TO WHOM IT MAY CONCERN:', array('name' => 'Times New Roman', 'size' => 12)
-        // );
-        // $section->addImage(public_path('images/baggao_logo.png'));  
-        // $text = $section->addText($request->get('cert_header'), null, $paragraphStyleName);
-        // $text = $section->addText(
-        //     $request->get('cert_header'),array('name' => 'Times New Roman', 'size' => 16, 'upperCase' => true) 
-        // );
-        // $text = $section->addText($request->get('cert_title'), null, $paragraphStyleName);
-        // $text = $section->addText($request->get('paragraph1'));
-        // $text = $section->addText($request->get('paragraph2'));
-        // $text = $section->addText($request->get('paragraph3'));
-        // $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        // $objWriter->save('certificate_layouts/'.$request->cert_type.'.docx');
-
         $request->validate([
-            'paragraph1' => 'required|string',
             'paragraph2' => 'required|string',
             'logo1' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1280',
             'logo2' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1280',
@@ -143,7 +103,6 @@ class CertificateLayoutController extends Controller
             'logo2' => $logo2,
             'cert_header' => $request->cert_header,
             'cert_title' => $request->cert_title,
-            'paragraph1' => $request->paragraph1,
             'paragraph2' => $request->paragraph2,
             'paragraph3' => $request->paragraph3,
         ]);

@@ -1,24 +1,26 @@
 @extends('layouts.secretary-sidebar')
 <style>
-   .sidebar-reports, .sidebar-senior{
+   .sidebar-certificate, .sidebar-certificate{
        color: rgb(180, 179, 179);
     }
 </style>
 @section('content')
-<h4 class="text-center px-2 fw-bold text-secondary"> Senior Citizens</h4>
+<h4 class="text-center px-2 fw-bold text-secondary"> Issued Certificates</h4>
 
     <table class="table table-bordered table-sm data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
                 <td class="text-center">No.</td>
-                <td class="text-center">Household No.</td>
                 <td class="text-center">Name</td>
-                <td class="text-center">Age</td>
                 <td class="text-center">Zone</td>
-                {{-- <td class="text-center">Action</td> --}}
+                <td class="text-center">Certificate Type</td>
+                <td class="text-center">Purpose</td>
+                <td class="text-center">Date Issued</td>
+                <td class="text-center">Download</td>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+        </tbody>
     </table>
 
 {{-- add modal --}}
@@ -93,14 +95,15 @@
             serverSide: true,
             responsive: true,
             select: true,
-            ajax: "{{ route('senior') }}",
+            ajax: "{{ route('certificate.reports') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'household_no', name: 'household_no'},
                 {data: 'name', name: 'name'},
-                {data: 'age', name: 'age'},
                 {data: 'zone', name: 'zone'},
-                // {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
+                {data: 'certificate', name: 'certificate'},
+                {data: 'purpose', name: 'purpose'},
+                {data: 'issue_date', name: 'issue_date'},
+                {data: 'action', name: 'action', class: 'text-center'},
             ],
             dom: 'fBrtlip',
             buttons: [
@@ -112,16 +115,16 @@
 
                 },
                 {
-                extend: 'print',
+                    extend: 'print',
 
-                repeatingHead: {
-                    logo: '{{ asset('images/barangay_logo/'.$filter_setting->logo.'') }}',
-                    logoPosition: 'center',
-                    logoStyle: 'width: 90',
-                    title: '<h3 class="text-center m-4">{!! $filter_setting->barangay !!} Senior Citizen Summary Report</h3>'
+                    repeatingHead: {
+                        logo: '{{ asset('images/barangay_logo/'.$filter_setting->logo.'') }}',
+                        logoPosition: 'center',
+                        logoStyle: 'width: 90',
+                        title: '<h3 class="text-center m-4">{!! $filter_setting->barangay !!} Issued Certificates Summary Report</h3>'
+                    },
+                    title: '',
                 },
-                title: '',
-            },
                 'spacer',
                 {
                     extend: 'pdf',
@@ -153,6 +156,29 @@
             });
         });
 
+        // $('body').on('click', '.downloadCertificate', function(){
+        //     var id = $(this).data('id');
+        //     var data = "";
+        //     $.ajax({
+        //         url: '{{ url("barangay/certificate/download") }}',
+        //         type: 'GET',
+        //         data: data,
+        //         xhrFields: {
+        //             responseType: 'blob'
+        //         },
+        //         success: function(data){
+        //             var blob = new Blob([data]);
+        //             var link = document.createElement('a');
+        //             link.href = window.URL.createObjectURL(blob);
+        //             link.download = '2022-11-26Jhanel.docx';
+        //             link.click();
+        //         },
+        //         error: function(data){
+        //             alert(data);
+        //         }
+        //     });
+        // });
+
         // DELETE 
         $('body').on('click', '.deleteBarangayOfficial', function () {
         var id = $(this).data("id");
@@ -174,6 +200,8 @@
             }
         });
         $('#submenu3').addClass('show').removeClass('hide');
+        
+
     }); //end of script
 
 </script>

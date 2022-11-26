@@ -161,6 +161,7 @@
                     $('#certificateModal').modal('hide');
                     toastr.success('Certificate issued successfully','Success');
                     table.draw();
+                    window.location.href = "{{ route('certificate.reports') }}";
                 },
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');

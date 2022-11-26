@@ -387,20 +387,33 @@
                 // {data: 'zone', name: 'zone'},
                 {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
-            // dom: 'Bfrtlip',
-            // buttons: [
-            //     {
-            //         text: '<i class="bi-plus-circle"></i> Add',
-            //         className: 'badge bg-secondary fs-5 mb-2',
-            //         action: function(e, dt, node, config){
-            //             // show modal
-            //             $('#id').val('');
-            //             $('#residentForm').trigger("reset");
-            //             $('#addModal').modal('show');
-            //             $('#savedata').html('Save');
-            //         },
-            //     }
-            // ]
+            dom: 'fBrtlip',
+            buttons: [
+                'colvis',
+                {
+                    extend: 'spacer',
+                    text: 'Export Files',
+                    style: 'bar',
+
+                },
+                {
+                    extend: 'print',
+
+                    repeatingHead: {
+                        logo: '{{ asset('images/barangay_logo/'.$filter_setting->logo.'') }}',
+                        logoPosition: 'center',
+                        logoStyle: 'width: 90',
+                        title: '<h3 class="text-center m-4">{!! $filter_setting->barangay !!} Households Summary Report</h3>'
+                    },
+                    title: '',
+                },
+                'spacer',
+                {
+                    extend: 'pdf',
+                    columns: [1,2,3,4]
+                }
+
+            ],
         });
 
         //show modal

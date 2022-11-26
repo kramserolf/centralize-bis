@@ -65,20 +65,20 @@
                         </div>
                     </div>
                     <div class="row form-row mb-3 mt-2 fw-bold">
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label for="paragraph1" class="form-label fw-bold">1st Paragraph</label>
                             <textarea class="form-control" id="paragraph1" name="paragraph1" rows="3" placeholder="e.g is a bonafide  resident of   Dalin,    Baggao,  Cagayan Located at (zone)"></textarea>
                             <span class="text-muted" style="font-size: 12px;">Note: do not fill zone</span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="paragraph2" class="form-label fw-bold">2nd Paragraph</label>
+                        </div> --}}
+                        <div class="form-group col-md-12">
+                            <label for="paragraph2" class="form-label fw-bold">Paragraph</label>
                             <textarea class="form-control" id="paragraph2" name="paragraph2" rows="3" placeholder="e.g This certification is issued upon  the request of the above named-person for  general purposes."></textarea>
                         </div>
                     </div>
                     <div class="row form-row mb-3 mt-2 fw-bold">
 
-                        <div class="form-group col-md-6">
-                            <label for="paragraph3" class="form-label fw-bold">3rd Paragraph</label>
+                        <div class="form-group col-md-12">
+                            <label for="paragraph3" class="form-label fw-bold">Paragraph</label>
                             <textarea class="form-control" id="paragraph3" name="paragraph3" rows="3" placeholder="e.g. I further certify that this family has low income thus, they belong to the indigent families of this Barangay."></textarea>
                         </div>
                     </div>
