@@ -80,10 +80,10 @@
                                     <label for="civil status" class="form-label text-capitalize">civil status:</label>
                                     <select class="form-select" aria-label="Default select example" name="civil_status" id="civil_status">
                                         <option selected>Select status</option>
-                                        <option value="Single">Single</option>
-                                        <option value="Married">Married</option>
-                                        <option value="Single Parent">Single Parent</option>
-                                        <option value="Divorced">Divorced</option>
+                                        <option value="1">Single</option>
+                                        <option value="2">Married</option>
+                                        <option value="3">Single Parent</option>
+                                        <option value="4">Divorced</option>
                                        
                                       </select>
                                 </div>
@@ -112,7 +112,7 @@
                                     <select class="form-select" aria-label="Default select example" name="zone" id="zone">
                                         <option selected>Select option</option>
                                         @foreach ($filter_zone as $item)
-                                        <option value="{{$item->zone}}">{{$item->zone}}</option>
+                                        <option value="{{$item->id}}">{{$item->zone}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -645,7 +645,7 @@
                         $('#addModal').modal('show');
                         $('#id').val(data.id);
                         $('#name').val(data.name);
-                        $('#gender').val().change(data.gender);
+                        $('#gender').val(data.gender);
                          $('#family_no').val(data.family_no);
                          $('#household_no').val(data.household_no);
                          $('#civil_status select').val(data.civil_status);
@@ -654,7 +654,7 @@
                          $('#cp_number').val(data.cp_number);
                          $('#hf_relation').val(data.hf_relation);
                          $('#religion').val(data.religion);
-                         $('#zone').val(data.zone);
+                        console.log(data);
                         $('#savedata').html('Update');
                     }
             });
