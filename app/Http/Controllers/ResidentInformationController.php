@@ -108,6 +108,7 @@ class ResidentInformationController extends Controller
             ['id' => $request->id],
             [
             'barangayId' => $brgy_id->id,
+            'household_no' => $request->household_no,
             'family_no' => $request->family_no,
             'name' => $request->name,
             'gender' => $request->gender,
