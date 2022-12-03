@@ -40,8 +40,10 @@ class HomeController extends Controller
 
         $total_accounts = User::where('is_role', 1)
                             ->count();
+        $resident_accounts = User::where('is_role', 2)
+                                    ->count();
 
-        return view('admin/home', compact('total_population', 'total_accounts'));
+        return view('admin/home', compact('total_population', 'total_accounts', 'resident_accounts'));
     }
 
     public function residentHome()
