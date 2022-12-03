@@ -16,9 +16,11 @@ use App\Http\Controllers\CertificateLayoutController;
 use App\Http\Controllers\CertificateTypeController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RequestController;
 use App\Models\User;
 use App\Models\Barangay;
 use App\Models\Account;
+use App\Models\ResidentInformation;
 use Database\Factories\ResidentInformationFactory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +43,8 @@ Route::get('/', function () {
 // RESIDENT ACCOUNT
 Route::group(['prefix' => 'resident', 'middleware' => ['is_resident']], function(){
     Route::get('/home', [HomeController::class, 'residentHome'])->name('resident.home');
+    Route::get('/profile', [HomeController::class, 'residentProfile'])->name('resident.profile');
+    Route::post('/home/store', [RequestController::class, 'store'])->name('resident.request');
 });
 
 // ADMIN ACCOUNT
@@ -69,7 +73,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['is_admin']], function(){
     Route::get('report/download', [FileController::class, 'downloadCertificate'])->name('admin.certificate-download');
 
     Route::get('/profile', [HomeController::class, 'adminProfile'])->name('admin.profile');
+
+    Route::get('announcements/', [AnnouncementController::class, 'adminAnnouncement'])->name('admin.announcements');
 });
+
 
 Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], function(){
     Route::get('/home', [SecretaryController::class, 'index'])->name('secretary.home');
@@ -91,6 +98,7 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
     Route::get('/residents/per-zone', [ResidentInformationController::class, 'residentPerZone'])->name('resident.per-zone');
     Route::get('/resident/filter-by-zone', [ResidentInformationController::class, 'filterZone'])->name('filter.zone');
     Route::get('/resident/zone/search', [ResidentInformationController::class, 'search']);
+    Route::get('/household/members', [ResidentInformationController::class, 'householdMembers']);
 
     //barangay officials
     Route::get('/officials', [BarangayOfficialController::class, 'index'])->name('barangay.officials');
@@ -116,6 +124,7 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
     // annoucements
     Route::get('/announcements', [AnnouncementController::class, 'index'])->name('barangay.announcement');
+    Route::get('general/announcements/', [AnnouncementController::class, 'secretaryAnnouncement'])->name('barangay.announcements');
     Route::get('/announcement/edit', [AnnouncementController::class, 'edit']);
     Route::post('/announcement/store', [AnnouncementController::class, 'store'])->name('announcement.store');
     Route::post('/announcement/update', [AnnouncementController::class, 'update'])->name('announcement.update');
@@ -149,6 +158,11 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
 
     Route::get('/profile', [HomeController::class, 'secretaryProfile'])->name('secretary.profile');
 
+    // certificate requests
+    Route::get('/certificate/requests', [RequestController::class, 'index'])->name('certificate.requests');
+    Route::post('/certificate/requests', [RequestController::class, 'approveCertificate'])->name('approve.certificate');
+    Route::delete('certificates/request/destroy', [RequestController::class, 'destroy']);
+
     // Route::get('/home/{barangay}', function (Barangay $barangay) {
     //     $filter = DB::table('barangays as b')
     //                 ->leftJoin('accounts as a', 'b.id', 'a.barangay_id')
@@ -161,6 +175,7 @@ Route::group(['prefix' => 'barangay', 'middleware' => ['is_secretary']], functio
     // });
 
     Route::get('certificate/download', [CertificateController::class, 'downloadCertificate'])->name('certificate.download');
+ 
     
 
 });

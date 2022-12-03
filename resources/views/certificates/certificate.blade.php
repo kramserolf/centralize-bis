@@ -148,8 +148,7 @@
         });
 
         // issue certificate
-              //add function
-      $('#btn_issueCertificate').click(function (e) {
+    $('#btn_issueCertificate').click(function (e) {
         e.preventDefault();
         $.ajax({
             data: $('#certificateForm').serialize(),
@@ -167,8 +166,8 @@
                     toastr.error(data['responseJSON']['message'],'Error has occured');
 
                 }
-            });
         });
+    });
         $('#submenu2').addClass('show').removeClass('hide');
     }); 
     //end of script

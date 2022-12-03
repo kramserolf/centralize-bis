@@ -1,32 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    @foreach ($announcements as $item)
-   
-        <div class="d-flex flex-nowrap">
-            <div class="sm-4 p-2" style="width: 100%">
-                <img src="{{asset('images/announcements/'.$item->image.'')}}" class="img-thumbnail" alt="img-thumbnail">
-                <span class="px-3" style="font-size: 10px">{{date('F j, Y, g:i a', strtotime($item->created_at))}}</span>
+<div class="container">
+    <h3 class="text-center px-2 fw-bold text-secondary mb-3"> Announcements</h3>
+<div class="row">
+    @foreach ($announcements as $row )
+        <div class="col-md-8 col-lg-10 col-sm-4">
+            <div class="post-preview">
+                <h2 class="post-title fw-bold">{{ $row->title }}</h2>
+                <h5 class="post-subtitle">{{ $row->content }}</h5>
+                <p style="font-size: 13px" class="post-meta">From Barangay <strong>{{ $row->barangayName }}</strong> on {{ date('M j, Y h:i a', strtotime($row->created_at)) }}</p>
             </div>
-            <div class="mt-3">
-                <a href="#" style="text-decoration: none; color:black"><strong>{{$item->title}}</strong><br>
-                    <span style="font-size: 12px">{{$item->content}}</span>
-                </a>
-            </div>
-          
-      
+            <hr />
         </div>
-    </div>
-        <div class="d-flex justify-content-center mb-2">
-            <div class="col-sm-6 p-2">
-                
-                
-            </div>
-     
-            <div class="p-2">
-                
-            </div>
-        </div>
-
     @endforeach
+</div>
+</div>
+
+@include('modal.certificate')
 @endsection

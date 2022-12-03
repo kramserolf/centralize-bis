@@ -70,7 +70,7 @@
     <div class="container-fluid overflow-hidden">
         <div class="row vh-100 overflow-auto">
             <div class="col-12 col-sm-3 col-xl-2 col-sm-1 px-sm-2 px-0 bg-primary d-flex sticky-top sticky">
-                <div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white">
+                <div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-1 pt-2 text-white">
                     <a href="{{route('admin.home')}}" class="d-flex align-items-center pb-4 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline">Centralized Barangay Information System</span>
                     </a>
@@ -109,6 +109,11 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a href="{{ route('admin.announcements') }}" class="nav-link align-middle fs-5 mb-1 text-white px-3">
+                                    <i class="bi-megaphone-fill admin-announcement"></i> <span class="ms-1 d-none d-sm-inline admin-announcement">Announcements</span>
+                                </a>
+                            </li>
                         </ul>
                     <div class="dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1">
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">

@@ -1,6 +1,6 @@
 @extends('layouts.secretary-sidebar')
 <style>
-   .sidebar-announcement{
+   .sidebar-announcements{
        color: rgb(180, 179, 179);
     }
 </style>
@@ -131,6 +131,13 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        
+        // TOASTR OPTIONS
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": true,
+            "preventDuplicates": true
+        }
 
         //load table
         let table = $('.data-table').DataTable({
@@ -286,7 +293,7 @@
         });
     }); 
     //end of script
-
+        $('#submenu1').addClass('show').removeClass('hide');
 </script>
 
 @endsection

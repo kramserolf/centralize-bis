@@ -35,10 +35,20 @@
               <div class="modal-body">
                     {{-- hidden id --}}
                     <input type="hidden" name="id" id="id">
-                  <div class="mb-3">
-                      <label for="position" class="form-label">Position</label>
-                      <input type="text" class="form-control text-capitalize" name="position" id="position" placeholder="Barangay Captain">
-                  </div>
+                    <div class="mb-3">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Position</label>
+                        <div class="col-sm-12">
+                            <select class="form-select select-user" aria-label="Default select example" name="position" id="select_position">
+                                <option value=""></option>
+                                <option value="Brgy. Captain">Brgy. Captain</option>
+                                <option value="Brgy. Secretary">Brgy. Secretary</option>
+                                <option value="Brgy. Treasurer">Brgy. Treasurer</option>
+                                <option value="Brgy. Counsilor">Brgy. Counsilor</option>
+                                <option value="SK Chairman">SK Chairman</option>
+                                <option value="SK Kagawad">SK Kagawad</option>
+                            </select>
+                        </div>
+                      </div>
                   <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control text-capitalize" name="name" id="name" placeholder="Juan Dela Cruz">
@@ -88,6 +98,22 @@
             }
         });
 
+        
+        // TOASTR OPTIONS
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": true,
+            "preventDuplicates": true
+        }
+
+        // select user 
+        $('#select_position').select2({
+            dropdownParent: $('#addModal'),
+            theme: "bootstrap-5",
+            placeholder: "Select position",
+            allowClear: true,
+            tags: true,
+        });
         //load table
         let table = $('.data-table').DataTable({
             processing: true,

@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('requests', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('account_id');
-            $table->smallInteger('barangay_id');
-            $table->string('contact_number');
+            $table->unsignedInteger('barangay_id');
+            $table->unsignedInteger('user_id');
+            $table->string('certificate_id');
+            $table->string('purpose');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('requests');
     }
 };

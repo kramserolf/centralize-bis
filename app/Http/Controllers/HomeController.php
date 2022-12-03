@@ -12,8 +12,10 @@ use App\Models\ResidentAccount;
 use App\Models\Barangay;
 use App\Models\Announcement;
 use App\Models\BarangaySetting;
+use App\Models\CertificateType;
 use App\Models\Zone;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class HomeController extends Controller
 {
@@ -52,10 +54,15 @@ class HomeController extends Controller
 
         $barangay_name = $current_barangay->barangayName;
 
-        $announcements = Announcement::where('barangay_id', $barangay_id)
-                                    ->get();
+        $certificates = CertificateType::where('barangay_id', $barangay_id)
+                            ->get();
 
-        return view('resident.home', compact('barangay_name', 'announcements'));
+        $announcements = db::table('announcements as a')
+                                ->leftJoin('barangays as b', 'a.barangay_id', 'b.id')
+                                ->select('a.*', 'b.barangayName', DB::raw('DATE_FORMAT(a.updated_at, \'%M %d, %Y\') as created'))
+                                ->paginate(8);
+
+        return view('resident.home', compact('barangay_name', 'announcements', 'certificates'));
     }
 
     public function adminProfile()
@@ -75,12 +82,31 @@ class HomeController extends Controller
         return view('secretary.profile', compact('filter_setting', 'barangay_id', 'filter_zone'));
     }
 
+    public function residentProfile()
+    {
+        // get current Barangay id
+        $barangay_id = ResidentAccount::barangayId();
+
+        $certificates = CertificateType::where('barangay_id', $barangay_id)
+        ->get();
+
+
+        $current_barangay = Barangay::where('id', $barangay_id)
+                                ->first();
+
+        $barangay_name = $current_barangay->barangayName;
+
+        
+
+        return view('resident.profile', compact('barangay_name', 'certificates'));
+    }
+
+
     public function profileUpdate(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
-            'current_password' => 'nullable|required_with:new_password',
         ]);
 
         $user = User::findOrFail(Auth::user()->id);
@@ -96,7 +122,14 @@ class HomeController extends Controller
     {
         $request->validate([
             'current_password' => 'nullable|required_with:new_password',
-            'new_password' => 'nullable|min:6|max:12|required_with:current_password',
+            'new_password' => [
+                Password::min(8)
+                        ->mixedCase()
+                        ->letters()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised()
+            ],
             'password_confirmation' => 'nullable|min:6|max:12|required_with:new_password|same:new_password'
         ]);
 

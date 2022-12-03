@@ -10,11 +10,11 @@
     <table class="table table-bordered table-sm data-table nowrap" style="width: 100%;">
         <thead>
             <tr class="table-primary text-uppercase">
-                <td class="text-center" style="width: 10%">Household No.</td>
+                <td class="text-center">Household No.</td>
                 <td class="text-center">Family Head</td>
-                <td class="text-center" style="width: 15%">Zone</td>
+                <td class="text-center">Total Members</td>
+                <td class="text-center">Zone</td>
                 <td class="text-center">Mobile No.</td>
-                {{-- <td class="text-center">Zone</td> --}}
             </tr>
         </thead>
         <tbody></tbody>
@@ -295,66 +295,7 @@
     </div>
   </div>
 
-
-  {{-- VIEW modal --}}
-  <div class="modal modal-lg fade" id="viewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form name="residentForm" id="residentForm" enctype="multipart/form-data">
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel"> Resident Details <i class="bi-info-circle"></i></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                    {{-- hidden id --}}
-                    <input type="hidden" name="id" id="id">
-                    <nav class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-link active" id="nav-view-profile-tab" data-bs-toggle="tab" href="#nav-view-profile" role="tab" aria-controls="nav-view-profile" aria-selected="false">Profile</a>
-                        <a class="nav-link" id="nav-view-education-tab" data-bs-toggle="tab" href="#nav-view-education" role="tab" aria-controls="nav-view-education" aria-selected="false">Education</a>
-                        <a class="nav-link" id="nav-view-work-tab" data-bs-toggle="tab" href="#nav-view-work" role="tab" aria-controls="nav-view-work" aria-selected="false">Work</a>
-                        <a class="nav-link" id="nav-view-area-tab" data-bs-toggle="tab" href="#nav-view-area" role="tab" aria-controls="nav-view-area" aria-selected="false">Area</a>
-                        <a class="nav-link" id="nav-view-business-tab" data-bs-toggle="tab" href="#nav-view-business" role="tab" aria-controls="nav-view-business" aria-selected="false">Business</a>
-                        <a class="nav-link" id="nav-view-vehicles-tab" data-bs-toggle="tab" href="#nav-view-vehicles" role="tab" aria-controls="nav-view-vehicles" aria-selected="false">Vehicles</a>
-                        <a class="nav-link" id="nav-view-gadgets-tab" data-bs-toggle="tab" href="#nav-view-gadgets" role="tab" aria-controls="nav-view-gadgets" aria-selected="false">Gadgets</a>
-                        <a class="nav-link" id="nav-view-calamity-tab" data-bs-toggle="tab" href="#nav-view-calamity" role="tab" aria-controls="nav-view-calamity" aria-selected="false">Calamity</a>
-                        <a class="nav-link" id="nav-view-others-tab" data-bs-toggle="tab" href="#nav-view-others" role="tab" aria-controls="nav-view-others" aria-selected="false">Others</a>
-
-
-                        {{-- <a class="nav-link disabled" id="nav-disabled-tab" data-bs-toggle="tab" href="#nav-disabled" role="tab" aria-controls="nav-disabled" tabindex="-1" aria-disabled="true">Disabled</a> --}}
-                      </nav>
-                      <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-view-profile" role="tabpanel" aria-labelledby="nav-view-education-tab">
-                            <div class="mb-3">
-                                <label for="barangayName" class="form-label">Barangay</label>
-                                <input type="text" class="form-control text-capitalize" name="barangayName" id="barangayName" placeholder="dalin">
-                            </div>
-                            <div class="mb-3">
-                                <label for="barangayCaptain" class="form-label">Barangay Captain</label>
-                                <input type="text" class="form-control text-capitalize" name="barangayCaptain" id="barangayCaptain" placeholder="Juan Dela Cruz">
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="nav-view-education" role="tabpanel" aria-labelledby="nav-view-ducation-tab">Lorem ipsum dolor sit amet, consveritatis.</div>
-                        <div class="tab-pane fade" id="nav-view-work" role="tabpanel" aria-labelledby="nav-view-work-tab">Loatis.</div>
-                        <div class="tab-pane fade" id="nav-view-area" role="tabpanel" aria-labelledby="nav-view-area-tab">Area.</div>
-                        <div class="tab-pane fade" id="nav-view-business" role="tabpanel" aria-labelledby="nav-view-business-tab">business.</div>
-                        <div class="tab-pane fade" id="nav-view-vehicles" role="tabpanel" aria-labelledby="nav-view-vehicles-tab">vehicles.</div>
-                        <div class="tab-pane fade" id="nav-view-gadgets" role="tabpanel" aria-labelledby="nav-view-gadgets-tab">gadgets.</div>
-                        <div class="tab-pane fade" id="nav-view-calamity" role="tabpanel" aria-labelledby="nav-view-calamity-tab">calamity.</div>
-                        <div class="tab-pane fade" id="nav-view-others" role="tabpanel" aria-labelledby="nav-view-others-tab">others.</div>
-                        {{-- <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laudantium minima repellat incidunt facilis obcaecati blanditiis corrupti ad officia doloribus ullam sapiente ipsum, nemo a, excepturi voluptatem voluptatibus velit eum dignissimos ut, nam tempora? Reiciendis illo itaque veritatis eligendi fuga, mollitia ratione totam veniam esse in.</div> --}}
-                      </div>
-
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-primary" name="savedata" id="savedata" >Save</button>
-                  <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
-              </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
+  @include('modal.household')
 
 <script>
     
@@ -369,6 +310,14 @@
             }
         });
 
+        
+        // TOASTR OPTIONS
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": true,
+            "preventDuplicates": true
+        }
+
         //load table
         let table = $('.data-table').DataTable({
             processing: true,
@@ -378,8 +327,11 @@
             ajax: "{{ route('household') }}",
             deferRender: true,
             columns: [
-                {data: 'household_no', name: 'household_no'},
+                {data: 'household_no', name: 'household_no', class: 'text-center', render: function(data, type, row, meta){
+                    return '<a id="household" role=""button href="#">'+row.household_no+'</a>'
+                }},
                 {data: 'name', name: 'name'},
+                {data: 'total_members', name: 'total_members', class: 'text-end'},
                 {data: 'zone', name: 'zone', class: 'text-end'},
                 // {data: 'zone', name: 'zone', render: function(data, type, full, meta) {return "Zone" + " " +  "0"+  data}},
                 {data: 'cp_number', name: 'cp_number', class: 'text-end'},
@@ -387,13 +339,6 @@
             ],
             dom: 'fBrtlip',
             buttons: [
-                'colvis',
-                {
-                    extend: 'spacer',
-                    text: 'Export Files',
-                    style: 'bar',
-
-                },
                 {
                     extend: 'print',
 
@@ -405,15 +350,23 @@
                     },
                     title: '',
                 },
+                {
+                    extend: 'spacer',
+                    text: 'Export Files',
+                    style: 'bar',
+
+                },
                 'spacer',
                 {
                     extend: 'pdf',
                     columns: [1,2,3,4]
                 }
-
             ],
         });
-
+        
+        $('.household-close').click(function(){
+            $('#result').empty();
+        });
         //show modal
             // SHOW ADD MODAL
         $('#addAccount').click(function () {
@@ -421,6 +374,25 @@
             $('#residentForm').trigger("reset");
             $('#addModal').modal('show');
             $('#savedata').html('Save');
+        });
+        // view household members
+        $('body').on('click', '#household', function(){
+            var household_id= $(this).html();
+            var id = parseInt(household_id);
+            $.ajax({
+                type:"GET",
+                url: "{{ url('barangay/household/members') }}",
+                data: { id: id},
+                dataType: 'json',
+                    success: function(data){
+                        console.log(data);
+                        $('#viewModal').modal('show');
+                        $.each(data.result, function(index, value){
+                            $('#result').append('<tr><td>'+ value['name'] +'</td><td class="text-center">'+value['age']+'</td><td class="text-center">'+value['gender']+'</td><td class="text-center">'+value['civil_status']+'</td><td class="text-end">'+value['cp_number']+'</td></tr>');
+                        });
+                        $('.modal-title').html('Household'+ ' ' + '<span class="text-primary">#'+ id+'</span>'+ ' ' + 'Members');
+                }
+            });
         });
 
         //add function
@@ -499,6 +471,7 @@
     }
         return $('#age').val(age);
     });
+
 </script>
 
 @endsection

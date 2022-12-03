@@ -88,6 +88,21 @@
       body.loading .overlay {
           display: block;
       }
+      @media print {
+        .bodys {
+            visibility: hidden;
+        }
+        #title {
+        display: block;
+        }
+        #printSection, #printSection * {
+            visibility:visible;
+        }
+        #printSection {
+            position:absolute;
+            top:0;
+        }
+    }
     </style>
 </head>
 <body>
@@ -266,6 +281,9 @@
                                     
                                         <span class="sidebar-zone" style="font-size: 15px; margin-left: 30px"> Zone</span>
                                     </a>
+                                    <a href="{{route('barangay.announcement')}}" class="nav-link p-1 text-white">
+                                        <span class="sidebar-announcements" style="font-size: 15px; margin-left: 30px">Announcements</span>
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -275,12 +293,13 @@
                             <ul class="collapse hide nav flex-column" id="submenu2" data-bs-parent="#menu2">
                                 <li class="w-100 m-0">
                                     <a href="{{ route('barangay.blotter') }}" class="nav-link p-1 text-white" style="font-size: 15px; margin-left: 30px">
-
                                         <span class="sidebar-blotters" style="font-size: 15px"> Blotters</span>
                                     </a>
                                     <a href="{{route('get-certificate.layout')}}" class="nav-link p-1 text-white">
-             
                                         <span class="sidebar-certificates" style="font-size: 15px; margin-left: 30px"> Certificates</span>
+                                    </a>
+                                    <a href="{{route('certificate.requests')}}" class="nav-link p-1 text-white">
+                                        <span class="sidebar-certificates" style="font-size: 15px; margin-left: 30px"> Requests</span>
                                     </a>
                                 </li>
                             </ul>
@@ -309,7 +328,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('barangay.announcement')}}" class="nav-link align-middle px-2 fs-5 text-white">
+                            <a href="{{route('barangay.announcements')}}" class="nav-link align-middle px-2 fs-5 text-white">
                                 <i class="bi-megaphone-fill sidebar-announcement"></i> <span class="ms-1 d-none d-sm-inline sidebar-announcement">Announcements</span>
                             </a>
                         </li>

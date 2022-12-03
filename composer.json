@@ -7,12 +7,15 @@
     "require": {
         "php": "^8.0.2",
         "barryvdh/laravel-dompdf": "^2.0",
+        "eduardokum/laravel-mail-auto-embed": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
         "phpoffice/phpword": "^0.18.3",
+        "sendinblue/api-v3-sdk": "^8.3",
+        "symfony/sendinblue-mailer": "*",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

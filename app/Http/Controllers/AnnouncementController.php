@@ -179,4 +179,26 @@ class AnnouncementController extends Controller
                         ->delete();
         
     }
+
+    public function adminAnnouncement()
+    {
+        $announcements = DB::table('announcements as a')
+                                ->leftJoin('barangays as b', 'a.barangay_id', 'b.id')
+                                ->select('a.*', 'b.barangayName',  DB::raw('DATE_FORMAT(a.created_at, \'%M %d, %Y\') as created_at'))
+                                ->latest()
+                                ->paginate(9);
+
+        return view('admin.announcement', compact('announcements'));
+    }
+    public function secretaryAnnouncement()
+    {
+        $filter_setting = BarangaySetting::filterSetting();
+        $announcements = DB::table('announcements as a')
+                                ->leftJoin('barangays as b', 'a.barangay_id', 'b.id')
+                                ->select('a.*', 'b.barangayName',  DB::raw('DATE_FORMAT(a.created_at, \'%M %d, %Y\') as created_at'))
+                                ->latest()
+                                ->paginate(9);
+
+        return view('secretary.general_announcement', compact('announcements', 'filter_setting'));
+    }
 }

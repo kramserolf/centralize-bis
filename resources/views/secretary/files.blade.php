@@ -68,6 +68,13 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        
+        // TOASTR OPTIONS
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": true,
+            "preventDuplicates": true
+        }
 
         //load table
         let table = $('.data-table').DataTable({

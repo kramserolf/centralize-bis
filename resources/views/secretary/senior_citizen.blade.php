@@ -14,6 +14,7 @@
                 <td class="text-center">Household No.</td>
                 <td class="text-center">Name</td>
                 <td class="text-center">Age</td>
+                <td class="text-center">Disability</td>
                 <td class="text-center">Zone</td>
                 {{-- <td class="text-center">Action</td> --}}
             </tr>
@@ -21,60 +22,7 @@
         <tbody></tbody>
     </table>
 
-{{-- add modal --}}
-<div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form name="barangayOfficialForm" id="barangayOfficialForm" enctype="multipart/form-data">
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">New Barangay Official</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                    {{-- hidden id --}}
-                    <input type="hidden" name="id" id="id">
-                  <div class="mb-3">
-                      <label for="position" class="form-label">Position</label>
-                      <input type="text" class="form-control text-capitalize" name="position" id="position" placeholder="Barangay Captain">
-                  </div>
-                  <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control text-capitalize" name="name" id="name" placeholder="Juan Dela Cruz">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="committee" class="form-label">Committee <span class="text-muted" style="font-size: 12pxl">(optional)</span></label>
-                    <input type="text" class="form-control text-capitalize" name="committee" id="committee" placeholder="Community Engagement">
-                  </div>
-
-                  <div class="row form-row mb-3">
-                    <div class="form-group col-md-6">
-                        <label for="zone" class="form-label">Area Zone </span></label>
-                            <select class="form-select" aria-label="Default select example" name="zone" id="zone">
-                                <option selected>Select option</option>
-                                @foreach ($filter_zone as $item)
-                                <option value="{{$item->zone}}">{{$item->zone}}</option>
-                                @endforeach
-                            </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="years_of_service" class="form-label">Service Tenure</label>
-                        <input type="text" class="form-control" name="years_of_service" id="years_of_service" placeholder="e.g 2020-Ongoing , 3 years" >
-                    </div>
-                  </div>
-
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-primary" name="savedata" id="savedata" >Save</button>
-                  <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
-              </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-
+    @include('modal.household')
 <script>
     
     $(document).ready(function(){
@@ -96,21 +44,21 @@
             ajax: "{{ route('senior') }}",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'household_no', name: 'household_no'},
+                {data: 'household_no', name: 'household_no', class: 'text-center', render: function(data, type, row, meta){
+                    return '<a id="household" role=""button href="#">'+row.household_no+'</a>'
+                }},
                 {data: 'name', name: 'name'},
-                {data: 'age', name: 'age'},
-                {data: 'zone', name: 'zone'},
+                {data: 'age', name: 'age', class: 'text-center'},
+                {data: 'disability',
+                render: function(data){
+                    return data == '1' ? 'Applicable' : '';
+                }
+            },
+                {data: 'zone', name: 'zone', class: 'text-end'},
                 // {data: 'action', name: 'action', orderable: false, searchable: false, class:'text-center'},
             ],
             dom: 'fBrtlip',
             buttons: [
-                'colvis',
-                {
-                    extend: 'spacer',
-                    text: 'Export Files',
-                    style: 'bar',
-
-                },
                 {
                 extend: 'print',
 
@@ -122,6 +70,12 @@
                 },
                 title: '',
             },
+            {
+                    extend: 'spacer',
+                    text: 'Export Files',
+                    style: 'bar',
+
+                },
                 'spacer',
                 {
                     extend: 'pdf',
@@ -130,6 +84,10 @@
 
             ],
    
+        });
+
+        $('.household-close').click(function(){
+            $('#result').empty();
         });
 
       //add function
@@ -149,6 +107,26 @@
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');
 
+                }
+            });
+        });
+
+        // view household members
+        $('body').on('click', '#household', function(){
+            var household_id= $(this).html();
+            var id = parseInt(household_id);
+            $.ajax({
+                type:"GET",
+                url: "{{ url('barangay/household/members') }}",
+                data: { id: id},
+                dataType: 'json',
+                    success: function(data){
+                        console.log(data);
+                        $('#viewModal').modal('show');
+                        $.each(data.result, function(index, value){
+                            $('#result').append('<tr><td>'+ value['name'] +'</td><td class="text-center">'+value['age']+'</td><td class="text-center">'+value['gender']+'</td><td class="text-center">'+value['civil_status']+'</td><td class="text-end">'+value['cp_number']+'</td></tr>');
+                        });
+                        $('.modal-title').html('Household'+ ' ' + '<span class="text-primary">#'+ id+'</span>'+ ' ' + 'Members');
                 }
             });
         });

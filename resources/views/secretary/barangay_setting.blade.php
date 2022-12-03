@@ -49,6 +49,13 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        
+        // TOASTR OPTIONS
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": true,
+            "preventDuplicates": true
+        }
         //add function
         $('#barangaySettingForm').submit(function(e){
             e.preventDefault();

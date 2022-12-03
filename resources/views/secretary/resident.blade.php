@@ -39,12 +39,12 @@
                         <a class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
                         <a class="nav-link" id="nav-education-tab" data-bs-toggle="tab" href="#nav-education" role="tab" aria-controls="nav-education" aria-selected="false">Education</a>
                         <a class="nav-link" id="nav-work-tab" data-bs-toggle="tab" href="#nav-work" role="tab" aria-controls="nav-work" aria-selected="false">Work</a>
-                        <a class="nav-link" id="nav-farm-tab" data-bs-toggle="tab" href="#nav-farm" role="tab" aria-controls="nav-farm" aria-selected="false">Farm</a>
-                        <a class="nav-link" id="nav-business-tab" data-bs-toggle="tab" href="#nav-business" role="tab" aria-controls="nav-business" aria-selected="false">Business</a>
-                        <a class="nav-link" id="nav-utilities-tab" data-bs-toggle="tab" href="#nav-utilities" role="tab" aria-controls="nav-utilities" aria-selected="false">Utilities</a>
+                        {{-- <a class="nav-link" id="nav-farm-tab" data-bs-toggle="tab" href="#nav-farm" role="tab" aria-controls="nav-farm" aria-selected="false">Farm</a> --}}
+                        {{-- <a class="nav-link" id="nav-business-tab" data-bs-toggle="tab" href="#nav-business" role="tab" aria-controls="nav-business" aria-selected="false">Business</a> --}}
+                        {{-- <a class="nav-link" id="nav-utilities-tab" data-bs-toggle="tab" href="#nav-utilities" role="tab" aria-controls="nav-utilities" aria-selected="false">Utilities</a> --}}
 
-                        <a class="nav-link" id="nav-calamity-tab" data-bs-toggle="tab" href="#nav-calamity" role="tab" aria-controls="nav-calamity" aria-selected="false">Calamity</a>
-                        <a class="nav-link" id="nav-others-tab" data-bs-toggle="tab" href="#nav-status" role="tab" aria-controls="nav-status" aria-selected="false">Status</a>
+                        {{-- <a class="nav-link" id="nav-calamity-tab" data-bs-toggle="tab" href="#nav-calamity" role="tab" aria-controls="nav-calamity" aria-selected="false">Calamity</a> --}}
+                        {{-- <a class="nav-link" id="nav-others-tab" data-bs-toggle="tab" href="#nav-status" role="tab" aria-controls="nav-status" aria-selected="false">Status</a> --}}
 
 
                         {{-- <a class="nav-link disabled" id="nav-disabled-tab" data-bs-toggle="tab" href="#nav-disabled" role="tab" aria-controls="nav-disabled" tabindex="-1" aria-disabled="true">Disabled</a> --}}
@@ -63,7 +63,6 @@
                                         <option selected>Select gender</option>
                                         <option value="1">Male</option>
                                         <option value="2">Female</option>
-                                        <option value="3">Others</option>
                                       </select>
                                 </div>
                                 <div class="form-group col-md-2">
@@ -102,11 +101,20 @@
                                     <input type="text" class="form-control" name="hf_relation" id="hf_relation">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="religion" class="form-label text-capitalize">religion:</label>
-                                    <input type="text" class="form-control" name="religion" id="religion">
+                                    <label for="civil status" class="form-label text-capitalize">Religion:</label>
+                                    <select class="form-select" aria-label="Default select example" name="religion" id="religion">
+                                        <option selected>Select religion</option>
+                                        <option value="Roman Catholic">Roman Catholic</option>
+                                        <option value="Born Again">Born Again</option>
+                                        <option value="Iglesia Ni Kristo">Iglesia Ni Kristo</option>
+                                        <option value="Jehova's Witness">Jehova's Witness</option>
+                                        <option value="Church of Christ">Church of Christ</option>
+                                        <option value="Others   ">Others</option>
+                                      </select>
                                 </div>
                             </div>
                             <div class="row form-row mt-1 fw-bold">
+
                                 <div class="form-group col-md-4">
                                     <label for="zone" class="form-label">Area Zone </span></label>
                                     <select class="form-select" aria-label="Default select example" name="zone" id="zone">
@@ -119,6 +127,15 @@
                                 <div class="form-group col-md-4">
                                     <label for="household_no" class="form-label">Mobile Number:</label>
                                     <input type="text" class="form-control text-end" name="cp_number" id="cp_number">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="household_no" class="form-label">Person w/ Disability:</label>
+                                    <div class="form-check" style="margin-left: 30px;">
+                                        <input class="form-check-input" type="checkbox" value="1" id="disability" name="disability">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                          Yes
+                                        </label>
+                                      </div>
                                 </div>
 
                             </div>
@@ -232,7 +249,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="nav-farm" role="tabpanel" aria-labelledby="nav-farm-tab">
+                        {{-- <div class="tab-pane fade" id="nav-farm" role="tabpanel" aria-labelledby="nav-farm-tab">
                             <div class="row form-row mb-3 mt-3 fw-bold">
                                 <div class="form-group col-md-3">
                                     <label for="rice_area" class="form-label">Rice Area:</label>
@@ -277,8 +294,8 @@
                                 </div>
                             </div>
                             
-                        </div>
-                        <div class="tab-pane fade" id="nav-business" role="tabpanel" aria-labelledby="nav-business-tab">
+                        </div> --}}
+                        {{-- <div class="tab-pane fade" id="nav-business" role="tabpanel" aria-labelledby="nav-business-tab">
                             <div class="row form-row mb-3 mt-2 fw-bold">
                                 <div class="form-group col-md-4">
                                     <h4>Business</h4>
@@ -445,7 +462,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                       </div>
 
               </div>
@@ -655,6 +672,15 @@
                          $('#hf_relation').val(data.hf_relation);
                          $('#religion').val(data.religion);
                          $('#zone').val(data.zone);
+                         $('#educational_attainment').val(data.educational_attainment);
+                         $('#eligibility').val(data.eligibility);
+                         $('#reason_osy').val(data.reason_osy);
+                         $('#special_skill').val(data.special_skill);
+                         $('#computer_literate').val(data.literate);
+                         $('#occupation').val(data.occupation);
+                         $('#employment_nature').val(data.employment_nature);
+                         $('#work_place').val(data.work_place);
+                         $('#monthly_income').val(data.monthly_income);
                         console.log(data);
                         $('#savedata').html('Update');
                     }
@@ -670,8 +696,11 @@
             type: "POST",
             dataType: "json",
                 success: function (data) {
-                    $('#residentForm').trigger("reset");
-                    if($('#savedata').html('') == 'Save'){
+                    if(data.duplicate == true){
+                        toastr.error('Resident already on a household','Error');
+                    }  else {
+                        $('#residentForm').trigger("reset");
+                    if($('#savedata').html() == 'Save'){
                         toastr.success('Resident added successfully','Success');
                     } else {
                         toastr.success('Resident updated successfully','Success');
@@ -679,6 +708,8 @@
                     table.draw();
 
                     $('#addModal').modal('hide');
+                    }
+
                 },
                 error: function (data) {
                     toastr.error(data['responseJSON']['message'],'Error has occured');
